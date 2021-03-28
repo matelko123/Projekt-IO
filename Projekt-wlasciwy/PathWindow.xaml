@@ -5,16 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Projekt_wlasciwy"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="650">
+             d:DesignHeight="100" d:DesignWidth="650">
 
 
     <DockPanel Background="AliceBlue" >
-        
-        <Image Source="https://image.flaticon.com/icons/png/512/35/35896.png" Height="100" VerticalAlignment="Center" Margin="10,50"  HorizontalAlignment="Left" Width="100"/>
+
+        <Image Height="80" Width="80" Margin="20,0" Source="https://freeiconshop.com/wp-content/uploads/edd/jpg-solid.png"></Image>
         <TextBlock Background="Yellow" Width="100" Height="20" Margin="10,0">ROZSZERZENIA</TextBlock>
         <TextBlock  Background="red" Width="200" Height="20" Margin="10,0" HorizontalAlignment="Left">Ścieżka</TextBlock>
-        <Button Width="100" Height="20" Click="Button_Click">Wybierz</Button>
-        <Label Background="AntiqueWhite" Height="30" Width="100" VerticalAlignment="Bottom" Margin="-700,0,0,10">Rozmiar:</Label>
-        <Label Background="AntiqueWhite" Height="30" Width="100" VerticalAlignment="Bottom" Margin="-500,0,0,10">Ilość plików:</Label>
+        <Button Width="100" Height="20"  Margin="30,0" Click="Button_Click">Wybierz</Button>
+        <Label Background="AntiqueWhite" Height="30" Width="100" VerticalAlignment="Bottom" Margin="-900,0,0,5">Rozmiar:</Label>
+        <Label Background="AntiqueWhite" Height="30" Width="100" VerticalAlignment="Bottom" Margin="-490,0,0,5">Ilość plików:</Label>
     </DockPanel>
 </UserControl>

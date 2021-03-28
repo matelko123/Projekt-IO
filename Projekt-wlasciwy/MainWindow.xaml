@@ -17,11 +17,11 @@
 
         <Grid.RowDefinitions>
 
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        
+        <local:PathWindow Grid.Column="1"></local:PathWindow>
     </Grid>
 </Window>
