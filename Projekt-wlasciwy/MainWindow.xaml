@@ -22,6 +22,6 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Button Grid.Row="2" Grid.Column="1">PRZYCISK</Button>
+        
     </Grid>
 </Window>

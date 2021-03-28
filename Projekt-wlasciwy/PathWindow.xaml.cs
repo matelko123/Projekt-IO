@@ -16,14 +16,18 @@ using System.Windows.Shapes;
 namespace Projekt_wlasciwy
 {
     /// <summary>
-    /// Logika interakcji dla klasy MainWindow.xaml
+    /// Logika interakcji dla klasy PathWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class PathWindow : UserControl
     {
-        public MainWindow()
+        public PathWindow()
         {
             InitializeComponent();
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }
