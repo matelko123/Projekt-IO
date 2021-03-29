@@ -25,5 +25,22 @@ namespace Projekt_wlasciwy
             InitializeComponent();
         }
 
+        private void ToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            if(Mode.IsChecked==true)
+            {
+                Mode.Content = "Light";
+            }
+            else
+            {
+
+                Mode.Content = "Dark";
+
+            }
+
+            
+            
+
+        }
     }
 }

@@ -7,14 +7,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="650">
 
+    <Border BorderBrush="Black" BorderThickness="5">
+        <DockPanel  Background="Red" >
 
-    <DockPanel Background="AliceBlue" >
+            <Image Height="80" Width="80" Margin="20,0" Source="https://freeiconshop.com/wp-content/uploads/edd/jpg-solid.png"></Image>
+            <TextBlock Background="white" Width="100" Height="20" Margin="10,0">ROZSZERZENIA</TextBlock>
+            <TextBlock  Background="White" Width="200" Height="20" Margin="10,0" HorizontalAlignment="Left">Ścieżka</TextBlock>
+            <Button Width="100" Height="20"  Margin="35,0" Click="Button_Click">Wybierz</Button>
+            <Label Background="AntiqueWhite" Height="30" Width="100" VerticalAlignment="Bottom" Margin="-900,0,0,5">Rozmiar:</Label>
+            <Label Background="AntiqueWhite" Height="30" Width="100" VerticalAlignment="Bottom" Margin="-480,0,0,5">Ilość plików:</Label>
+        </DockPanel>
+    </Border>
 
-        <Image Height="80" Width="80" Margin="20,0" Source="https://freeiconshop.com/wp-content/uploads/edd/jpg-solid.png"></Image>
-        <TextBlock Background="Yellow" Width="100" Height="20" Margin="10,0">ROZSZERZENIA</TextBlock>
-        <TextBlock  Background="red" Width="200" Height="20" Margin="10,0" HorizontalAlignment="Left">Ścieżka</TextBlock>
-        <Button Width="100" Height="20"  Margin="30,0" Click="Button_Click">Wybierz</Button>
-        <Label Background="AntiqueWhite" Height="30" Width="100" VerticalAlignment="Bottom" Margin="-900,0,0,5">Rozmiar:</Label>
-        <Label Background="AntiqueWhite" Height="30" Width="100" VerticalAlignment="Bottom" Margin="-490,0,0,5">Ilość plików:</Label>
-    </DockPanel>
 </UserControl>

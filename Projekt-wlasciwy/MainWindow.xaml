@@ -1,11 +1,17 @@
 ﻿<Window x:Class="Projekt_wlasciwy.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projekt_wlasciwy"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="900" ResizeMode="CanMinimize">
+
+    <Window.Background>
+
+        <ImageBrush ImageSource="tło.jpg"></ImageBrush>
+
+    </Window.Background>
 
     <Grid>
 
@@ -15,13 +21,42 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
 
-            <RowDefinition Height="100"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
+        <StackPanel x:Name="LeftPanel" Grid.Column="0">
 
-        <local:PathWindow Grid.Column="1"></local:PathWindow>
+            <Image  Height="100" VerticalAlignment="Top" Source="Logo.png"></Image>
+            <Button Height="50" Content="File Sort"></Button>
+            <Button Height="50" Content="Pictures Compressor"></Button>
+            
+            <DockPanel Background="AliceBlue" Height="50" VerticalAlignment="Bottom">
+
+                <Label HorizontalAlignment="Left" VerticalAlignment="Center" Content="Mode"/>
+                <ToggleButton x:Name="Mode" Height="20" Width="50" Content="Light" Checked="ToggleButton_Checked" />
+
+            </DockPanel>
+
+            
+        </StackPanel>
+
+        <StackPanel x:Name="RightPanel" Grid.Column="1" Margin="0,0,0,60">
+            <local:PathWindow ></local:PathWindow>
+            <local:PathWindow ></local:PathWindow>
+            <local:PathWindow ></local:PathWindow>
+            <local:PathWindow ></local:PathWindow>
+            <Button Height="30" Width="200" Content="+" FontSize="20" Background="Beige"></Button>
+        </StackPanel>
+
+        <DockPanel Height="60" VerticalAlignment="Bottom" Grid.Column="1" Background="Aqua">
+            <Label Content="Progress:" Height="30" Width="100" VerticalAlignment="Center"/>
+            <ProgressBar Height="10" Width="450"/>
+
+
+
+
+        </DockPanel>
+
+        <ScrollBar Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Height="421" Width="7"/>
+
+       
     </Grid>
 </Window>
