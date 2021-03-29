@@ -1,4 +1,4 @@
-﻿<Window x:Class="Projekt_wlasciwy.MainWindow"
+﻿<Window x:Name="Window" x:Class="Projekt_wlasciwy.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -38,15 +38,16 @@
             
         </StackPanel>
 
-        <StackPanel x:Name="RightPanel" Grid.Column="1" Margin="0,0,0,60">
+        <StackPanel x:Name="RightPanel" Grid.Column="1" Margin="0,0,0,60" >
             <local:PathWindow ></local:PathWindow>
             <local:PathWindow ></local:PathWindow>
             <local:PathWindow ></local:PathWindow>
             <local:PathWindow ></local:PathWindow>
-            <Button Height="30" Width="200" Content="+" FontSize="20" Background="Beige"></Button>
+            
+            <Button x:Name="Plus" Opacity="0.6" Width="300" Content="+" FontSize="20" Background="White" MouseEnter="Plus_MouseEnter" MouseLeave="Plus_MouseLeave" ></Button>
         </StackPanel>
 
-        <DockPanel Height="60" VerticalAlignment="Bottom" Grid.Column="1" Background="Aqua">
+        <DockPanel Height="30" VerticalAlignment="Bottom" Grid.Column="1" Background="Aqua">
             <Label Content="Progress:" Height="30" Width="100" VerticalAlignment="Center"/>
             <ProgressBar Height="10" Width="450"/>
 
