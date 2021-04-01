@@ -7,15 +7,21 @@
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="650">
 
-    <Border BorderBrush="Transparent" BorderThickness="5">
-        <DockPanel  Background="Red" >
+
+    <UserControl.Background>
+
+        <ImageBrush ImageSource="red.jpg"></ImageBrush>
+
+    </UserControl.Background>
+    <Border BorderBrush="black" BorderThickness="5">
+        <DockPanel>
 
             <Image Height="80" Width="80" Margin="20,0" Source="https://freeiconshop.com/wp-content/uploads/edd/jpg-solid.png"></Image>
             <TextBlock Background="white" Width="100" Height="20" Margin="10,0,0,20">ROZSZERZENIA</TextBlock>
             <TextBlock  Background="White" Width="200" Height="20" Margin="10,0,0,20" HorizontalAlignment="Left">Ścieżka</TextBlock>
             <Button Width="100" Height="20"  Margin="35,0" Click="Button_Click">Wybierz</Button>
-            <Label Background="AntiqueWhite" Height="30" Width="100" VerticalAlignment="Bottom" Margin="-860,10,0,2">Rozmiar:</Label>
-            <Label Background="AntiqueWhite" Height="30" Width="100" VerticalAlignment="Bottom" Margin="-470,10,0,2">Ilość plików:</Label>
+            <Label  Foreground="white" Height="30" Width="100" VerticalAlignment="Bottom" Margin="-860,10,0,2">Rozmiar:</Label>
+            <Label  Foreground="white" Height="30" Width="100" VerticalAlignment="Bottom" Margin="-470,10,0,2">Ilość plików:</Label>
         </DockPanel>
     </Border>
 

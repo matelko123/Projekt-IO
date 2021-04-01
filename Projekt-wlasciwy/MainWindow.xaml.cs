@@ -29,6 +29,7 @@ namespace Projekt_wlasciwy
         {
 
             Mode.Content = "Dark";
+            
         }
 
         private void Plus_MouseEnter(object sender, MouseEventArgs e)

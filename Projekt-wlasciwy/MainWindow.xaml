@@ -12,6 +12,8 @@
         <ImageBrush ImageSource="tło.jpg"></ImageBrush>
 
     </Window.Background>
+    
+       
 
     <Grid>
 
@@ -24,39 +26,45 @@
 
         <StackPanel x:Name="LeftPanel" Grid.Column="0">
 
-            <Image  Height="100" VerticalAlignment="Top" Source="Logo.png"></Image>
-            <Button Height="50" Content="File Sort"></Button>
-            <Button Height="50" Content="Pictures Compressor"></Button>
-            
-            <DockPanel Background="AliceBlue" Height="50" VerticalAlignment="Bottom">
+            <Image  Height="100" VerticalAlignment="Top" Source="Logo.png"/>
+            <Button Height="50" Content="File Sort"/>
+            <Button Height="50" Content="Pictures Compressor"/>
 
-                <Label HorizontalAlignment="Left" VerticalAlignment="Center" Content="Mode"/>
-                <ToggleButton x:Name="Mode" Height="20" Width="50" Content="Light" Checked="ToggleButton_Checked" />
 
-            </DockPanel>
-
-            
         </StackPanel>
 
-        <StackPanel x:Name="RightPanel" Grid.Column="1" Margin="0,0,0,60" >
-            <local:PathWindow ></local:PathWindow>
-            <local:PathWindow ></local:PathWindow>
-            <local:PathWindow ></local:PathWindow>
-            <local:PathWindow ></local:PathWindow>
-            
-            <Button x:Name="Plus" Opacity="0.6" Width="300" Content="+" FontSize="20" Background="White" MouseEnter="Plus_MouseEnter" MouseLeave="Plus_MouseLeave" ></Button>
-        </StackPanel>
+        <DockPanel Background="AliceBlue" Height="30" VerticalAlignment="Bottom">
 
-        <DockPanel Height="30" VerticalAlignment="Bottom" Grid.Column="1" Background="Aqua">
-            <Label Content="Progress:" Height="30" Width="100" VerticalAlignment="Center"/>
-            <ProgressBar Height="10" Width="450"/>
-
-
-
-
+            <Label HorizontalAlignment="Left" VerticalAlignment="Center" Content="Mode"/>
+            <ToggleButton x:Name="Mode" Height="20" Width="50" Content="Light" Checked="ToggleButton_Checked" />
         </DockPanel>
 
-        <ScrollBar Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Height="421" Width="7"/>
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Visible" CanContentScroll="True">
+        <StackPanel x:Name="RightPanel" Grid.Column="1" Margin="0,0,0,35" >
+            <local:PathWindow ></local:PathWindow>
+            <local:PathWindow ></local:PathWindow>
+            <local:PathWindow ></local:PathWindow>
+            <local:PathWindow ></local:PathWindow>
+            <local:PathWindow ></local:PathWindow>
+            <local:PathWindow ></local:PathWindow>
+            <local:PathWindow ></local:PathWindow>
+            <local:PathWindow ></local:PathWindow>
+            
+            <Button x:Name="Plus" Opacity="0.6" Width="300" Content="+" FontSize="20" MouseEnter="Plus_MouseEnter" MouseLeave="Plus_MouseLeave" ></Button>
+        </StackPanel>
+       </ScrollViewer>
+        <DockPanel Height="30" VerticalAlignment="Bottom" Grid.Column="1">
+
+            <DockPanel.Background>
+                <ImageBrush Stretch="Fill"  ImageSource="grey.jpg" ></ImageBrush>
+            </DockPanel.Background>
+            <Label Content="Progress:" Height="30" Width="100" VerticalAlignment="Center"/>
+            <ProgressBar Height="10" Width="450"/>
+            
+            
+        </DockPanel>
+
+        
 
        
     </Grid>
