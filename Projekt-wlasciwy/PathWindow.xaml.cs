@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Forms;
 using MessageBox = System.Windows.Forms.MessageBox;
+using System.IO;
 
 namespace Projekt_wlasciwy
 {
@@ -37,19 +38,45 @@ namespace Projekt_wlasciwy
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.folderBrowserDialog1.Description = "Select the directory that you want to use as the default.";
 
-            // Default to the My Documents folder.
+            // Default to the My PC folder.
             this.folderBrowserDialog1.RootFolder = Environment.SpecialFolder.MyComputer;
 
             DialogResult result = this.folderBrowserDialog1.ShowDialog();
 
+            string selectedFolderPath;
             if (result == DialogResult.OK)
             {
-                var folderName = folderBrowserDialog1.SelectedPath;
-                // MessageBox.Show(folderName);
-                this.pathdialog.Text = folderName;
+                selectedFolderPath = folderBrowserDialog1.SelectedPath;
+                this.pathdialog.Text = selectedFolderPath;
+                this.DirSizeLabel.Content = string.Concat("Ilość plików: ", getDirFiles(selectedFolderPath));
+                this.DirCountFilesLabel.Content = string.Concat("Rozmiar katalogu: ", getDirSize(selectedFolderPath));
             }
+        }
+        
+        private static int getDirFiles(string path)
+        {
+            DirectoryInfo info = new DirectoryInfo(path);
 
+            return Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).Count();
+            // return info.EnumerateFiles("*", SearchOption.AllDirectories).Count(); ;
+        }
+
+        private static float getDirSize(string path)
+        {
+            DirectoryInfo info = new DirectoryInfo(path);
+            float totalSize = 0;
+            try
+            {
+                totalSize = info.EnumerateFiles().Sum(file => file.Length);
+            }
+            catch (System.UnauthorizedAccessException) { }
             
+            return (totalSize);
         }
     }
 }
+/*
+    0.123123MB = 123.1B
+    12312313b = 1,2GB
+    123213 = 12KB
+*/
