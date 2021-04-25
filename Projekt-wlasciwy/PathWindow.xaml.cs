@@ -1,32 +1,18 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Forms;
-using MessageBox = System.Windows.Forms.MessageBox;
 using System.IO;
+using System.Linq;
+using System.Windows;
+using System.Windows.Forms;
 
 namespace Projekt_wlasciwy
 {
-    /// <summary>
-    /// Logika interakcji dla klasy PathWindow.xaml
-    /// </summary>
     public partial class PathWindow
     {
-
         private FolderBrowserDialog folderBrowserDialog1;
+
+        // App Settings Manager
+        private readonly SettingsManager sm = new SettingsManager();
 
         public PathWindow()
         {
@@ -35,24 +21,21 @@ namespace Projekt_wlasciwy
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.folderBrowserDialog1.Description = "Select the directory that you want to use as the default.";
-
-            // Default to the My PC folder.
-            this.folderBrowserDialog1.RootFolder = Environment.SpecialFolder.MyComputer;
-
-            DialogResult result = this.folderBrowserDialog1.ShowDialog();
-
-            string selectedFolderPath;
-            if (result == DialogResult.OK)
+            folderBrowserDialog1 = new FolderBrowserDialog
             {
-                selectedFolderPath = folderBrowserDialog1.SelectedPath;
-                this.pathdialog.Text = selectedFolderPath;
-                this.DirSizeLabel.Content = string.Concat("Ilość plików: ", getDirFiles(selectedFolderPath));
-                this.DirCountFilesLabel.Content = string.Concat("Rozmiar katalogu: ", calcBytes(getDirSize(selectedFolderPath)));
-            }
+                Description = "Select the directory that you want to set.",
+                RootFolder = Environment.SpecialFolder.MyComputer                   // Default to the My PC folder.
+            };
+
+            DialogResult result = folderBrowserDialog1.ShowDialog();
+            if (result != DialogResult.OK) return;
+
+            string selectedFolderPath = folderBrowserDialog1.SelectedPath;
+            pathdialog.Text = selectedFolderPath;
+            DirSizeLabel.Content = string.Concat("Ilość plików: ", getDirFiles(selectedFolderPath));
+            DirCountFilesLabel.Content = string.Concat("Rozmiar katalogu: ", calcBytes(getDirSize(selectedFolderPath)));
         }
-        
+
         private static int getDirFiles(string path)
         {
             IEnumerable<string> dirs;
@@ -63,7 +46,6 @@ namespace Projekt_wlasciwy
                 foreach (string dir in dirs)
                 {
                     files += getDirFiles(dir);
-                    // files += Directory.EnumerateFiles(dir, "*.*").Count();
                 }
                 files += Directory.EnumerateFiles(path, "*.*").Count();
 
@@ -89,7 +71,6 @@ namespace Projekt_wlasciwy
                 foreach (string dir in dirs)
                 {
                     size += getDirSize(dir);
-                    // size += Directory.EnumerateFiles(dir, "*.*").Sum(file => file.Length);
                 }
 
                 dirs = Directory.EnumerateFiles(path, "*");
@@ -113,9 +94,7 @@ namespace Projekt_wlasciwy
 
         private static string calcBytes(long size)
         {
-            //string[] array = { "kB", "MB", "GB", "TB" };
-            int i = 0;
-            double sizes = (double)size;
+            double sizes = size;
             string str = "B";
             
             if(sizes > 1024)
@@ -134,12 +113,7 @@ namespace Projekt_wlasciwy
                 str = "GB";
             }
 
-            return String.Concat(Math.Round(sizes, 2), str);
+            return string.Concat(Math.Round(sizes, 2), str);
         }
     }
 }
-/*
-    0.123123MB = 123.1B
-    12312313b = 1,2GB
-    123213 = 12KB
-*/
