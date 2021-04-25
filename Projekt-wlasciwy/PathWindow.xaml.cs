@@ -49,29 +49,92 @@ namespace Projekt_wlasciwy
                 selectedFolderPath = folderBrowserDialog1.SelectedPath;
                 this.pathdialog.Text = selectedFolderPath;
                 this.DirSizeLabel.Content = string.Concat("Ilość plików: ", getDirFiles(selectedFolderPath));
-                this.DirCountFilesLabel.Content = string.Concat("Rozmiar katalogu: ", getDirSize(selectedFolderPath));
+                this.DirCountFilesLabel.Content = string.Concat("Rozmiar katalogu: ", calcBytes(getDirSize(selectedFolderPath)));
             }
         }
         
         private static int getDirFiles(string path)
         {
-            DirectoryInfo info = new DirectoryInfo(path);
-
-            return Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).Count();
-            // return info.EnumerateFiles("*", SearchOption.AllDirectories).Count(); ;
-        }
-
-        private static float getDirSize(string path)
-        {
-            DirectoryInfo info = new DirectoryInfo(path);
-            float totalSize = 0;
+            IEnumerable<string> dirs;
+            int files = 0;
             try
             {
-                totalSize = info.EnumerateFiles().Sum(file => file.Length);
+                dirs = Directory.EnumerateDirectories(path);
+                foreach (string dir in dirs)
+                {
+                    files += getDirFiles(dir);
+                    // files += Directory.EnumerateFiles(dir, "*.*").Count();
+                }
+                files += Directory.EnumerateFiles(path, "*.*").Count();
+
             }
-            catch (System.UnauthorizedAccessException) { }
+            catch (UnauthorizedAccessException uAEx)
+            {
+                Console.WriteLine(uAEx.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return files;
+        }
+
+        private static long getDirSize(string path)
+        {
+            IEnumerable<string> dirs;
+            long size = 0;
+            try
+            {
+                dirs = Directory.EnumerateDirectories(path);
+                foreach (string dir in dirs)
+                {
+                    size += getDirSize(dir);
+                    // size += Directory.EnumerateFiles(dir, "*.*").Sum(file => file.Length);
+                }
+
+                dirs = Directory.EnumerateFiles(path, "*");
+                foreach(string file in dirs)
+                {
+                    FileInfo fi = new FileInfo(file);
+                    size += fi.Length;
+                }
+
+            }
+            catch (UnauthorizedAccessException uAEx)
+            {
+                Console.WriteLine(uAEx.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return size;
+        }
+
+        private static string calcBytes(long size)
+        {
+            //string[] array = { "kB", "MB", "GB", "TB" };
+            int i = 0;
+            double sizes = (double)size;
+            string str = "B";
             
-            return (totalSize);
+            if(sizes > 1024)
+            {
+                sizes /= 1024;
+                str = "kB";
+            }
+            if (sizes > 1024)
+            {
+                sizes /= 1024;
+                str = "MB";
+            }
+            if (sizes > 1024)
+            {
+                sizes /= 1024;
+                str = "GB";
+            }
+
+            return String.Concat(Math.Round(sizes, 2), str);
         }
     }
 }
