@@ -20,8 +20,8 @@
             <TextBlock Background="white" Width="100" Height="20" Margin="10,0,0,20">ROZSZERZENIA</TextBlock>
             <TextBlock Name="pathdialog" Background="White" Width="200" Height="20" Margin="10,0,0,20" HorizontalAlignment="Left">Ścieżka</TextBlock>
             <Button Width="100" Height="20"  Margin="35,0" Click="Button_Click">Wybierz</Button>
-            <Label  Foreground="white" Height="30" Width="100" VerticalAlignment="Bottom" Margin="-860,10,0,2">Rozmiar:</Label>
-            <Label  Foreground="white" Height="30" Width="100" VerticalAlignment="Bottom" Margin="-470,10,0,2">Ilość plików:</Label>
+            <Label Name="DirSizeLabel" Foreground="white" Height="30" Width="100" VerticalAlignment="Bottom" Margin="-860,10,0,2">Ilość plików:</Label>
+            <Label Name="DirCountFilesLabel" Foreground="white" Height="30" Width="200" VerticalAlignment="Bottom" Margin="-470,10,0,2">Rozmiar katalogu:</Label>
         </DockPanel>
     </Border>
 
