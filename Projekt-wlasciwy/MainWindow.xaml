@@ -50,6 +50,7 @@
             <ToggleButton x:Name="Mode" Height="20" Width="50" Content="Light" Checked="ToggleButton_Checked" />
         </DockPanel>
 
+
         <ScrollViewer Grid.Row="1" Grid.Column="1" VerticalScrollBarVisibility="Visible" CanContentScroll="True">
 
             <StackPanel Name="WindowsComponents" Grid.Column="1">
@@ -74,8 +75,6 @@
 
 
         </DockPanel>
-
-
 
 
     </Grid>
