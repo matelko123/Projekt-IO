@@ -15,7 +15,7 @@ namespace Projekt_wlasciwy
         private readonly SettingsManager sm = new SettingsManager();
         private static long files = 0;
         private static long size = 0;
-
+      
         public PathWindow()
         {
             InitializeComponent();
@@ -37,10 +37,8 @@ namespace Projekt_wlasciwy
 
             string selectedFolderPath = folderBrowserDialog1.SelectedPath;
             pathdialog.Text = selectedFolderPath;
+          
             getInfo(selectedFolderPath);
-
-            DirSizeLabel.Content = $"Amount of files: {files}";
-            DirCountFilesLabel.Content = $"Directory size: {calcBytes(size)}";
         }
 
         private void getInfo(string path)
