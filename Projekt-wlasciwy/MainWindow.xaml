@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projekt_wlasciwy"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="900" ResizeMode="CanMinimize">
+        WindowStyle="SingleBorderWindow"
+        Icon="Logo.png"
+        Title="M4T3" Height="600" Width="900" ResizeMode="CanMinimize">
 
     <Window.Background>
 
@@ -44,9 +46,9 @@
                 <StackPanel Name="WindowsComponents" Grid.Column="1" Margin="0">
                     <local:PathWindow ></local:PathWindow>
                 </StackPanel>
-            
             <Button Name="Plus" Opacity="0.6" Width="300" Content="+" FontSize="20" MouseEnter="Plus_MouseEnter" MouseLeave="Plus_MouseLeave" Click="Plus_Click" />
             </StackPanel>
+       </ScrollViewer>
        </ScrollViewer>
         <DockPanel Height="30" VerticalAlignment="Bottom" Grid.Column="1">
 
@@ -59,8 +61,5 @@
             
         </DockPanel>
 
-        
-
-       
     </Grid>
 </Window>
