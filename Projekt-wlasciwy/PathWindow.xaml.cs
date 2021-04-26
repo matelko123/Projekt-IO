@@ -15,7 +15,7 @@ namespace Projekt_wlasciwy
         private readonly SettingsManager sm = new SettingsManager();
         private static long files = 0;
         private static long size = 0;
-      
+
         public PathWindow()
         {
             InitializeComponent();
@@ -71,6 +71,8 @@ namespace Projekt_wlasciwy
             {
                 Console.WriteLine(ex.Message);
             }
+            DirSizeLabel.Content = $"Amount of files: {files}";
+            DirCountFilesLabel.Content = $"Directory size: {calcBytes(size)}";
         }
 
         private static string calcBytes(long size)

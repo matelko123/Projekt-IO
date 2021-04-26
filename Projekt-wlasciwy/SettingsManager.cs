@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
+using System.Xml.Serialization;
+using static Projekt_wlasciwy.DownloadManager;
 
 namespace Projekt_wlasciwy
 {
@@ -29,18 +33,19 @@ namespace Projekt_wlasciwy
             }
         }
 
-        public void ReadSetting(string key)
+        public string GetSettings(string key)
         {
             try
             {
                 var appSettings = ConfigurationManager.AppSettings;
                 string result = appSettings[key] ?? "Not Found";
-                Console.WriteLine(result);
+                return result;
             }
             catch (ConfigurationErrorsException)
             {
                 Console.WriteLine("Error reading app settings");
             }
+            return "";
         }
 
         public void AddUpdateAppSettings(string key, string value)
@@ -63,6 +68,26 @@ namespace Projekt_wlasciwy
             catch (ConfigurationErrorsException)
             {
                 Console.WriteLine("Error writing app settings");
+            }
+        }
+
+        public string serializeObject<T>(T toSerialize)
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(toSerialize.GetType());
+
+            using (StringWriter textWriter = new StringWriter())
+            {
+                xmlSerializer.Serialize(textWriter, toSerialize);
+                return textWriter.ToString();
+            }
+        }
+
+        public static Dirs deserializeObject(string toDeserialize)
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Dirs));
+            using (StringReader textReader = new StringReader(toDeserialize))
+            {
+                return (Dirs)xmlSerializer.Deserialize(textReader);
             }
         }
     }
