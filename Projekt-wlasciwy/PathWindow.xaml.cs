@@ -13,7 +13,9 @@ namespace Projekt_wlasciwy
 
         // App Settings Manager
         private readonly SettingsManager sm = new SettingsManager();
-
+        private static long files = 0;
+        private static long size = 0;
+      
         public PathWindow()
         {
             InitializeComponent();
@@ -21,6 +23,9 @@ namespace Projekt_wlasciwy
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            files = 0;
+            size = 0;
+
             folderBrowserDialog1 = new FolderBrowserDialog
             {
                 Description = "Select the directory that you want to set.",
@@ -32,52 +37,29 @@ namespace Projekt_wlasciwy
 
             string selectedFolderPath = folderBrowserDialog1.SelectedPath;
             pathdialog.Text = selectedFolderPath;
-            DirSizeLabel.Content = string.Concat("Ilość plików: ", getDirFiles(selectedFolderPath));
-            DirCountFilesLabel.Content = string.Concat("Rozmiar katalogu: ", calcBytes(getDirSize(selectedFolderPath)));
+          
+            getInfo(selectedFolderPath);
         }
 
-        private static int getDirFiles(string path)
+        private void getInfo(string path)
         {
             IEnumerable<string> dirs;
-            int files = 0;
             try
             {
+                // Recursive way for each Directory in the path
                 dirs = Directory.EnumerateDirectories(path);
                 foreach (string dir in dirs)
                 {
-                    files += getDirFiles(dir);
-                }
-                files += Directory.EnumerateFiles(path, "*.*").Count();
-
-            }
-            catch (UnauthorizedAccessException uAEx)
-            {
-                Console.WriteLine(uAEx.Message);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            return files;
-        }
-
-        private static long getDirSize(string path)
-        {
-            IEnumerable<string> dirs;
-            long size = 0;
-            try
-            {
-                dirs = Directory.EnumerateDirectories(path);
-                foreach (string dir in dirs)
-                {
-                    size += getDirSize(dir);
+                    getInfo(dir);
                 }
 
+                // How many files and paths to them
                 dirs = Directory.EnumerateFiles(path, "*");
-                foreach(string file in dirs)
+                files += dirs.Count();
+
+                foreach (string file in dirs)
                 {
-                    FileInfo fi = new FileInfo(file);
-                    size += fi.Length;
+                    size += new FileInfo(file).Length;
                 }
 
             }
@@ -89,7 +71,6 @@ namespace Projekt_wlasciwy
             {
                 Console.WriteLine(ex.Message);
             }
-            return size;
         }
 
         private static string calcBytes(long size)

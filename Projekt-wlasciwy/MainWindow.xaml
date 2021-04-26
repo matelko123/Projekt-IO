@@ -43,13 +43,11 @@
 
         <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Visible" CanContentScroll="True">
         <StackPanel Name="Wrapper" Grid.Column="1" Margin="0,0,0,35" >
-                <StackPanel Name="WindowsComponents" Grid.Column="1">
+                <StackPanel Name="WindowsComponents" Grid.Column="1" Margin="0">
                     <local:PathWindow ></local:PathWindow>
                 </StackPanel>
-            
-            
-            <Button x:Name="Plus" Opacity="0.6" Width="300" Content="+" FontSize="20" MouseEnter="Plus_MouseEnter" MouseLeave="Plus_MouseLeave" Click="Plus_Click" ></Button>
-        </StackPanel>
+            <Button Name="Plus" Opacity="0.6" Width="300" Content="+" FontSize="20" MouseEnter="Plus_MouseEnter" MouseLeave="Plus_MouseLeave" Click="Plus_Click" />
+            </StackPanel>
        </ScrollViewer>
         <DockPanel Height="30" VerticalAlignment="Bottom" Grid.Column="1">
 
@@ -62,8 +60,5 @@
             
         </DockPanel>
 
-        
-
-       
     </Grid>
 </Window>
