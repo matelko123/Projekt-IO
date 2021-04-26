@@ -16,7 +16,6 @@ namespace Projekt_wlasciwy
         private static long files = 0;
         private static long size = 0;
 
-
         public PathWindow()
         {
             InitializeComponent();
