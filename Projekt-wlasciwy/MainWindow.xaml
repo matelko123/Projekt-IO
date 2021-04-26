@@ -5,28 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projekt_wlasciwy"
         mc:Ignorable="d"
-        WindowStyle="SingleBorderWindow"
+        WindowStyle="None"
         Icon="Logo.png"
-        Title="M4T3" Height="600" Width="900" ResizeMode="CanMinimize">
+        Title="M4T3" Height="600" Width="900" ResizeMode="CanMinimize" AllowsTransparency="True">
 
     <Window.Background>
 
         <ImageBrush ImageSource="tło.jpg"></ImageBrush>
 
     </Window.Background>
-    
-       
+
+
 
     <Grid>
-
         <Grid.ColumnDefinitions>
 
             <ColumnDefinition Width="150"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
 
-
-        <StackPanel x:Name="LeftPanel" Grid.Column="0">
+        </Grid.RowDefinitions>
+        <StackPanel x:Name="LeftPanel" Grid.Row="1" Grid.Column="0">
 
             <Image  Height="100" VerticalAlignment="Top" Source="Logo.png"/>
             <Button Height="50" Content="File Sort"/>
@@ -35,35 +37,46 @@
 
         </StackPanel>
 
-        <DockPanel Background="AliceBlue" Height="30" VerticalAlignment="Bottom">
+        <DockPanel MouseDown="navbar_MouseDown" x:Name="navbar" Grid.Row="0" Grid.ColumnSpan="2" Background="red">
+            <Button x:Name="exit" Width="25" Height="25"  Content="X" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="Exit"/>
+            <Button Width="25" Height="25"  Content="O" IsEnabled="false" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+            <Button x:Name="minimize" Width="25"  Content="-" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="Minimize" Margin="0,3,0,2"/>
+
+        </DockPanel>
+
+        <DockPanel Grid.Row="1" Background="AliceBlue" Height="30" VerticalAlignment="Bottom">
 
             <Label HorizontalAlignment="Left" VerticalAlignment="Center" Content="Mode"/>
             <ToggleButton x:Name="Mode" Height="20" Width="50" Content="Light" Checked="ToggleButton_Checked" />
         </DockPanel>
 
-        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Visible" CanContentScroll="True">
-        <StackPanel Name="Wrapper" Grid.Column="1" Margin="0,0,0,35" >
-                <StackPanel Name="WindowsComponents" Grid.Column="1">
-                    <local:PathWindow ></local:PathWindow>
-                </StackPanel>
-            
-            
-            <Button x:Name="Plus" Opacity="0.6" Width="300" Content="+" FontSize="20" MouseEnter="Plus_MouseEnter" MouseLeave="Plus_MouseLeave" Click="Plus_Click" ></Button>
-        </StackPanel>
-       </ScrollViewer>
-        <DockPanel Height="30" VerticalAlignment="Bottom" Grid.Column="1">
+        <ScrollViewer Grid.Row="1" Grid.Column="1" VerticalScrollBarVisibility="Visible" CanContentScroll="True">
+
+            <StackPanel Name="WindowsComponents" Grid.Column="1">
+                <local:PathWindow ></local:PathWindow>
+            </StackPanel>
+
+
+        </ScrollViewer>
+
+
+
+
+
+
+
+        <DockPanel Height="30" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1">
 
             <DockPanel.Background>
                 <ImageBrush Stretch="Fill"  ImageSource="grey.jpg" ></ImageBrush>
             </DockPanel.Background>
-            <Label Content="Progress:" Height="30" Width="100" VerticalAlignment="Center"/>
-            <ProgressBar Height="10" Width="450"/>
-            
-            
+            <Button Grid.Column="1" x:Name="Plus" Opacity="0.6" Width="300" Height="30" Content="+" FontSize="20" MouseEnter="Plus_MouseEnter" MouseLeave="Plus_MouseLeave" Click="Plus_Click" ></Button>
+
+
         </DockPanel>
 
-        
 
-       
+
+
     </Grid>
 </Window>
