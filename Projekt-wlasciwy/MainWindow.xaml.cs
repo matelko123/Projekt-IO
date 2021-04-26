@@ -37,5 +37,20 @@ namespace Projekt_wlasciwy
             PathWindow pw = new PathWindow();
             WindowsComponents.Children.Add(pw);
         }
+
+        private void Minimize(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void Exit(object sender, RoutedEventArgs e) => Close();
+
+        private void navbar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if(e.LeftButton==MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
+        }
     }
 }
