@@ -145,7 +145,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="red.jpg" />
+    <Resource Include="Images\red.jpg" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -160,28 +160,28 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="tło.png" />
+    <Resource Include="Images\tło.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="report.png" />
+    <Resource Include="Images\report.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="bar.png" />
+    <Resource Include="Images\bar.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="przycisk_zam.png" />
+    <Resource Include="Images\przycisk_zam.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="bar_guzik-2.png" />
+    <Resource Include="Images\bar_guzik-2.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="przycisk_minim.png" />
+    <Resource Include="Images\przycisk_minim.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="przycisk_pow.png" />
+    <Resource Include="Images\przycisk_pow.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="logo.png" />
+    <Resource Include="Images\logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -10,7 +10,7 @@
 
     <UserControl.Background>
 
-        <ImageBrush ImageSource="red.jpg"></ImageBrush>
+        <ImageBrush ImageSource="Images/red.jpg"></ImageBrush>
 
     </UserControl.Background>
     <Border BorderBrush="black" BorderThickness="5">
