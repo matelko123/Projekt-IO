@@ -24,22 +24,7 @@ namespace Projekt_wlasciwy
             // Console.WriteLine(sm.GetSettings("paths"));
         }
 
-        private void ToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-
-            Mode.Content = "Dark";
-            
-        }
-
-        private void Plus_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Plus.Opacity = 1;
-        }
-
-        private void Plus_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Plus.Opacity = 0.6;
-        }
+       
 
         private void Plus_Click(object sender, RoutedEventArgs e)
         {
