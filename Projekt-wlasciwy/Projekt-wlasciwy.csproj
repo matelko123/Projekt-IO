@@ -145,16 +145,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="tło.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Logo.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="red.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="grey.jpg" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -167,6 +158,30 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="tło.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="report.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="bar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="przycisk_zam.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="bar_guzik-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="przycisk_minim.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="przycisk_pow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
