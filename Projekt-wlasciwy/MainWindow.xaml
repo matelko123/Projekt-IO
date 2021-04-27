@@ -6,17 +6,15 @@
         xmlns:local="clr-namespace:Projekt_wlasciwy"
         mc:Ignorable="d"
         WindowStyle="None"
-        Icon="Logo.png"
         Title="M4T3" Height="600" Width="900" ResizeMode="CanMinimize" AllowsTransparency="True">
 
     <Window.Background>
 
-        <ImageBrush ImageSource="tło.png"></ImageBrush>
+        <ImageBrush ImageSource="Images/tło.png"></ImageBrush>
 
     </Window.Background>
-
-
-
+    
+    
     <Grid>
         <Grid.ColumnDefinitions>
 
@@ -28,38 +26,38 @@
             <RowDefinition Height="*"></RowDefinition>
 
         </Grid.RowDefinitions>
+        
+                
         <StackPanel VerticalAlignment="Top" Height="540" x:Name="LeftPanel" Grid.Row="1" Grid.Column="0">
-            <Image  VerticalAlignment="Top" Source="logo.png"/>
+            <Image  VerticalAlignment="Top" Source="Images/logo.png"/>
             <Button Height="50" Content="File Sort"/>
             <Button Height="50" Content="Pictures Compressor"/>
-
-
         </StackPanel>
 
         <Button BorderThickness="0" Click="report_Click" Grid.Row="1" x:Name="report" VerticalAlignment="Bottom" Height="30">
             <Button.Background>
-                <ImageBrush ImageSource="report.png"></ImageBrush>
+                <ImageBrush ImageSource="Images/report.png"></ImageBrush>
             </Button.Background>
         </Button>
 
         <DockPanel MouseDown="navbar_MouseDown" x:Name="navbar" Grid.Row="0" Grid.ColumnSpan="2">
             <DockPanel.Background>
-                <ImageBrush Stretch="Fill"  ImageSource="bar.png" ></ImageBrush>
+                <ImageBrush Stretch="Fill"  ImageSource="Images/bar.png" ></ImageBrush>
             </DockPanel.Background>
 
             <Button x:Name="exit" Width="25" Height="25" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="Exit">
                 <Button.Background>
-                    <ImageBrush Stretch="Fill" ImageSource="przycisk_zam.png"></ImageBrush>
+                    <ImageBrush Stretch="Fill" ImageSource="Images/przycisk_zam.png"></ImageBrush>
                 </Button.Background>
             </Button>
             <Button Width="25" Height="25" DockPanel.Dock="Right" HorizontalAlignment="Right">
                 <Button.Background>
-                    <ImageBrush Stretch="Fill" ImageSource="przycisk_pow.png"></ImageBrush>
+                    <ImageBrush Stretch="Fill" ImageSource="Images/przycisk_pow.png"></ImageBrush>
                 </Button.Background>
             </Button>
             <Button x:Name="minimize" Width="25" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="Minimize" Margin="0,3,0,2">
                 <Button.Background>
-                    <ImageBrush Stretch="Fill" ImageSource="przycisk_minim.png"></ImageBrush>
+                    <ImageBrush Stretch="Fill" ImageSource="Images/przycisk_minim.png"></ImageBrush>
                 </Button.Background>
             </Button>
 
@@ -68,7 +66,7 @@
         <ScrollViewer Grid.Row="1" Grid.Column="1" VerticalScrollBarVisibility="Visible" CanContentScroll="True">
 
             <StackPanel Name="WindowsComponents" Grid.Column="1">
-                <local:PathWindow ></local:PathWindow>
+                <local:PathWindow></local:PathWindow>
             </StackPanel>
 
 
@@ -83,11 +81,11 @@
         <DockPanel Height="30" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1">
 
             <DockPanel.Background>
-                <ImageBrush Stretch="Fill"  ImageSource="bar.png" ></ImageBrush>
+                <ImageBrush Stretch="Fill"  ImageSource="Images/bar.png" ></ImageBrush>
             </DockPanel.Background>
             <Button BorderThickness="0" Grid.Column="1" x:Name="Plus" Width="300" Height="30"  FontSize="20" Click="Plus_Click" >
                 <Button.Background>
-                    <ImageBrush Stretch="Fill" ImageSource="bar_guzik-2.png"></ImageBrush>
+                    <ImageBrush  Stretch="Fill" ImageSource="Images/bar_guzik-2.png"></ImageBrush>
                 </Button.Background>
             </Button>
 
