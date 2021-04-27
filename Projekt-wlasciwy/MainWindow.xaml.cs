@@ -61,5 +61,10 @@ namespace Projekt_wlasciwy
                 this.DragMove();
             }
         }
+
+        private void report_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/matelko123/Projekt-IO/issues");
+        }
     }
 }
