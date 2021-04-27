@@ -28,7 +28,7 @@
             <RowDefinition Height="*"></RowDefinition>
 
         </Grid.RowDefinitions>
-        <StackPanel x:Name="LeftPanel" Grid.Row="1" Grid.Column="0">
+        <StackPanel Height="450" x:Name="LeftPanel" Grid.Row="1" Grid.Column="0">
 
             <Image  Height="100" VerticalAlignment="Top" Source="Logo.png"/>
             <Button Height="50" Content="File Sort"/>
@@ -36,6 +36,12 @@
 
 
         </StackPanel>
+
+        <Button Foreground="Blue" Content="REPORT ISSUE" Click="report_Click" Grid.Row="1" x:Name="report" VerticalAlignment="Bottom" Margin="0,0,0,30" Height="30">
+            <Button.Background>
+                <ImageBrush ImageSource="grey.jpg"></ImageBrush>
+            </Button.Background>
+        </Button>
 
         <DockPanel MouseDown="navbar_MouseDown" x:Name="navbar" Grid.Row="0" Grid.ColumnSpan="2" Background="red">
             <Button x:Name="exit" Width="25" Height="25"  Content="X" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="Exit"/>
