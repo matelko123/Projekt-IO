@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Projekt_wlasciwy
@@ -9,14 +10,12 @@ namespace Projekt_wlasciwy
         public MainWindow()
         {
             InitializeComponent();
-            DirectoryController.PrintAll();
-            //SettingsController.ReadAllSettings();
+            DirectoryController.Load();
         }
 
         private void Exit(object sender, RoutedEventArgs e)
         {
-            //DirectoryController.Save();
-            DirectoryController.PrintAll();
+            DirectoryController.Save();
             Close();
         }
 

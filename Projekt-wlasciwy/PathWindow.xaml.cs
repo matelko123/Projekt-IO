@@ -8,7 +8,7 @@ namespace Projekt_wlasciwy
     {
         private FolderBrowserDialog folderBrowserDialog1;
 
-        private DirectoryStructure Directory;
+        //private DirectoryStructure Directory;
         private static int ID = 0;
         private int MyID;
 
@@ -33,7 +33,7 @@ namespace Projekt_wlasciwy
 
             string selectedFolderPath = folderBrowserDialog1.SelectedPath;
             pathdialog.Text = selectedFolderPath;
-            Directory = new DirectoryStructure(selectedFolderPath, new string[] {  });
+            var Directory = new DirectoryStructure(selectedFolderPath, new string[] {  });
 
             // Add or update current directory
             if(DirectoryController.Dirs.Count <= MyID ) DirectoryController.Dirs.Add(Directory);

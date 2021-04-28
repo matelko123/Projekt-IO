@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Projekt_wlasciwy
 {
@@ -14,7 +15,17 @@ namespace Projekt_wlasciwy
             }
         }
 
-        public void Load() { }
+        public static void Load()
+        {
+            var data = SettingsController.GetSettings("Paths");
+            if (data == null) return;
+
+            var d = SettingsController.deserializeObject(data);
+            if (d == null) return;
+
+            d.Print();
+        }
+
         public static void Save() 
         {
             string data = SettingsController.serializeObject(Dirs);
