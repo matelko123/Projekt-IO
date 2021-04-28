@@ -185,5 +185,11 @@
   <ItemGroup>
     <Resource Include="Images\logo.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\przycisk_zam_akt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bin.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
