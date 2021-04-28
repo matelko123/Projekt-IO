@@ -95,8 +95,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DownloadManager.cs" />
-    <Compile Include="SettingsManager.cs" />
+    <Compile Include="Controllers\DirectoryController.cs" />
+    <Compile Include="Controllers\DownloadController.cs" />
+    <Compile Include="Controllers\Models\DirectoryStructure.cs" />
+    <Compile Include="Controllers\SettingsController.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

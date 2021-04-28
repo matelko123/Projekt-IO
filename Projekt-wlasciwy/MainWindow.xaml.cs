@@ -1,27 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
-using static Projekt_wlasciwy.DownloadManager;
-using static Projekt_wlasciwy.SettingsManager;
 
 namespace Projekt_wlasciwy
 {
     public partial class MainWindow : Window
     {
-        private SettingsManager sm = new SettingsManager();
-        private DownloadManager dm = new DownloadManager();
 
         public MainWindow()
         {
             InitializeComponent();
-            // sm.AddUpdateAppSettings("hello", "world");
-            //sm.ReadAllSettings();
-            // Console.WriteLine(sm.GetSettings("paths"));
-            Dirs path = (Dirs)deserializeObject(sm.GetSettings("paths"));
-            //path.print();
-
-            // Console.WriteLine(sm.GetSettings("paths"));
+            SettingsManager.ReadAllSettings();
         }
 
        
