@@ -82,12 +82,12 @@ namespace Projekt_wlasciwy
             }
         }
 
-        public static Dirs deserializeObject(string toDeserialize)
+        public static DirectoryStructure deserializeObject(string toDeserialize)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Dirs));
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(DirectoryStructure));
             using (StringReader textReader = new StringReader(toDeserialize))
             {
-                return (Dirs)xmlSerializer.Deserialize(textReader);
+                return (DirectoryStructure)xmlSerializer.Deserialize(textReader);
             }
         }
     }

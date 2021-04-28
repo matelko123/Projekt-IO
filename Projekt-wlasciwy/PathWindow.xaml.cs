@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 
@@ -11,10 +8,7 @@ namespace Projekt_wlasciwy
     {
         private FolderBrowserDialog folderBrowserDialog1;
 
-        // App Settings Manager
-        private readonly SettingsManager sm = new SettingsManager();
-        private static long files = 0;
-        private static long size = 0;
+        private DirectoryStructure Directory;
 
         public PathWindow()
         {
@@ -23,9 +17,6 @@ namespace Projekt_wlasciwy
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            files = 0;
-            size = 0;
-
             folderBrowserDialog1 = new FolderBrowserDialog
             {
                 Description = "Select the directory that you want to set.",
@@ -37,42 +28,10 @@ namespace Projekt_wlasciwy
 
             string selectedFolderPath = folderBrowserDialog1.SelectedPath;
             pathdialog.Text = selectedFolderPath;
-          
-            getInfo(selectedFolderPath);
-        }
+            Directory = new DirectoryStructure(selectedFolderPath, new string[] {  });
 
-        private void getInfo(string path)
-        {
-            IEnumerable<string> dirs;
-            try
-            {
-                // Recursive way for each Directory in the path
-                dirs = Directory.EnumerateDirectories(path);
-                foreach (string dir in dirs)
-                {
-                    getInfo(dir);
-                }
-
-                // How many files and paths to them
-                dirs = Directory.EnumerateFiles(path, "*");
-                files += dirs.Count();
-
-                foreach (string file in dirs)
-                {
-                    size += new FileInfo(file).Length;
-                }
-
-            }
-            catch (UnauthorizedAccessException uAEx)
-            {
-                Console.WriteLine(uAEx.Message);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            DirSizeLabel.Content = $"Amount of files: {files}";
-            DirCountFilesLabel.Content = $"Directory size: {calcBytes(size)}";
+            DirSizeLabel.Content = $"Amount of files: {Directory.Files}";
+            DirCountFilesLabel.Content = $"Directory size: {calcBytes(Directory.Size)}";
         }
 
         private static string calcBytes(long size)
