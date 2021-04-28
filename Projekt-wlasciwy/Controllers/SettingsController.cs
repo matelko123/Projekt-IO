@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Xml.Serialization;
-using static Projekt_wlasciwy.DownloadManager;
 
 namespace Projekt_wlasciwy
 {
-    class SettingsManager
+    public class SettingsManager
     {
-        public void ReadAllSettings()
+        public static void ReadAllSettings()
         {
             try
             {
@@ -33,7 +31,7 @@ namespace Projekt_wlasciwy
             }
         }
 
-        public string GetSettings(string key)
+        public static string GetSettings(string key)
         {
             try
             {
@@ -48,7 +46,7 @@ namespace Projekt_wlasciwy
             return "";
         }
 
-        public void AddUpdateAppSettings(string key, string value)
+        public static void AddUpdateAppSettings(string key, string value)
         {
             try
             {
@@ -71,7 +69,7 @@ namespace Projekt_wlasciwy
             }
         }
 
-        public string serializeObject<T>(T toSerialize)
+        public static string serializeObject<T>(T toSerialize)
         {
             XmlSerializer xmlSerializer = new XmlSerializer(toSerialize.GetType());
 

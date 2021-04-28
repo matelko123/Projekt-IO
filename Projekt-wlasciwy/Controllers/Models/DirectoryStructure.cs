@@ -19,7 +19,8 @@ namespace Projekt_wlasciwy
         public DirectoryStructure(string path, string[] ext)
         {
             if (path == null) return;
-            // Jeśli dany katalog nie istnieje to go tworzy
+
+            // Create directory if path doesn't exists
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 
             FullPath = path;

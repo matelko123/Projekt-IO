@@ -2,7 +2,7 @@
 
 namespace Projekt_wlasciwy
 {
-    class DirectoryController
+    public class DirectoryController
     {
         public List<DirectoryStructure> Dirs = new List<DirectoryStructure>();
 
@@ -15,6 +15,10 @@ namespace Projekt_wlasciwy
         }
 
         public void Load() { }
-        public void Save() { }
+        public void Save() 
+        {
+            string data = SettingsManager.serializeObject(Dirs);
+            SettingsManager.AddUpdateAppSettings("Paths", data);
+        }
     }
 }

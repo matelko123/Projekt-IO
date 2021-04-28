@@ -9,6 +9,7 @@ namespace Projekt_wlasciwy
         public MainWindow()
         {
             InitializeComponent();
+            SettingsManager.ReadAllSettings();
         }
 
         private void ToggleButton_Checked(object sender, RoutedEventArgs e)
