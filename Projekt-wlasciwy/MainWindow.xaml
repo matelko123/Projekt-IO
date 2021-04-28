@@ -110,7 +110,7 @@
             <DockPanel.Background>
                 <ImageBrush Stretch="Fill"  ImageSource="Images/bar.png" ></ImageBrush>
             </DockPanel.Background>
-            <Button   Grid.Column="1" x:Name="Plus" Width="300" Height="30"  FontSize="20" Click="Plus_Click" >
+            <Button  Style="{StaticResource MyButtonStyle}" Grid.Column="1" x:Name="Plus" Width="300" Height="30"  FontSize="20" Click="Plus_Click" >
                 <Button.Background>
                     <ImageBrush  Stretch="Fill" ImageSource="Images/bar_guzik-2.png"></ImageBrush>
                 </Button.Background>
