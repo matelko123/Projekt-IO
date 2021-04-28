@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Projekt_wlasciwy"
         mc:Ignorable="d"
         WindowStyle="None"
-        Title="M4T3" Height="600" Width="900" ResizeMode="CanMinimize" AllowsTransparency="True">
+        Title="M4T3" Height="600" Width="900" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" AllowsTransparency="True">
 
     <Window.Background>
 
@@ -38,7 +38,19 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!-- End of style-->
+
+        <Style x:Key="Exit_btn" TargetType="{x:Type Button}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Content" >
+                        <Setter.Value>
+                            <Image Source="/Images/red.jpg" Stretch="UniformToFill"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!-- End of style-->
 </Window.Resources>
 
     
@@ -72,9 +84,9 @@
                 <ImageBrush Stretch="Fill"  ImageSource="Images/bar.png" ></ImageBrush>
             </DockPanel.Background>
 
-            <Button Style="{StaticResource MyButtonStyle}" x:Name="exit" Width="25" Height="25" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="Exit">
+            <Button Style="{StaticResource Exit_btn}" x:Name="exit" Width="25" Height="25" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="Exit">
                 <Button.Background>
-                    <ImageBrush Stretch="Fill" ImageSource="Images/przycisk_zam.png"></ImageBrush>
+                    <ImageBrush x:Name="close_btn" Stretch="Fill" ImageSource="Images/przycisk_zam.png"></ImageBrush>
                 </Button.Background>
             </Button>
             <Button Style="{StaticResource MyButtonStyle}" Width="25" Height="25" DockPanel.Dock="Right" HorizontalAlignment="Right">
