@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Projekt_wlasciwy
 {
-    public class DownloadManager
+    public class DownloadController
     {
 
         private static int interval = 500;          // Time pause before moving files
@@ -17,7 +17,7 @@ namespace Projekt_wlasciwy
 
 
         
-        public DownloadManager()
+        public DownloadController()
         {
             Console.WriteLine("Running");
 

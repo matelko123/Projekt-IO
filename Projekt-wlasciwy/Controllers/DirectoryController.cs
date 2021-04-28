@@ -4,9 +4,9 @@ namespace Projekt_wlasciwy
 {
     public class DirectoryController
     {
-        public List<DirectoryStructure> Dirs = new List<DirectoryStructure>();
+        public static List<DirectoryStructure> Dirs = new List<DirectoryStructure>();
 
-        public void PrintAll()
+        public static void PrintAll()
         {
             foreach(var Dir in Dirs)
             {
@@ -15,10 +15,10 @@ namespace Projekt_wlasciwy
         }
 
         public void Load() { }
-        public void Save() 
+        public static void Save() 
         {
-            string data = SettingsManager.serializeObject(Dirs);
-            SettingsManager.AddUpdateAppSettings("Paths", data);
+            string data = SettingsController.serializeObject(Dirs);
+            SettingsController.AddUpdateAppSettings("Paths", data);
         }
     }
 }

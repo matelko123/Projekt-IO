@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace Projekt_wlasciwy
 {
-    public class SettingsManager
+    public class SettingsController
     {
         public static void ReadAllSettings()
         {
