@@ -44,7 +44,7 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Content" >
                         <Setter.Value>
-                            <Image Source="/Images/red.jpg" Stretch="UniformToFill"/>
+                            <Image Source="/Images/przycisk_zam_akt.png" Stretch="UniformToFill"/>
                         </Setter.Value>
                     </Setter>
                 </Trigger>
@@ -73,7 +73,7 @@
             <Button Height="50" Content="Pictures Compressor"/>
         </StackPanel>
 
-        <Button  Style="{StaticResource MyButtonStyle}" Click="report_Click" Grid.Row="1" x:Name="report" VerticalAlignment="Bottom" Height="30">
+        <Button  Style="{StaticResource MyButtonStyle}"  Click="report_Click" Grid.Row="1" x:Name="report" VerticalAlignment="Bottom" Height="30">
             <Button.Background>
                 <ImageBrush ImageSource="Images/report.png"></ImageBrush>
             </Button.Background>
@@ -84,7 +84,7 @@
                 <ImageBrush Stretch="Fill"  ImageSource="Images/bar.png" ></ImageBrush>
             </DockPanel.Background>
 
-            <Button Style="{StaticResource Exit_btn}" x:Name="exit" Width="25" Height="25" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="Exit">
+            <Button Style="{StaticResource Exit_btn}" BorderThickness="0" x:Name="exit" Width="25" Height="25" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="Exit">
                 <Button.Background>
                     <ImageBrush x:Name="close_btn" Stretch="Fill" ImageSource="Images/przycisk_zam.png"></ImageBrush>
                 </Button.Background>
@@ -105,7 +105,7 @@
         <ScrollViewer Grid.Row="1" Grid.Column="1" VerticalScrollBarVisibility="Visible" CanContentScroll="True">
 
             <StackPanel Name="WindowsComponents" Grid.Column="1">
-                <local:PathWindow></local:PathWindow>
+                <local:PathWindow/>
             </StackPanel>
 
 
