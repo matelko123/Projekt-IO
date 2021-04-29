@@ -71,5 +71,21 @@ namespace Projekt_wlasciwy
 
             return string.Concat(Math.Round(sizes, 2), str);
         }
+
+        private void Path_Window_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            bin_btn.Visibility = Visibility.Visible;
+        }
+
+        private void Path_Window_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            bin_btn.Visibility = Visibility.Hidden;
+        }
+
+        private void bin_btn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Path_Window.Visibility = Visibility.Hidden;
+            this.Path_Window.Height = 0;
+        }
     }
 }

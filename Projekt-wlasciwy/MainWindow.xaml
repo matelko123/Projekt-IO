@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Projekt_wlasciwy"
         mc:Ignorable="d"
         WindowStyle="None"
-        Title="M4T3" Height="600" Width="900" ResizeMode="CanMinimize" AllowsTransparency="True">
+        Title="M4T3" Height="600" Width="900" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" AllowsTransparency="True">
 
     <Window.Background>
 
@@ -38,7 +38,19 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!-- End of style-->
+
+        <Style x:Key="Exit_btn" TargetType="{x:Type Button}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Content" >
+                        <Setter.Value>
+                            <Image Source="/Images/przycisk_zam_akt.png" Stretch="UniformToFill"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!-- End of style-->
 </Window.Resources>
 
     
@@ -61,7 +73,7 @@
             <Button Height="50" Content="Pictures Compressor"/>
         </StackPanel>
 
-        <Button  Style="{StaticResource MyButtonStyle}" Click="report_Click" Grid.Row="1" x:Name="report" VerticalAlignment="Bottom" Height="30">
+        <Button  Style="{StaticResource MyButtonStyle}"  Click="report_Click" Grid.Row="1" x:Name="report" VerticalAlignment="Bottom" Height="30">
             <Button.Background>
                 <ImageBrush ImageSource="Images/report.png"></ImageBrush>
             </Button.Background>
@@ -72,9 +84,9 @@
                 <ImageBrush Stretch="Fill"  ImageSource="Images/bar.png" ></ImageBrush>
             </DockPanel.Background>
 
-            <Button Style="{StaticResource MyButtonStyle}" x:Name="exit" Width="25" Height="25" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="Exit">
+            <Button Style="{StaticResource Exit_btn}" BorderThickness="0" x:Name="exit" Width="25" Height="25" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="Exit">
                 <Button.Background>
-                    <ImageBrush Stretch="Fill" ImageSource="Images/przycisk_zam.png"></ImageBrush>
+                    <ImageBrush x:Name="close_btn" Stretch="Fill" ImageSource="Images/przycisk_zam.png"></ImageBrush>
                 </Button.Background>
             </Button>
             <Button Style="{StaticResource MyButtonStyle}" Width="25" Height="25" DockPanel.Dock="Right" HorizontalAlignment="Right">
@@ -93,7 +105,7 @@
         <ScrollViewer Grid.Row="1" Grid.Column="1" VerticalScrollBarVisibility="Visible" CanContentScroll="True">
 
             <StackPanel Name="WindowsComponents" Grid.Column="1">
-                <local:PathWindow></local:PathWindow>
+                <local:PathWindow/>
             </StackPanel>
 
 
@@ -110,7 +122,7 @@
             <DockPanel.Background>
                 <ImageBrush Stretch="Fill"  ImageSource="Images/bar.png" ></ImageBrush>
             </DockPanel.Background>
-            <Button   Grid.Column="1" x:Name="Plus" Width="300" Height="30"  FontSize="20" Click="Plus_Click" >
+            <Button  Style="{StaticResource MyButtonStyle}" Grid.Column="1" x:Name="Plus" Width="300" Height="30"  FontSize="20" Click="Plus_Click" >
                 <Button.Background>
                     <ImageBrush  Stretch="Fill" ImageSource="Images/bar_guzik-2.png"></ImageBrush>
                 </Button.Background>
