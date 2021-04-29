@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Media.Imaging;
 
 namespace Projekt_wlasciwy
 {
@@ -76,11 +77,18 @@ namespace Projekt_wlasciwy
         private void Path_Window_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             bin_btn.Visibility = Visibility.Visible;
+            path_bg.Opacity = 0.7;
+            BitmapImage image = new BitmapImage(new Uri("../../Images/ff8f33.png", UriKind.Relative));
+            path_bg.ImageSource = image;
+            
         }
 
         private void Path_Window_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             bin_btn.Visibility = Visibility.Hidden;
+            path_bg.Opacity = 0.3;
+            BitmapImage image = new BitmapImage(new Uri("../../Images/bar.png", UriKind.Relative));
+            path_bg.ImageSource = image;
         }
 
         private void bin_btn_Click(object sender, RoutedEventArgs e)
