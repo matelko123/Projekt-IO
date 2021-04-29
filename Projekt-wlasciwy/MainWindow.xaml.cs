@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Projekt_wlasciwy
@@ -9,36 +10,27 @@ namespace Projekt_wlasciwy
         public MainWindow()
         {
             InitializeComponent();
-            SettingsManager.ReadAllSettings();
+            DirectoryController.Load();
         }
 
-       
-
-        private void Plus_Click(object sender, RoutedEventArgs e)
+        private void Exit(object sender, RoutedEventArgs e)
         {
-            PathWindow pw = new PathWindow();
-            WindowsComponents.Children.Add(pw);
+            DirectoryController.Save();
+            Close();
         }
-
-        private void Minimize(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
-        }
-
-        private void Exit(object sender, RoutedEventArgs e) => Close();
 
         private void navbar_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if(e.LeftButton==MouseButtonState.Pressed)
             {
-                this.DragMove();
+                DragMove();
             }
         }
 
-        private void report_Click(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://github.com/matelko123/Projekt-IO/issues");
-        }
+        private void report_Click(object sender, RoutedEventArgs e) => System.Diagnostics.Process.Start("https://github.com/matelko123/Projekt-IO/issues");
 
+        private void Plus_Click(object sender, RoutedEventArgs e) => WindowsComponents.Children.Add(new PathWindow());
+
+        private void Minimize(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
     }
 }

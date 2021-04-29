@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace Projekt_wlasciwy
 {
-    public class SettingsManager
+    public class SettingsController
     {
         public static void ReadAllSettings()
         {
@@ -82,11 +82,22 @@ namespace Projekt_wlasciwy
 
         public static DirectoryStructure deserializeObject(string toDeserialize)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(DirectoryStructure));
-            using (StringReader textReader = new StringReader(toDeserialize))
+            try
             {
-                return (DirectoryStructure)xmlSerializer.Deserialize(textReader);
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(DirectoryStructure));
+                using (StringReader textReader = new StringReader(toDeserialize))
+                {
+                    var data = (DirectoryStructure)xmlSerializer.Deserialize(textReader);
+                    Console.WriteLine($"Deserialize: ");
+                    data.Print();
+                    return data;
+                }
             }
+            catch (Exception e)
+            {
+                LoggerController.PrintException(e);
+            }
+            return null;
         }
     }
 }

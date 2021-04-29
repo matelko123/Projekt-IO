@@ -8,11 +8,14 @@ namespace Projekt_wlasciwy
     {
         private FolderBrowserDialog folderBrowserDialog1;
 
-        private DirectoryStructure Directory;
+        //private DirectoryStructure Directory;
+        private static int ID = 0;
+        private int MyID;
 
         public PathWindow()
         {
             InitializeComponent();
+            MyID = ID++;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -20,7 +23,9 @@ namespace Projekt_wlasciwy
             folderBrowserDialog1 = new FolderBrowserDialog
             {
                 Description = "Select the directory that you want to set.",
-                RootFolder = Environment.SpecialFolder.MyComputer                   // Default to the My PC folder.
+
+                // Default to the My PC folder.
+                RootFolder = Environment.SpecialFolder.MyComputer
             };
 
             DialogResult result = folderBrowserDialog1.ShowDialog();
@@ -28,12 +33,21 @@ namespace Projekt_wlasciwy
 
             string selectedFolderPath = folderBrowserDialog1.SelectedPath;
             pathdialog.Text = selectedFolderPath;
-            Directory = new DirectoryStructure(selectedFolderPath, new string[] {  });
+            var Directory = new DirectoryStructure(selectedFolderPath, new string[] {  });
+
+            // Add or update current directory
+            if(DirectoryController.Dirs.Count <= MyID ) DirectoryController.Dirs.Add(Directory);
+            else DirectoryController.Dirs[MyID] = Directory;
 
             DirSizeLabel.Content = $"Amount of files: {Directory.Files}";
             DirCountFilesLabel.Content = $"Directory size: {calcBytes(Directory.Size)}";
         }
 
+        /// <summary>
+        /// Calculate bytes for ex.: 2048B = 2kB
+        /// </summary>
+        /// <param name="size">Bytes</param>
+        /// <returns>String of Bytes for ex.: 2kB</returns>
         private static string calcBytes(long size)
         {
             double sizes = size;

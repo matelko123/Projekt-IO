@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Projekt_wlasciwy
 {
     public class DirectoryController
     {
-        public List<DirectoryStructure> Dirs = new List<DirectoryStructure>();
+        public static List<DirectoryStructure> Dirs = new List<DirectoryStructure>();
 
-        public void PrintAll()
+        public static void PrintAll()
         {
             foreach(var Dir in Dirs)
             {
@@ -14,11 +15,21 @@ namespace Projekt_wlasciwy
             }
         }
 
-        public void Load() { }
-        public void Save() 
+        public static void Load()
         {
-            string data = SettingsManager.serializeObject(Dirs);
-            SettingsManager.AddUpdateAppSettings("Paths", data);
+            var data = SettingsController.GetSettings("Paths");
+            if (data == null) return;
+
+            var d = SettingsController.deserializeObject(data);
+            if (d == null) return;
+
+            d.Print();
+        }
+
+        public static void Save() 
+        {
+            string data = SettingsController.serializeObject(Dirs);
+            SettingsController.AddUpdateAppSettings("Paths", data);
         }
     }
 }
