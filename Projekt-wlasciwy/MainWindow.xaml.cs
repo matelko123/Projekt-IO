@@ -15,7 +15,8 @@ namespace Projekt_wlasciwy
 
         private void Exit(object sender, RoutedEventArgs e)
         {
-            DirectoryController.Save();
+            // DirectoryController.Save();
+            DirectoryController.PrintAll();
             Close();
         }
 

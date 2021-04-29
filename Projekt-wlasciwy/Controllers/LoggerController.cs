@@ -6,8 +6,7 @@ namespace Projekt_wlasciwy
 {
     class LoggerController
     {
-        private static string path = @"c:\temp\logger.txt";
-
+        private static string path = Path.Combine(Path.GetTempPath(), "logger.txt");
 
         public static void Log(string text)
         {
@@ -15,6 +14,8 @@ namespace Projekt_wlasciwy
             {
                 AddText(fs, text);
             }
+            string result = Path.GetTempPath();
+            Console.WriteLine(result);
         }
 
         private static void AddText(FileStream fs, string value)

@@ -16,6 +16,7 @@ namespace Projekt_wlasciwy
         {
             InitializeComponent();
             MyID = ID++;
+            Console.WriteLine($"ID komponentu #{MyID}");
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
