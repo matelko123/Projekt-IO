@@ -76,7 +76,7 @@ namespace Projekt_wlasciwy
         private void Path_Window_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             bin_btn.Visibility = Visibility.Visible;
-            path_bg.Opacity = 0.5;
+            path_bg.Opacity = 0.7;
             BitmapImage image = new BitmapImage(new Uri("../../Images/ff8f33.png", UriKind.Relative));
             path_bg.ImageSource = image;
             
