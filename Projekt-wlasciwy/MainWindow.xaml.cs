@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Projekt_wlasciwy.Properties;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -12,12 +13,15 @@ namespace Projekt_wlasciwy
         public MainWindow()
         {
             InitializeComponent();
-            DirectoryController.Load();
+            Console.WriteLine("Ładowanie zawartości z ustawień...");
+            Console.WriteLine($"Settings: {Settings.Default["path"]}");
+            //DirectoryController.Load();
         }
 
         private void Exit(object sender, RoutedEventArgs e)
         {
             DirectoryController.Save();
+            // DirectoryController.PrintAll();
             Close();
         }
 
