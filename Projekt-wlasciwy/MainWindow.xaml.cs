@@ -1,6 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace Projekt_wlasciwy
 {
@@ -32,5 +34,17 @@ namespace Projekt_wlasciwy
         private void Plus_Click(object sender, RoutedEventArgs e) => WindowsComponents.Children.Add(new PathWindow());
 
         private void Minimize(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
+
+        private void Plus_MouseEnter(object sender, MouseEventArgs e)
+        {
+            BitmapImage image = new BitmapImage(new Uri("../../Images/bar_guzik-2_akty.png", UriKind.Relative));
+            Plus_bg.ImageSource = image;
+        }
+
+        private void Plus_MouseLeave(object sender, MouseEventArgs e)
+        {
+            BitmapImage image = new BitmapImage(new Uri("../../Images/bar_guzik-2.png", UriKind.Relative));
+            Plus_bg.ImageSource = image;
+        }
     }
 }
