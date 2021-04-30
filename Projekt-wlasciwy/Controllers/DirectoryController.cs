@@ -20,10 +20,13 @@ namespace Projekt_wlasciwy
             var data = SettingsController.GetSettings("Paths");
             if (data == null) return;
 
+            Console.WriteLine($"XML Data: {data}");
+
             var d = SettingsController.deserializeObject(data);
             if (d == null) return;
+            Console.WriteLine($"d: {d}");
 
-            d.Print();
+            DirectoryController.Dirs = d;
         }
 
         public static void Save() 

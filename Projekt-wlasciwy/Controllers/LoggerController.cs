@@ -14,8 +14,6 @@ namespace Projekt_wlasciwy
             {
                 AddText(fs, text);
             }
-            string result = Path.GetTempPath();
-            Console.WriteLine(result);
         }
 
         private static void AddText(FileStream fs, string value)

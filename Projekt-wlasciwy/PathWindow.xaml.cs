@@ -42,36 +42,7 @@ namespace Projekt_wlasciwy
             else DirectoryController.Dirs[MyID] = Directory;
 
             DirSizeLabel.Content = $"Amount of files: {Directory.Files}";
-            DirCountFilesLabel.Content = $"Directory size: {calcBytes(Directory.Size)}";
-        }
-
-        /// <summary>
-        /// Calculate bytes for ex.: 2048B = 2kB
-        /// </summary>
-        /// <param name="size">Bytes</param>
-        /// <returns>String of Bytes for ex.: 2kB</returns>
-        private static string calcBytes(long size)
-        {
-            double sizes = size;
-            string str = "B";
-            
-            if(sizes > 1024)
-            {
-                sizes /= 1024;
-                str = "kB";
-            }
-            if (sizes > 1024)
-            {
-                sizes /= 1024;
-                str = "MB";
-            }
-            if (sizes > 1024)
-            {
-                sizes /= 1024;
-                str = "GB";
-            }
-
-            return string.Concat(Math.Round(sizes, 2), str);
+            DirCountFilesLabel.Content = $"Directory size: {DirectoryStructure.calcBytes(Directory.Size)}";
         }
 
         private void Path_Window_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)

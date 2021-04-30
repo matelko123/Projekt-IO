@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Projekt_wlasciwy.Properties;
+using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Xml.Serialization;
@@ -48,7 +51,9 @@ namespace Projekt_wlasciwy
 
         public static void AddUpdateAppSettings(string key, string value)
         {
-            try
+            Settings.Default["Path"] = value;
+            Settings.Default.Save();
+            /*try
             {
                 var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
                 var settings = configFile.AppSettings.Settings;
@@ -66,7 +71,7 @@ namespace Projekt_wlasciwy
             catch (ConfigurationErrorsException)
             {
                 Console.WriteLine("Error writing app settings");
-            }
+            }*/
         }
 
         public static string serializeObject<T>(T toSerialize)
@@ -80,16 +85,14 @@ namespace Projekt_wlasciwy
             }
         }
 
-        public static DirectoryStructure deserializeObject(string toDeserialize)
+        public static List<DirectoryStructure> deserializeObject(string toDeserialize)
         {
             try
             {
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(DirectoryStructure));
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<DirectoryStructure>));
                 using (StringReader textReader = new StringReader(toDeserialize))
                 {
-                    var data = (DirectoryStructure)xmlSerializer.Deserialize(textReader);
-                    Console.WriteLine($"Deserialize: ");
-                    data.Print();
+                    List<DirectoryStructure> data = List < DirectoryStructure >xmlSerializer.Deserialize(textReader);
                     return data;
                 }
             }
