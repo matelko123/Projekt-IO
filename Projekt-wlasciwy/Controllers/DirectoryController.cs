@@ -11,7 +11,7 @@ namespace Projekt_wlasciwy
         {
             foreach(var Dir in Dirs)
             {
-                Dir.Print();
+                Console.WriteLine(Dir);
             }
         }
 

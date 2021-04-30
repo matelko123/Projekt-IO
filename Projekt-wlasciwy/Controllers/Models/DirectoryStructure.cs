@@ -30,10 +30,13 @@ namespace Projekt_wlasciwy
             GetInfo(FullPath);
         }
 
-        public void Print()
+        public override string ToString()
         {
-            Console.WriteLine($"Name: {Name}, \t Path: {FullPath}, \t Extensions:");
-            foreach (string ext in Extensions) Console.WriteLine(ext);
+            string result = $"Name: {Name}, \t Path: {FullPath}, \t Extensions:";
+            foreach (string ext in Extensions)
+                string.Concat(result, ext);
+
+            return result;
         }
 
         /// <summary>
