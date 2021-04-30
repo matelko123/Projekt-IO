@@ -26,7 +26,7 @@ namespace Projekt_wlasciwy
             if (d == null) return;
             Console.WriteLine($"d: {d}");
 
-            DirectoryController.Dirs = d;
+            Dirs = d;
         }
 
         public static void Save() 

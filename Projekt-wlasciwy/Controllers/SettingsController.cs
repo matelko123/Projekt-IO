@@ -51,9 +51,7 @@ namespace Projekt_wlasciwy
 
         public static void AddUpdateAppSettings(string key, string value)
         {
-            Settings.Default["Path"] = value;
-            Settings.Default.Save();
-            /*try
+            try
             {
                 var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
                 var settings = configFile.AppSettings.Settings;
@@ -71,7 +69,7 @@ namespace Projekt_wlasciwy
             catch (ConfigurationErrorsException)
             {
                 Console.WriteLine("Error writing app settings");
-            }*/
+            }
         }
 
         public static string serializeObject<T>(T toSerialize)
@@ -92,7 +90,7 @@ namespace Projekt_wlasciwy
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<DirectoryStructure>));
                 using (StringReader textReader = new StringReader(toDeserialize))
                 {
-                    List<DirectoryStructure> data = List < DirectoryStructure >xmlSerializer.Deserialize(textReader);
+                    List<DirectoryStructure> data = (List<DirectoryStructure>)xmlSerializer.Deserialize(textReader);
                     return data;
                 }
             }

@@ -100,16 +100,26 @@ namespace Projekt_wlasciwy
             return string.Concat(Math.Round(sizes, 2), str);
         }
 
+        /// <summary>
+        /// Serialization function (Stores Object Data in File)
+        /// </summary>
+        /// <param name="info">SerializationInfo holds the key value pairs</param>
+        /// <param name="context">StreamingContext can hold additional info</param>
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            // Assign key value pair for your data
             info.AddValue("FullPath", FullPath);
             info.AddValue("Extensions", Extensions);
             info.AddValue("Size", Size);
             info.AddValue("Files", Files);
         }
 
-        // The deserialize function (Removes Object Data from File)
-        public DirectoryStructure(SerializationInfo info, StreamingContext ctxt)
+        /// <summary>
+        /// The deserialize function (Removes Object Data from File)
+        /// </summary>
+        /// <param name="info">SerializationInfo holds the key value pairs</param>
+        /// <param name="ctxt">StreamingContext can hold additional info</param>
+        public DirectoryStructure(SerializationInfo info, StreamingContext context)
         {
             //Get the values from info and assign them to the properties
             FullPath = (string)info.GetValue("FullPath", typeof(string));
