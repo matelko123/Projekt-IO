@@ -43,6 +43,7 @@ namespace Projekt_wlasciwy
 
             DirSizeLabel.Content = $"Amount of files: {Directory.Files}";
             DirCountFilesLabel.Content = $"Directory size: {DirectoryStructure.calcBytes(Directory.Size)}";
+            Console.WriteLine($"#{MyID}: {Directory}");
         }
 
         private void Path_Window_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -66,6 +67,11 @@ namespace Projekt_wlasciwy
         {
             this.Path_Window.Visibility = Visibility.Hidden;
             this.Path_Window.Height = 0;
+
+            /*var mw = new MainWindow();
+            mw.WindowsComponents.Children.RemoveRange(1,1);*/
+
+            DirectoryController.Dirs.RemoveAt(MyID);
         }
     }
 }
