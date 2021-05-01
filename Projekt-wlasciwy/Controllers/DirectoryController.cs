@@ -11,22 +11,25 @@ namespace Projekt_wlasciwy
         {
             foreach(var Dir in Dirs)
             {
-                Dir.Print();
+                Console.WriteLine(Dir);
             }
         }
 
-        public static void Load()
+        public static void LoadDataFromSettings()
         {
             var data = SettingsController.GetSettings("Paths");
             if (data == null) return;
 
+            Console.WriteLine($"XML Data: {data}");
+
             var d = SettingsController.deserializeObject(data);
             if (d == null) return;
+            Console.WriteLine($"d: {d}");
 
-            d.Print();
+            Dirs = d;
         }
 
-        public static void Save() 
+        public static void SaveDataToSettings() 
         {
             string data = SettingsController.serializeObject(Dirs);
             SettingsController.AddUpdateAppSettings("Paths", data);

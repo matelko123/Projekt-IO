@@ -2,19 +2,22 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Threading.Tasks;
 
 namespace Projekt_wlasciwy
 {
     /// <summary>
     /// Structure of Directory set by user
     /// </summary>
-    public class DirectoryStructure
+    [Serializable()]
+    public class DirectoryStructure : ISerializable
     {
         public string FullPath { get; set; }
         public string Name { get { return Path.GetFileName(FullPath); } }
         public string[] Extensions { get; set; }
-        public long Size { get; set; }
-        public long Files { get; set; }
+        public long Size { get; set; } = 0;
+        public long Files { get; set; } = 0;
         public DirectoryStructure() { }
         public DirectoryStructure(string path, string[] ext)
         {
@@ -25,19 +28,23 @@ namespace Projekt_wlasciwy
 
             FullPath = path;
             Extensions = ext;
-            GetInfo(FullPath);
+            // GetInfo(FullPath);
         }
 
         public override string ToString()
         {
-            string result = $"Name: {Name}, \t Path: {FullPath}, \t Extensions: {Extensions}";
-            /*foreach (string ext in Extensions)
-                string.Concat(result, ext);*/
+            string result = $"Name: {Name}, \t Path: {FullPath}, \t Extensions:";
+            foreach (string ext in Extensions)
+                string.Concat(result, ext);
 
             return result;
         }
 
-        private void GetInfo(string path)
+        /// <summary>
+        /// Get info about Directory by path
+        /// </summary>
+        /// <param name="path">Path to Directory</param>
+        public async Task GetAsyncInfo(string path)
         {
             IEnumerable<string> dirs;
             try
@@ -46,12 +53,14 @@ namespace Projekt_wlasciwy
                 dirs = Directory.EnumerateDirectories(path);
                 foreach (string dir in dirs)
                 {
-                    GetInfo(dir);
+                     await GetAsyncInfo(dir);
                 }
 
                 // How many files and paths to them
                 dirs = Directory.EnumerateFiles(path, "*");
                 Files += dirs.Count();
+
+                // dirs.Select(file => Size += new FileInfo(file).Length);
 
                 foreach (string file in dirs)
                 {
@@ -64,6 +73,8 @@ namespace Projekt_wlasciwy
                 Console.WriteLine(ex.Message);
             }
         }
+
+
         /// <summary>
         /// Calculate bytes for ex.: 2048B = 2kB
         /// </summary>
@@ -91,6 +102,34 @@ namespace Projekt_wlasciwy
             }
 
             return string.Concat(Math.Round(sizes, 2), str);
+        }
+
+        /// <summary>
+        /// Serialization function (Stores Object Data in File)
+        /// </summary>
+        /// <param name="info">SerializationInfo holds the key value pairs</param>
+        /// <param name="context">StreamingContext can hold additional info</param>
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            // Assign key value pair for your data
+            info.AddValue("FullPath", FullPath);
+            info.AddValue("Extensions", Extensions);
+            /*info.AddValue("Size", Size);
+            info.AddValue("Files", Files);*/
+        }
+
+        /// <summary>
+        /// The deserialize function (Removes Object Data from File)
+        /// </summary>
+        /// <param name="info">SerializationInfo holds the key value pairs</param>
+        /// <param name="ctxt">StreamingContext can hold additional info</param>
+        public DirectoryStructure(SerializationInfo info, StreamingContext context)
+        {
+            //Get the values from info and assign them to the properties
+            FullPath = (string)info.GetValue("FullPath", typeof(string));
+            Extensions = (string[])info.GetValue("Extensions", typeof(string[]));
+            /*Size = (long)info.GetValue("Size", typeof(long));
+            Files = (long)info.GetValue("Files", typeof(long));*/
         }
     }
 }
