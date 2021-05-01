@@ -28,10 +28,13 @@ namespace Projekt_wlasciwy
             GetInfo(FullPath);
         }
 
-        public void Print()
+        public override string ToString()
         {
-            Console.WriteLine($"Name: {Name}, \t Path: {FullPath}, \t Extensions:");
-            foreach (string ext in Extensions) Console.WriteLine(ext);
+            string result = $"Name: {Name}, \t Path: {FullPath}, \t Extensions: {Extensions}";
+            /*foreach (string ext in Extensions)
+                string.Concat(result, ext);*/
+
+            return result;
         }
 
         private void GetInfo(string path)
@@ -60,6 +63,34 @@ namespace Projekt_wlasciwy
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+        /// <summary>
+        /// Calculate bytes for ex.: 2048B = 2kB
+        /// </summary>
+        /// <param name="size">Bytes</param>
+        /// <returns>String of Bytes for ex.: 2kB</returns>
+        public static string calcBytes(long size)
+        {
+            double sizes = size;
+            string str = "B";
+
+            if (sizes > 1024)
+            {
+                sizes /= 1024;
+                str = "kB";
+            }
+            if (sizes > 1024)
+            {
+                sizes /= 1024;
+                str = "MB";
+            }
+            if (sizes > 1024)
+            {
+                sizes /= 1024;
+                str = "GB";
+            }
+
+            return string.Concat(Math.Round(sizes, 2), str);
         }
     }
 }
