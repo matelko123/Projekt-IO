@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 
 namespace Projekt_wlasciwy
 {
@@ -15,8 +16,8 @@ namespace Projekt_wlasciwy
         public string FullPath { get; set; }
         public string Name { get { return Path.GetFileName(FullPath); } }
         public string[] Extensions { get; set; }
-        public long Size { get; set; }
-        public long Files { get; set; }
+        public long Size { get; set; } = 0;
+        public long Files { get; set; } = 0;
         public DirectoryStructure() { }
         public DirectoryStructure(string path, string[] ext)
         {
@@ -27,7 +28,7 @@ namespace Projekt_wlasciwy
 
             FullPath = path;
             Extensions = ext;
-            GetInfo(FullPath);
+            // GetInfo(FullPath);
         }
 
         public override string ToString()
@@ -43,7 +44,7 @@ namespace Projekt_wlasciwy
         /// Get info about Directory by path
         /// </summary>
         /// <param name="path">Path to Directory</param>
-        private void GetInfo(string path)
+        public async Task GetAsyncInfo(string path)
         {
             IEnumerable<string> dirs;
             try
@@ -52,12 +53,14 @@ namespace Projekt_wlasciwy
                 dirs = Directory.EnumerateDirectories(path);
                 foreach (string dir in dirs)
                 {
-                    GetInfo(dir);
+                     await GetAsyncInfo(dir);
                 }
 
                 // How many files and paths to them
                 dirs = Directory.EnumerateFiles(path, "*");
                 Files += dirs.Count();
+
+                // dirs.Select(file => Size += new FileInfo(file).Length);
 
                 foreach (string file in dirs)
                 {
@@ -70,6 +73,7 @@ namespace Projekt_wlasciwy
                 Console.WriteLine(ex.Message);
             }
         }
+
 
         /// <summary>
         /// Calculate bytes for ex.: 2048B = 2kB
@@ -110,8 +114,8 @@ namespace Projekt_wlasciwy
             // Assign key value pair for your data
             info.AddValue("FullPath", FullPath);
             info.AddValue("Extensions", Extensions);
-            info.AddValue("Size", Size);
-            info.AddValue("Files", Files);
+            /*info.AddValue("Size", Size);
+            info.AddValue("Files", Files);*/
         }
 
         /// <summary>
@@ -124,8 +128,8 @@ namespace Projekt_wlasciwy
             //Get the values from info and assign them to the properties
             FullPath = (string)info.GetValue("FullPath", typeof(string));
             Extensions = (string[])info.GetValue("Extensions", typeof(string[]));
-            Size = (long)info.GetValue("Size", typeof(long));
-            Files = (long)info.GetValue("Files", typeof(long));
+            /*Size = (long)info.GetValue("Size", typeof(long));
+            Files = (long)info.GetValue("Files", typeof(long));*/
         }
     }
 }

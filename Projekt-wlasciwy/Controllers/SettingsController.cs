@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using Projekt_wlasciwy.Properties;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
