@@ -5,10 +5,12 @@ namespace Projekt_wlasciwy
 {
     public class DirectoryController
     {
-        public static List<DirectoryStructure> Dirs = new List<DirectoryStructure>();
+        public static List<DirectoryModel> Dirs = new List<DirectoryModel>();
 
         public static void PrintAll()
         {
+            if (Dirs == null) return;
+
             foreach(var Dir in Dirs)
             {
                 Console.WriteLine(Dir);
@@ -17,22 +19,22 @@ namespace Projekt_wlasciwy
 
         public static void LoadDataFromSettings()
         {
-            var data = SettingsController.GetSettings("Paths");
+            var data = SettingsController.GetSettings("Path");
             if (data == null) return;
 
             Console.WriteLine($"XML Data: {data}");
 
-            var d = SettingsController.deserializeObject(data);
+            var d = SettingsController.DeserializeObject(data);
             if (d == null) return;
             Console.WriteLine($"d: {d}");
 
-            Dirs = d;
+            // Dirs = d;
         }
 
         public static void SaveDataToSettings() 
         {
-            string data = SettingsController.serializeObject(Dirs);
-            SettingsController.AddUpdateAppSettings("Paths", data);
+            string data = SettingsController.SerializeObject(Dirs);
+            SettingsController.Update("Path", data);
         }
     }
 }

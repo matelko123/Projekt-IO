@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -11,19 +12,43 @@ namespace Projekt_wlasciwy
         public MainWindow()
         {
             InitializeComponent();
-            SettingsController.ReadAllSettings();
         }
 
-        private void Exit(object sender, RoutedEventArgs e)
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            DirectoryController.SaveDataToSettings();
-            DirectoryController.PrintAll();
+            try
+            {
+                await Task.Run(() => SettingsController.LoadDataDir());
+
+                foreach (var dir in DirectoryController.Dirs)
+                {
+                    var pw = await PathWindow.NewWindowComponent(dir);
+                    WindowsComponents.Children.Add(pw);
+                }
+            } 
+            catch(Exception ex) 
+            {
+                LoggerController.PrintException(ex);
+            }
+
+            // If no component has loaded add one default
+            if (PathWindow.ID == 0)
+            {
+                WindowsComponents.Children.Add(new PathWindow());
+            }
+        }
+
+        // Async close Program
+        private async void Exit(object sender, RoutedEventArgs e)
+        {
+            await Task.Run(() => SettingsController.SaveDataDir());
             Close();
         }
 
+
         private void navbar_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if(e.LeftButton==MouseButtonState.Pressed)
+            if(e.LeftButton == MouseButtonState.Pressed)
             {
                 DragMove();
             }
@@ -35,16 +60,8 @@ namespace Projekt_wlasciwy
 
         private void Minimize(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
 
-        private void Plus_MouseEnter(object sender, MouseEventArgs e)
-        {
-            BitmapImage image = new BitmapImage(new Uri("../../Images/bar_guzik-2_akty.png", UriKind.Relative));
-            Plus_bg.ImageSource = image;
-        }
+        private void Plus_MouseEnter(object sender, MouseEventArgs e) => Plus_bg.ImageSource = new BitmapImage(new Uri("../../Images/bar_guzik-2_akty.png", UriKind.Relative));
 
-        private void Plus_MouseLeave(object sender, MouseEventArgs e)
-        {
-            BitmapImage image = new BitmapImage(new Uri("../../Images/bar_guzik-2.png", UriKind.Relative));
-            Plus_bg.ImageSource = image;
-        }
+        private void Plus_MouseLeave(object sender, MouseEventArgs e) => Plus_bg.ImageSource = new BitmapImage(new Uri("../../Images/bar_guzik-2.png", UriKind.Relative));
     }
 }

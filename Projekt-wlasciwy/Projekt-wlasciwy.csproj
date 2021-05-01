@@ -101,7 +101,7 @@
     <Compile Include="Controllers\DirectoryController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\LoggerController.cs" />
-    <Compile Include="Controllers\Models\DirectoryStructure.cs" />
+    <Compile Include="Controllers\Models\DirectoryModel.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
