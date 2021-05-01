@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
@@ -10,7 +11,7 @@ namespace Projekt_wlasciwy
     {
         private FolderBrowserDialog folderBrowserDialog1;
 
-        //private DirectoryStructure Directory;
+        //private DirectoryModel Directory;
         private static int ID = 0;
         private int MyID;
 
@@ -40,7 +41,7 @@ namespace Projekt_wlasciwy
             string selectedFolderPath = folderBrowserDialog1.SelectedPath;
 
             pathdialog.Text = selectedFolderPath;
-            var Directory = new DirectoryStructure(selectedFolderPath, new string[] {  });
+            var Directory = new DirectoryModel(selectedFolderPath, new List<string>());
 
             // Add or update current directory
             if (DirectoryController.Dirs.Count <= MyID) DirectoryController.Dirs.Add(Directory);
@@ -49,7 +50,7 @@ namespace Projekt_wlasciwy
             await Task.Run(() => Directory.GetAsyncInfo(selectedFolderPath));
 
             DirSizeLabel.Content = $"Amount of files: {Directory.Files}";
-            DirCountFilesLabel.Content = $"Directory size: {DirectoryStructure.calcBytes(Directory.Size)}";
+            DirCountFilesLabel.Content = $"Directory size: {DirectoryModel.calcBytes(Directory.Size)}";
 
             Console.WriteLine($"#{MyID}: {Directory}");
         }

@@ -81,14 +81,14 @@ namespace Projekt_wlasciwy
             }
         }
 
-        public static List<DirectoryStructure> deserializeObject(string toDeserialize)
+        public static List<DirectoryModel> deserializeObject(string toDeserialize)
         {
             try
             {
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<DirectoryStructure>));
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<DirectoryModel>));
                 using (StringReader textReader = new StringReader(toDeserialize))
                 {
-                    List<DirectoryStructure> data = (List<DirectoryStructure>)xmlSerializer.Deserialize(textReader);
+                    List<DirectoryModel> data = (List<DirectoryModel>)xmlSerializer.Deserialize(textReader);
                     return data;
                 }
             }

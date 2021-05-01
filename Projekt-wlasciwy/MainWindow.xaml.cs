@@ -11,19 +11,17 @@ namespace Projekt_wlasciwy
         public MainWindow()
         {
             InitializeComponent();
-            SettingsController.ReadAllSettings();
         }
 
         private void Exit(object sender, RoutedEventArgs e)
         {
             DirectoryController.SaveDataToSettings();
-            DirectoryController.PrintAll();
             Close();
         }
 
         private void navbar_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if(e.LeftButton==MouseButtonState.Pressed)
+            if(e.LeftButton == MouseButtonState.Pressed)
             {
                 DragMove();
             }
@@ -35,16 +33,8 @@ namespace Projekt_wlasciwy
 
         private void Minimize(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
 
-        private void Plus_MouseEnter(object sender, MouseEventArgs e)
-        {
-            BitmapImage image = new BitmapImage(new Uri("../../Images/bar_guzik-2_akty.png", UriKind.Relative));
-            Plus_bg.ImageSource = image;
-        }
+        private void Plus_MouseEnter(object sender, MouseEventArgs e) => Plus_bg.ImageSource = new BitmapImage(new Uri("../../Images/bar_guzik-2_akty.png", UriKind.Relative));
 
-        private void Plus_MouseLeave(object sender, MouseEventArgs e)
-        {
-            BitmapImage image = new BitmapImage(new Uri("../../Images/bar_guzik-2.png", UriKind.Relative));
-            Plus_bg.ImageSource = image;
-        }
+        private void Plus_MouseLeave(object sender, MouseEventArgs e) => Plus_bg.ImageSource = new BitmapImage(new Uri("../../Images/bar_guzik-2.png", UriKind.Relative));
     }
 }

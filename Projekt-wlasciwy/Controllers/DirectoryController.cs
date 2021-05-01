@@ -5,7 +5,7 @@ namespace Projekt_wlasciwy
 {
     public class DirectoryController
     {
-        public static List<DirectoryStructure> Dirs = new List<DirectoryStructure>();
+        public static List<DirectoryModel> Dirs = new List<DirectoryModel>();
 
         public static void PrintAll()
         {
