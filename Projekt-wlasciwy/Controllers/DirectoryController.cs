@@ -15,7 +15,7 @@ namespace Projekt_wlasciwy
             }
         }
 
-        public static void Load()
+        public static void LoadDataFromSettings()
         {
             var data = SettingsController.GetSettings("Paths");
             if (data == null) return;
@@ -29,7 +29,7 @@ namespace Projekt_wlasciwy
             Dirs = d;
         }
 
-        public static void Save() 
+        public static void SaveDataToSettings() 
         {
             string data = SettingsController.serializeObject(Dirs);
             SettingsController.AddUpdateAppSettings("Paths", data);

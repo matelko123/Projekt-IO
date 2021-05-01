@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
@@ -17,11 +18,14 @@ namespace Projekt_wlasciwy
         {
             InitializeComponent();
             MyID = ID++;
-            Console.WriteLine($"ID komponentu #{MyID}");
+            // Console.WriteLine($"ID komponentu #{MyID}");
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
+            DirSizeLabel.Content = $"Amount of files: Loading...";
+            DirCountFilesLabel.Content = $"Directory size: Loading...";
+
             folderBrowserDialog1 = new FolderBrowserDialog
             {
                 Description = "Select the directory that you want to set.",
@@ -34,15 +38,19 @@ namespace Projekt_wlasciwy
             if (result != DialogResult.OK) return;
 
             string selectedFolderPath = folderBrowserDialog1.SelectedPath;
+
             pathdialog.Text = selectedFolderPath;
             var Directory = new DirectoryStructure(selectedFolderPath, new string[] {  });
 
             // Add or update current directory
-            if(DirectoryController.Dirs.Count <= MyID ) DirectoryController.Dirs.Add(Directory);
+            if (DirectoryController.Dirs.Count <= MyID) DirectoryController.Dirs.Add(Directory);
             else DirectoryController.Dirs[MyID] = Directory;
+
+            await Task.Run(() => Directory.GetAsyncInfo(selectedFolderPath));
 
             DirSizeLabel.Content = $"Amount of files: {Directory.Files}";
             DirCountFilesLabel.Content = $"Directory size: {DirectoryStructure.calcBytes(Directory.Size)}";
+
             Console.WriteLine($"#{MyID}: {Directory}");
         }
 
