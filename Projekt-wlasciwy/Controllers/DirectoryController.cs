@@ -24,7 +24,7 @@ namespace Projekt_wlasciwy
 
             Console.WriteLine($"XML Data: {data}");
 
-            var d = SettingsController.deserializeObject(data);
+            var d = SettingsController.DeserializeObject(data);
             if (d == null) return;
             Console.WriteLine($"d: {d}");
 
@@ -33,7 +33,7 @@ namespace Projekt_wlasciwy
 
         public static void SaveDataToSettings() 
         {
-            string data = SettingsController.serializeObject(Dirs);
+            string data = SettingsController.SerializeObject(Dirs);
             SettingsController.Update("Path", data);
         }
     }

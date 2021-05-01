@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
-using System.Windows.Media.Imaging;
+using System.Windows.Media.Imaging; 
 
 namespace Projekt_wlasciwy
 {
@@ -15,33 +15,37 @@ namespace Projekt_wlasciwy
         public static int ID = 0;
         private int MyID;
 
+        #region Contructor
         public PathWindow()
         {
             InitializeComponent();
             MyID = ID++;
             // Console.WriteLine($"ID komponentu #{MyID}");
         }
+        #endregion
 
-        public static async Task<PathWindow> NewWindowComponent(DirectoryModel dir)
+        /// <summary>
+        /// Create new component PathWindow
+        /// </summary>
+        /// <param name="Directory">Directory assigned to the component</param>
+        /// <returns>New component</returns>
+        public static async Task<PathWindow> NewWindowComponent(DirectoryModel Directory)
         {
             var pw = new PathWindow();
-            pw.pathdialog.Text = dir.FullPath;
-            await Task.Run(() => dir.GetAsyncInfo(dir.FullPath));
-            pw.DirSizeLabel.Content = $"Amount of files: {dir.Files}";
-            pw.DirCountFilesLabel.Content = $"Directory size: {DirectoryModel.calcBytes(dir.Size)}";
+            await SetInfoLabel(pw, Directory);
             return pw;
         }
 
+        /// <summary>
+        /// Select directory
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            DirSizeLabel.Content = $"Amount of files: Loading...";
-            DirCountFilesLabel.Content = $"Directory size: Loading...";
-
             folderBrowserDialog1 = new FolderBrowserDialog
             {
                 Description = "Select the directory that you want to set.",
-
-                // Default to the My PC folder.
                 RootFolder = Environment.SpecialFolder.MyComputer
             };
 
@@ -49,23 +53,36 @@ namespace Projekt_wlasciwy
             if (result != DialogResult.OK) return;
 
             string selectedFolderPath = folderBrowserDialog1.SelectedPath;
-
-            pathdialog.Text = selectedFolderPath;
             var Directory = new DirectoryModel(selectedFolderPath, new List<string>());
+
+            await SetInfoLabel(this, Directory);
 
             // Add or update current directory
             if (DirectoryController.Dirs.Count <= MyID) DirectoryController.Dirs.Add(Directory);
             else DirectoryController.Dirs[MyID] = Directory;
-
-            await Task.Run(() => Directory.GetAsyncInfo(selectedFolderPath));
-
-            DirSizeLabel.Content = $"Amount of files: {Directory.Files}";
-            DirCountFilesLabel.Content = $"Directory size: {DirectoryModel.calcBytes(Directory.Size)}";
-
-            Console.WriteLine($"#{MyID}: {Directory}");
         }
 
-        private void Path_Window_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        /// <summary>
+        /// Set Label info about directory
+        /// </summary>
+        /// <param name="Component">Component to set info</param>
+        /// <param name="Directory">Directory assigned to the component</param>
+        /// <returns></returns>
+        private static async Task SetInfoLabel(PathWindow Component, DirectoryModel Directory)
+        {
+            Component.DirSizeLabel.Content = $"Amount of files: Loading...";
+            Component.DirCountFilesLabel.Content = $"Directory size: Loading...";
+            Component.pathdialog.Text = Directory.FullPath;
+
+            // Waiting for get info
+            await Task.Run(() => Directory.GetAsyncInfo(Directory.FullPath, true));
+
+            Component.DirSizeLabel.Content = $"Amount of files: {Directory.Files}";
+            Component.DirCountFilesLabel.Content = $"Directory size: {DirectoryModel.CalcBytes(Directory.Size)}";
+        }
+
+
+        private void Path_Window_MouseEnter(object sender, MouseEventArgs e)
         {
             bin_btn.Visibility = Visibility.Visible;
             path_bg.Opacity = 0.7;
@@ -74,7 +91,7 @@ namespace Projekt_wlasciwy
             
         }
 
-        private void Path_Window_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        private void Path_Window_MouseLeave(object sender, MouseEventArgs e)
         {
             bin_btn.Visibility = Visibility.Hidden;
             path_bg.Opacity = 0.3;
@@ -84,8 +101,8 @@ namespace Projekt_wlasciwy
 
         private void bin_btn_Click(object sender, RoutedEventArgs e)
         {
-            this.Path_Window.Visibility = Visibility.Hidden;
-            this.Path_Window.Height = 0;
+            Path_Window.Visibility = Visibility.Hidden;
+            Path_Window.Height = 0;
 
             /*var mw = new MainWindow();
             mw.WindowsComponents.Children.RemoveRange(1,1);*/

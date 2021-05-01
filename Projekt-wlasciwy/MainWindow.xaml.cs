@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -32,7 +31,8 @@ namespace Projekt_wlasciwy
                 LoggerController.PrintException(ex);
             }
 
-            if(PathWindow.ID == 0)
+            // If no component has loaded add one default
+            if (PathWindow.ID == 0)
             {
                 WindowsComponents.Children.Add(new PathWindow());
             }

@@ -71,7 +71,7 @@ namespace Projekt_wlasciwy
             }
         }
 
-        public static string serializeObject(List<DirectoryModel> toSerialize)
+        public static string SerializeObject(List<DirectoryModel> toSerialize)
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<DirectoryModel>), new XmlRootAttribute("path"));
 
@@ -82,7 +82,7 @@ namespace Projekt_wlasciwy
             }
         }
 
-        public static List<DirectoryModel> deserializeObject(string toDeserialize)
+        public static List<DirectoryModel> DeserializeObject(string toDeserialize)
         {
             List<DirectoryModel> list;
             try
@@ -104,7 +104,7 @@ namespace Projekt_wlasciwy
 
         public async static Task SaveDataDir()
         {
-            var serializedData = await Task.Run(() => serializeObject(DirectoryController.Dirs));
+            var serializedData = await Task.Run(() => SerializeObject(DirectoryController.Dirs));
 
             Update("Path", serializedData);
         }
@@ -112,7 +112,7 @@ namespace Projekt_wlasciwy
         public async static Task LoadDataDir()
         {
             var data = GetSettings("Path");
-            var deserializedData = await Task.Run(() => deserializeObject(data));
+            var deserializedData = await Task.Run(() => DeserializeObject(data));
             DirectoryController.Dirs = deserializedData;
         }
     }

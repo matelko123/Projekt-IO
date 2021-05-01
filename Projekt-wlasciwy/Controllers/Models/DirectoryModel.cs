@@ -18,7 +18,10 @@ namespace Projekt_wlasciwy
         public List<string> Extensions { get; set; }
         public long Size { get; set; } = 0;
         public long Files { get; set; } = 0;
+
+        #region Constructors
         public DirectoryModel() { }
+
         public DirectoryModel(string _FullPath, List<string> _Extensions)
         {
             if (_FullPath == null) return;
@@ -29,6 +32,7 @@ namespace Projekt_wlasciwy
             FullPath = _FullPath;
             Extensions = _Extensions;
         }
+        #endregion
 
         /// <summary>
         /// Return DirectoryModel as a string
@@ -43,9 +47,17 @@ namespace Projekt_wlasciwy
         /// Get info about Directory by path
         /// </summary>
         /// <param name="path">Path to Directory</param>
-        public async Task GetAsyncInfo(string path)
+        /// <param name="reset">Should reset Files and Size</param>
+        public async Task GetAsyncInfo(string path, bool reset = false)
         {
+            if(reset)
+            {
+                Files = 0;
+                Size = 0;
+            }
+
             IEnumerable<string> dirs;
+
             try
             {
                 // Recursive way for each Directory in the path
@@ -55,7 +67,6 @@ namespace Projekt_wlasciwy
                      await GetAsyncInfo(dir);
                 }
 
-                // How many files and paths to them
                 dirs = Directory.EnumerateFiles(path, "*");
                 Files += dirs.Count();
 
@@ -73,14 +84,15 @@ namespace Projekt_wlasciwy
             }
         }
 
-
         /// <summary>
         /// Calculate bytes for ex.: 2048B = 2kB
         /// </summary>
         /// <param name="size">Bytes</param>
         /// <returns>String of Bytes for ex.: 2kB</returns>
-        public static string calcBytes(long size)
+        public static string CalcBytes(long size)
         {
+            if (size == 0) return "0";
+
             double sizes = size;
             string str = "B";
 
@@ -102,6 +114,5 @@ namespace Projekt_wlasciwy
 
             return string.Concat(Math.Round(sizes, 2), str);
         }
-
     }
 }
