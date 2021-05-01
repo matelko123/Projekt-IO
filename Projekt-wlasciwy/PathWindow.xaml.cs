@@ -12,7 +12,7 @@ namespace Projekt_wlasciwy
         private FolderBrowserDialog folderBrowserDialog1;
 
         //private DirectoryModel Directory;
-        private static int ID = 0;
+        public static int ID = 0;
         private int MyID;
 
         public PathWindow()
@@ -20,6 +20,16 @@ namespace Projekt_wlasciwy
             InitializeComponent();
             MyID = ID++;
             // Console.WriteLine($"ID komponentu #{MyID}");
+        }
+
+        public static async Task<PathWindow> NewWindowComponent(DirectoryModel dir)
+        {
+            var pw = new PathWindow();
+            pw.pathdialog.Text = dir.FullPath;
+            await Task.Run(() => dir.GetAsyncInfo(dir.FullPath));
+            pw.DirSizeLabel.Content = $"Amount of files: {dir.Files}";
+            pw.DirCountFilesLabel.Content = $"Directory size: {DirectoryModel.calcBytes(dir.Size)}";
+            return pw;
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -79,8 +89,14 @@ namespace Projekt_wlasciwy
 
             /*var mw = new MainWindow();
             mw.WindowsComponents.Children.RemoveRange(1,1);*/
-
-            DirectoryController.Dirs.RemoveAt(MyID);
+            try
+            {
+                DirectoryController.Dirs.RemoveAt(MyID);
+            }
+            catch (Exception ex)
+            {
+                LoggerController.PrintException(ex);
+            }
         }
     }
 }

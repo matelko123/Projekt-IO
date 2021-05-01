@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace Projekt_wlasciwy
@@ -47,7 +48,7 @@ namespace Projekt_wlasciwy
             return "";
         }
 
-        public static void AddUpdateAppSettings(string key, string value)
+        public static void Update(string key, string value)
         {
             try
             {
@@ -70,9 +71,9 @@ namespace Projekt_wlasciwy
             }
         }
 
-        public static string serializeObject<T>(T toSerialize)
+        public static string serializeObject(List<DirectoryModel> toSerialize)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(toSerialize.GetType());
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<DirectoryModel>), new XmlRootAttribute("path"));
 
             using (StringWriter textWriter = new StringWriter())
             {
@@ -83,13 +84,15 @@ namespace Projekt_wlasciwy
 
         public static List<DirectoryModel> deserializeObject(string toDeserialize)
         {
+            List<DirectoryModel> list;
             try
             {
-                XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<DirectoryModel>));
+                //XmlSerializer xmlSerializer = new XmlSerializer(typeof(DirectoryModel));
                 using (StringReader textReader = new StringReader(toDeserialize))
                 {
-                    List<DirectoryModel> data = (List<DirectoryModel>)xmlSerializer.Deserialize(textReader);
-                    return data;
+                    XmlSerializer deserializer = new XmlSerializer(typeof(List<DirectoryModel>), new XmlRootAttribute("path"));
+                    list = (List<DirectoryModel>)deserializer.Deserialize(textReader);
+                    return list;
                 }
             }
             catch (Exception e)
@@ -97,6 +100,20 @@ namespace Projekt_wlasciwy
                 LoggerController.PrintException(e);
             }
             return null;
+        }
+
+        public async static Task SaveDataDir()
+        {
+            var serializedData = await Task.Run(() => serializeObject(DirectoryController.Dirs));
+
+            Update("Path", serializedData);
+        }
+
+        public async static Task LoadDataDir()
+        {
+            var data = GetSettings("Path");
+            var deserializedData = await Task.Run(() => deserializeObject(data));
+            DirectoryController.Dirs = deserializedData;
         }
     }
 }

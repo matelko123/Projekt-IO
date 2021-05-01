@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="Path" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Empty</Value>
+      <Value Profile="(Default)">Piotrek</Value>
     </Setting>
   </Settings>
 </SettingsFile>

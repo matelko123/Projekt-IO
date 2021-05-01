@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Projekt_wlasciwy
 {
     /// <summary>
     /// Structure of Directory set by user
     /// </summary>
+    [XmlType("DirectoryModel")]
     public class DirectoryModel
     {
         public string FullPath { get; set; }

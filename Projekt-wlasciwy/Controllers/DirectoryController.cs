@@ -9,6 +9,8 @@ namespace Projekt_wlasciwy
 
         public static void PrintAll()
         {
+            if (Dirs == null) return;
+
             foreach(var Dir in Dirs)
             {
                 Console.WriteLine(Dir);
@@ -17,7 +19,7 @@ namespace Projekt_wlasciwy
 
         public static void LoadDataFromSettings()
         {
-            var data = SettingsController.GetSettings("Paths");
+            var data = SettingsController.GetSettings("Path");
             if (data == null) return;
 
             Console.WriteLine($"XML Data: {data}");
@@ -26,13 +28,13 @@ namespace Projekt_wlasciwy
             if (d == null) return;
             Console.WriteLine($"d: {d}");
 
-            Dirs = d;
+            // Dirs = d;
         }
 
         public static void SaveDataToSettings() 
         {
             string data = SettingsController.serializeObject(Dirs);
-            SettingsController.AddUpdateAppSettings("Paths", data);
+            SettingsController.Update("Path", data);
         }
     }
 }
