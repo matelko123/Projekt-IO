@@ -34,14 +34,6 @@ namespace Projekt_wlasciwy
                     WindowsComponents.Children.Add(pw);
                     PathWindow.SetInfoLabel(pw, dir);
                 }
-
-                /*foreach(var pw in WindowsComponents.OfType<PathWindow>)
-
-                foreach (var dir in DirectoryController.Dirs)
-                {
-                    var pw = await PathWindow.NewWindowComponent(dir);
-                    WindowsComponents.Children.Add(pw);
-                }*/
             } 
             catch(Exception ex) 
             {

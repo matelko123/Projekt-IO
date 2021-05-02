@@ -82,15 +82,11 @@ namespace Projekt_wlasciwy
         }
 
 
-
-
         private void bin_btn_Click(object sender, RoutedEventArgs e)
         {
             Path_Window.Visibility = Visibility.Hidden;
             Path_Window.Height = 0;
 
-            /*var mw = new MainWindow();
-            mw.WindowsComponents.Children.RemoveRange(1,1);*/
             try
             {
                 DirectoryController.Dirs.RemoveAt(MyID);
