@@ -14,6 +14,8 @@ namespace Projekt_wlasciwy
         public MainWindow()
         {
             InitializeComponent();
+
+            Console.WriteLine($"Path to logger.txt: {LoggerController.path}");
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
@@ -21,16 +23,18 @@ namespace Projekt_wlasciwy
             try
             {
                 await Task.Run(() => SettingsController.LoadDataDir());
+
                 if(DirectoryController.Dirs == null || DirectoryController.Dirs.Count == 0)
                 {
                     WindowsComponents.Children.Add(new PathWindow());
                     return;
                 }
 
-                foreach (var dir in DirectoryController.Dirs)
+                foreach(var dir in DirectoryController.Dirs)
                 {
-                    var pw = await PathWindow.NewWindowComponent(dir);
+                    var pw = new PathWindow();
                     WindowsComponents.Children.Add(pw);
+                    PathWindow.SetInfoLabel(pw, dir);
                 }
             } 
             catch(Exception ex) 

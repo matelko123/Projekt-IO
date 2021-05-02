@@ -80,7 +80,7 @@ namespace Projekt_wlasciwy
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                LoggerController.PrintException(ex);
             }
         }
 

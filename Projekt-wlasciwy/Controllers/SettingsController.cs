@@ -114,6 +114,7 @@ namespace Projekt_wlasciwy
             var data = GetSettings("Path");
             var deserializedData = await Task.Run(() => DeserializeObject(data));
             DirectoryController.Dirs = deserializedData;
+            DirectoryController.PrintAll();
         }
     }
 }

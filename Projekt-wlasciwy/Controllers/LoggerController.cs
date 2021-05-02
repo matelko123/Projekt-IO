@@ -6,20 +6,15 @@ namespace Projekt_wlasciwy
 {
     class LoggerController
     {
-        private static string path = Path.Combine(Path.GetTempPath(), "logger.txt");
+        public static string path = Path.Combine(Path.GetTempPath(), "logger.txt");
 
         public static void Log(string text)
         {
-            using (FileStream fs = File.Create(path))
+            using (StreamWriter sw = File.AppendText(path))
             {
-                AddText(fs, text);
+                byte[] info = new UTF8Encoding(true).GetBytes(text);
+                sw.WriteLine(info);
             }
-        }
-
-        private static void AddText(FileStream fs, string value)
-        {
-            byte[] info = new UTF8Encoding(true).GetBytes(value);
-            fs.Write(info, 0, info.Length);
         }
 
         public static void PrintException(Exception ex)
