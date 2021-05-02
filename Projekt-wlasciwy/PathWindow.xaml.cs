@@ -82,22 +82,7 @@ namespace Projekt_wlasciwy
         }
 
 
-        private void Path_Window_MouseEnter(object sender, MouseEventArgs e)
-        {
-            bin_btn.Visibility = Visibility.Visible;
-            path_bg.Opacity = 0.7;
-            BitmapImage image = new BitmapImage(new Uri("../../Images/ff8f33.png", UriKind.Relative));
-            path_bg.ImageSource = image;
-            
-        }
 
-        private void Path_Window_MouseLeave(object sender, MouseEventArgs e)
-        {
-            bin_btn.Visibility = Visibility.Hidden;
-            path_bg.Opacity = 0.3;
-            BitmapImage image = new BitmapImage(new Uri("../../Images/bar.png", UriKind.Relative));
-            path_bg.ImageSource = image;
-        }
 
         private void bin_btn_Click(object sender, RoutedEventArgs e)
         {
@@ -114,6 +99,22 @@ namespace Projekt_wlasciwy
             {
                 LoggerController.PrintException(ex);
             }
+        }
+
+        private void Path_Window_MouseEnter_1(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            bin_btn.Visibility = Visibility.Visible;
+            path_bg.Opacity = 0.7;
+            BitmapImage image = new BitmapImage(new Uri("../../Images/ff8f33.png", UriKind.Relative));
+            path_bg.ImageSource = image;
+        }
+
+        private void Path_Window_MouseLeave_1(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            bin_btn.Visibility = Visibility.Hidden;
+            path_bg.Opacity = 0.3;
+            BitmapImage image = new BitmapImage(new Uri("../../Images/bar.png", UriKind.Relative));
+            path_bg.ImageSource = image;
         }
     }
 }
