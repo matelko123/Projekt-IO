@@ -68,7 +68,7 @@ namespace Projekt_wlasciwy
         /// <param name="Component">Component to set info</param>
         /// <param name="Directory">Directory assigned to the component</param>
         /// <returns></returns>
-        private static async Task SetInfoLabel(PathWindow Component, DirectoryModel Directory)
+        public static async Task SetInfoLabel(PathWindow Component, DirectoryModel Directory)
         {
             Component.DirSizeLabel.Content = $"Amount of files: Loading...";
             Component.DirCountFilesLabel.Content = $"Directory size: Loading...";
