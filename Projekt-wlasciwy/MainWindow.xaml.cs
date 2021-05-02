@@ -19,6 +19,11 @@ namespace Projekt_wlasciwy
             try
             {
                 await Task.Run(() => SettingsController.LoadDataDir());
+                if(DirectoryController.Dirs == null || DirectoryController.Dirs.Count == 0)
+                {
+                    WindowsComponents.Children.Add(new PathWindow());
+                    return;
+                }
 
                 foreach (var dir in DirectoryController.Dirs)
                 {
@@ -29,12 +34,6 @@ namespace Projekt_wlasciwy
             catch(Exception ex) 
             {
                 LoggerController.PrintException(ex);
-            }
-
-            // If no component has loaded add one default
-            if (PathWindow.ID == 0)
-            {
-                WindowsComponents.Children.Add(new PathWindow());
             }
         }
 
