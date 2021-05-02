@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Projekt_wlasciwy
@@ -63,5 +65,22 @@ namespace Projekt_wlasciwy
         private void Plus_MouseEnter(object sender, MouseEventArgs e) => Plus_bg.ImageSource = new BitmapImage(new Uri("../../Images/bar_guzik-2_akty.png", UriKind.Relative));
 
         private void Plus_MouseLeave(object sender, MouseEventArgs e) => Plus_bg.ImageSource = new BitmapImage(new Uri("../../Images/bar_guzik-2.png", UriKind.Relative));
+
+   
+        private void Left_btn_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Button btn = (Button)sender;
+            var brush = new ImageBrush();
+            brush.ImageSource = new BitmapImage(new Uri("../../Images/button_left_aktyw.png", UriKind.Relative));
+            btn.Background = brush;            
+        }
+
+        private void Left_btn_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Button btn = (Button)sender;
+            var brush = new ImageBrush();
+            brush.ImageSource = new BitmapImage(new Uri("../../Images/button_left.png", UriKind.Relative));
+            btn.Background = brush;
+        }
     }
 }
