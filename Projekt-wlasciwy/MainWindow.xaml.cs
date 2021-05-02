@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,11 +32,20 @@ namespace Projekt_wlasciwy
                     return;
                 }
 
+
+                List<PathWindow> pws = new List<PathWindow>();
                 foreach(var dir in DirectoryController.Dirs)
                 {
                     var pw = new PathWindow();
                     WindowsComponents.Children.Add(pw);
-                    PathWindow.SetInfoLabel(pw, dir);
+                    pws.Add(pw);
+                }
+
+                int index = 0;
+                foreach(var pw in pws)
+                {
+                    PathWindow.SetInfoLabel(pw, DirectoryController.Dirs[index]);
+                    index++;
                 }
             } 
             catch(Exception ex) 

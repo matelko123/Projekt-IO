@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
-using System.Windows.Media.Imaging; 
+using System.Windows.Media.Imaging;
 
 namespace Projekt_wlasciwy
 {
@@ -11,7 +11,6 @@ namespace Projekt_wlasciwy
     {
         private FolderBrowserDialog folderBrowserDialog1;
 
-        //private DirectoryModel Directory;
         public static int ID = 0;
         private int MyID;
 
@@ -23,18 +22,6 @@ namespace Projekt_wlasciwy
             // Console.WriteLine($"ID komponentu #{MyID}");
         }
         #endregion
-
-        /// <summary>
-        /// Create new component PathWindow
-        /// </summary>
-        /// <param name="Directory">Directory assigned to the component</param>
-        /// <returns>New component</returns>
-        public static async Task<PathWindow> NewWindowComponent(DirectoryModel Directory)
-        {
-            var pw = new PathWindow();
-            await SetInfoLabel(pw, Directory);
-            return pw;
-        }
 
         /// <summary>
         /// Select directory
@@ -55,11 +42,13 @@ namespace Projekt_wlasciwy
             string selectedFolderPath = folderBrowserDialog1.SelectedPath;
             var Directory = new DirectoryModel(selectedFolderPath, new List<string>());
 
-            await SetInfoLabel(this, Directory);
-
             // Add or update current directory
-            if (DirectoryController.Dirs.Count <= MyID) DirectoryController.Dirs.Add(Directory);
-            else DirectoryController.Dirs[MyID] = Directory;
+            if(DirectoryController.Dirs.Count <= MyID)
+                DirectoryController.Dirs.Add(Directory);
+            else
+                DirectoryController.Dirs[MyID] = Directory;
+
+            await SetInfoLabel(this, Directory);
         }
 
         /// <summary>
@@ -70,11 +59,13 @@ namespace Projekt_wlasciwy
         /// <returns></returns>
         public static async Task SetInfoLabel(PathWindow Component, DirectoryModel Directory)
         {
+            if(Component == null || Directory == null) return;
+
             Component.DirSizeLabel.Content = $"Amount of files: Loading...";
             Component.DirCountFilesLabel.Content = $"Directory size: Loading...";
             Component.pathdialog.Text = Directory.FullPath;
 
-            // Waiting for get info
+            // Waiting for info
             await Task.Run(() => Directory.GetAsyncInfo(Directory.FullPath, true));
 
             Component.DirSizeLabel.Content = $"Amount of files: {Directory.Files}";
@@ -89,11 +80,12 @@ namespace Projekt_wlasciwy
 
             try
             {
-                DirectoryController.Dirs.RemoveAt(MyID);
+                //! Bug with bad index MyID
+                DirectoryController.Dirs[MyID] = null;
             }
             catch (Exception ex)
             {
-                LoggerController.PrintException(ex);
+                Console.WriteLine(ex);
             }
         }
 
