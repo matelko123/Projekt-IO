@@ -55,6 +55,11 @@ namespace Projekt_wlasciwy
             // MoveFile(fullpath);
         }
 
+        /// <summary>
+        /// Event on renamed file
+        /// </summary>
+        /// <param name="sender">Object</param>
+        /// <param name="e">Event</param>
         private static void OnRenamed(object sender, RenamedEventArgs e)
         {
             LoggerController.Log($"Renamed:");
@@ -65,6 +70,7 @@ namespace Projekt_wlasciwy
 
             // MoveFile(e.FullPath);
         }
+
 
         private static void MoveFile(string fullPath)
         {

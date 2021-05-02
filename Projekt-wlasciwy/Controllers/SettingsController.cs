@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
@@ -104,6 +105,8 @@ namespace Projekt_wlasciwy
 
         public async static Task SaveDataDir()
         {
+            DirectoryController.Dirs = DirectoryController.Dirs.Where(dir => dir != null).ToList();
+
             var serializedData = await Task.Run(() => SerializeObject(DirectoryController.Dirs));
 
             Update("Path", serializedData);
