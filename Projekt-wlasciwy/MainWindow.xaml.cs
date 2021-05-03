@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,18 +23,21 @@ namespace Projekt_wlasciwy
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            var stopwatch = Stopwatch.StartNew();
+            await Task.Run(() => SettingsController.LoadDataDir());
+
+            if(DirectoryController.Dirs == null || DirectoryController.Dirs.Count == 0)
+            {
+                WindowsComponents.Children.Add(new PathWindow());
+                return;
+            }
+
+            List<PathWindow> pws = new List<PathWindow>();
+            List<Task> tasks = new List<Task>();
+            int index = 0;
+
             try
             {
-                await Task.Run(() => SettingsController.LoadDataDir());
-
-                if(DirectoryController.Dirs == null || DirectoryController.Dirs.Count == 0)
-                {
-                    WindowsComponents.Children.Add(new PathWindow());
-                    return;
-                }
-
-
-                List<PathWindow> pws = new List<PathWindow>();
                 foreach(var dir in DirectoryController.Dirs)
                 {
                     var pw = new PathWindow();
@@ -41,17 +45,21 @@ namespace Projekt_wlasciwy
                     pws.Add(pw);
                 }
 
-                int index = 0;
-                foreach(var pw in pws)
+                foreach(var dir in DirectoryController.Dirs)
                 {
-                    PathWindow.SetInfoLabel(pw, DirectoryController.Dirs[index]);
+                    tasks.Add(PathWindow.SetInfoLabel(pws[index], dir));
                     index++;
                 }
+
+                await Task.WhenAll(tasks);
             } 
             catch(Exception ex) 
             {
                 LoggerController.PrintException(ex);
             }
+
+            stopwatch.Stop();
+            Console.WriteLine($"Finishing in {stopwatch.ElapsedMilliseconds}ms");
         }
 
         // Async close Program

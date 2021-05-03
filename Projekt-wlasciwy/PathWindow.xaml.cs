@@ -61,12 +61,15 @@ namespace Projekt_wlasciwy
         {
             if(Component == null || Directory == null) return;
 
+            Directory.Files = 0;
+            Directory.Size = 0;
+
             Component.DirSizeLabel.Content = $"Amount of files: Loading...";
             Component.DirCountFilesLabel.Content = $"Directory size: Loading...";
             Component.pathdialog.Text = Directory.FullPath;
 
             // Waiting for info
-            await Task.Run(() => Directory.GetAsyncInfo(Directory.FullPath, true));
+            await Task.Run(() => Directory.GetAsyncInfo(Directory.FullPath));
 
             Component.DirSizeLabel.Content = $"Amount of files: {Directory.Files}";
             Component.DirCountFilesLabel.Content = $"Directory size: {DirectoryModel.CalcBytes(Directory.Size)}";
