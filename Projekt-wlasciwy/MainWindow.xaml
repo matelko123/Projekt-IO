@@ -73,7 +73,7 @@
             <Image  VerticalAlignment="Top" Source="Images/logo.png"/>
             <Button   x:Name="left_btn1" Style="{StaticResource MyButtonStyle}" Height="50" Content="File Sort" MouseEnter="Left_btn_MouseEnter" MouseLeave="Left_btn_MouseLeave">
                 <Button.Background>
-                    <ImageBrush Stretch="Fill" ImageSource="Images/button_left.png"></ImageBrush>
+                    <ImageBrush Stretch="Fill" ImageSource="Images/button_left_aktyw.png"></ImageBrush>
                 </Button.Background>
             </Button>
             <Button x:Name="left_btn2" Height="50" Style="{StaticResource MyButtonStyle}"  Content="Pictures Compressor" MouseEnter="Left_btn_MouseEnter" MouseLeave="Left_btn_MouseLeave" >

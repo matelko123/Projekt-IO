@@ -12,20 +12,18 @@ namespace Projekt_wlasciwy
         {
             using (StreamWriter sw = File.AppendText(path))
             {
-                byte[] info = new UTF8Encoding(true).GetBytes(text);
-                sw.WriteLine(info);
+                sw.WriteLine($"| {DateTime.Now} |\n>> {text}");
             }
         }
 
         public static void PrintException(Exception ex)
         {
-            if (ex != null)
-            {
-                Log($"Message: {ex.Message}");
-                Log("Stacktrace:");
-                Log(ex.StackTrace);
-                PrintException(ex.InnerException);
-            }
+            if(ex == null)
+                return;
+            
+            Log("Message: " + ex.Message + "\n\t Stacktrace: " + ex.StackTrace + "\n\n");
+            PrintException(ex.InnerException);
+            
         }
     }
 }
