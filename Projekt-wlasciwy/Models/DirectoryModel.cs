@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace Projekt_wlasciwy
 {
     /// <summary>
     /// Structure of Directory set by user
     /// </summary>
-    [XmlType("DirectoryModel")]
     public class DirectoryModel
     {
         public string FullPath { get; set; }
@@ -50,24 +48,21 @@ namespace Projekt_wlasciwy
         /// <param name="reset">Should reset Files and Size</param>
         public async Task GetAsyncInfo(string path, bool reset = false)
         {
-            if(reset)
-            {
-                Files = 0;
-                Size = 0;
-            }
-
-            IEnumerable<string> dirs;
+            List<string> dirs = new List<string>();
+            List<Task> tasks = new List<Task>();
 
             try
             {
                 // Recursive way for each Directory in the path
-                dirs = Directory.EnumerateDirectories(path);
+                dirs = Directory.EnumerateDirectories(path).ToList();
                 foreach (string dir in dirs)
                 {
-                     await GetAsyncInfo(dir);
+                     tasks.Add(GetAsyncInfo(dir));
                 }
 
-                dirs = Directory.EnumerateFiles(path, "*");
+                await Task.WhenAll(tasks);
+
+                dirs = Directory.EnumerateFiles(path, "*").ToList();
                 Files += dirs.Count();
 
                 // dirs.Select(file => Size += new FileInfo(file).Length);

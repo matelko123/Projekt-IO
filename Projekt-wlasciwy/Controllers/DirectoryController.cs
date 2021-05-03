@@ -16,25 +16,5 @@ namespace Projekt_wlasciwy
                 Console.WriteLine(Dir);
             }
         }
-
-        public static void LoadDataFromSettings()
-        {
-            var data = SettingsController.GetSettings("Path");
-            if (data == null) return;
-
-            Console.WriteLine($"XML Data: {data}");
-
-            var d = SettingsController.DeserializeObject(data);
-            if (d == null) return;
-            Console.WriteLine($"d: {d}");
-
-            // Dirs = d;
-        }
-
-        public static void SaveDataToSettings() 
-        {
-            string data = SettingsController.SerializeObject(Dirs);
-            SettingsController.Update("Path", data);
-        }
     }
 }
