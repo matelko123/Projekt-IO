@@ -81,6 +81,11 @@
                     <ImageBrush Stretch="Fill" ImageSource="Images/button_left.png"></ImageBrush>
                 </Button.Background>
             </Button>
+            <Button x:Name="left_btn3" Height="50" Style="{StaticResource MyButtonStyle}"  Content="Open log" MouseEnter="Left_btn_MouseEnter" MouseLeave="Left_btn_MouseLeave" Click="left_btn3_Click" >
+                <Button.Background>
+                    <ImageBrush Stretch="Fill" ImageSource="Images/button_left.png"></ImageBrush>
+                </Button.Background>
+            </Button>
         </StackPanel>
 
         <Button  Style="{StaticResource MyButtonStyle}"  Click="report_Click" Grid.Row="1" x:Name="report" VerticalAlignment="Bottom" Height="30">

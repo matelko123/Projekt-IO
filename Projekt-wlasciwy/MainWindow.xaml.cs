@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,14 +16,12 @@ namespace Projekt_wlasciwy
         public MainWindow()
         {
             InitializeComponent();
-
-            Console.WriteLine($"Path to logger.txt: {LoggerController.path}");
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var stopwatch = Stopwatch.StartNew();
-            await Task.Run(() => SettingsController.LoadDataDir());
+            await SettingsController.LoadDataDir();
 
             if(DirectoryController.Dirs == null || DirectoryController.Dirs.Count == 0)
             {
@@ -47,8 +44,7 @@ namespace Projekt_wlasciwy
 
                 foreach(var dir in DirectoryController.Dirs)
                 {
-                    tasks.Add(PathWindow.SetInfoLabel(pws[index], dir));
-                    index++;
+                    tasks.Add(PathWindow.SetInfoLabel(pws[index++], dir));
                 }
 
                 await Task.WhenAll(tasks);
@@ -78,7 +74,7 @@ namespace Projekt_wlasciwy
             }
         }
 
-        private void report_Click(object sender, RoutedEventArgs e) => System.Diagnostics.Process.Start("https://github.com/matelko123/Projekt-IO/issues");
+        private void report_Click(object sender, RoutedEventArgs e) => Process.Start("https://github.com/matelko123/Projekt-IO/issues");
 
         private void Plus_Click(object sender, RoutedEventArgs e) => WindowsComponents.Children.Add(new PathWindow());
 
@@ -88,21 +84,25 @@ namespace Projekt_wlasciwy
 
         private void Plus_MouseLeave(object sender, MouseEventArgs e) => Plus_bg.ImageSource = new BitmapImage(new Uri("../../Images/bar_guzik-2.png", UriKind.Relative));
 
-   
-        private void Left_btn_MouseEnter(object sender, MouseEventArgs e)
+
+        private void Left_btn_MouseEnter(object sender, MouseEventArgs e) => ChangeImage(sender, "../../Images/button_left_aktyw.png");
+
+        private void Left_btn_MouseLeave(object sender, MouseEventArgs e) => ChangeImage(sender, "../../Images/button_left.png");
+
+        private void ChangeImage(object sender, string path)
         {
+            if(path == null || path.Length == 0)
+                return;
+
             Button btn = (Button)sender;
             var brush = new ImageBrush();
-            brush.ImageSource = new BitmapImage(new Uri("../../Images/button_left_aktyw.png", UriKind.Relative));
-            btn.Background = brush;            
+            brush.ImageSource = new BitmapImage(new Uri(path, UriKind.Relative));
+            btn.Background = brush;
         }
 
-        private void Left_btn_MouseLeave(object sender, MouseEventArgs e)
+        private void left_btn3_Click(object sender, RoutedEventArgs e)
         {
-            Button btn = (Button)sender;
-            var brush = new ImageBrush();
-            brush.ImageSource = new BitmapImage(new Uri("../../Images/button_left.png", UriKind.Relative));
-            btn.Background = brush;
+            Process.Start(LoggerController.path);
         }
     }
 }
