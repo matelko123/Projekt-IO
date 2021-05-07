@@ -58,14 +58,8 @@ namespace Projekt_wlasciwy
             Console.WriteLine($"Finishing in {stopwatch.ElapsedMilliseconds}ms");
         }
 
-        // Async close Program
-        private async void Exit(object sender, RoutedEventArgs e)
-        {
-            await Task.Run(() => SettingsController.SaveDataDir());
-            Close();
-        }
 
-
+        #region Mouse Events
         private void navbar_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if(e.LeftButton == MouseButtonState.Pressed)
@@ -74,20 +68,32 @@ namespace Projekt_wlasciwy
             }
         }
 
-        private void report_Click(object sender, RoutedEventArgs e) => Process.Start("https://github.com/matelko123/Projekt-IO/issues");
-
-        private void Plus_Click(object sender, RoutedEventArgs e) => WindowsComponents.Children.Add(new PathWindow());
-
         private void Minimize(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
 
         private void Plus_MouseEnter(object sender, MouseEventArgs e) => Plus_bg.ImageSource = new BitmapImage(new Uri("../../Images/bar_guzik-2_akty.png", UriKind.Relative));
 
         private void Plus_MouseLeave(object sender, MouseEventArgs e) => Plus_bg.ImageSource = new BitmapImage(new Uri("../../Images/bar_guzik-2.png", UriKind.Relative));
 
-
         private void Left_btn_MouseEnter(object sender, MouseEventArgs e) => ChangeImage(sender, "../../Images/button_left_aktyw.png");
 
         private void Left_btn_MouseLeave(object sender, MouseEventArgs e) => ChangeImage(sender, "../../Images/button_left.png");
+        #endregion
+
+        #region Click
+        private void report_Click(object sender, RoutedEventArgs e) => Process.Start("https://github.com/matelko123/Projekt-IO/issues");
+
+        private void Plus_Click(object sender, RoutedEventArgs e) => WindowsComponents.Children.Add(new PathWindow());
+
+        private void left_btn3_Click(object sender, RoutedEventArgs e) => Process.Start(LoggerController.path);
+        #endregion
+
+
+        // Async close Program
+        private async void Exit(object sender, RoutedEventArgs e)
+        {
+            await Task.Run(() => SettingsController.SaveDataDir());
+            Close();
+        }
 
         private void ChangeImage(object sender, string path)
         {
@@ -98,11 +104,6 @@ namespace Projekt_wlasciwy
             var brush = new ImageBrush();
             brush.ImageSource = new BitmapImage(new Uri(path, UriKind.Relative));
             btn.Background = brush;
-        }
-
-        private void left_btn3_Click(object sender, RoutedEventArgs e)
-        {
-            Process.Start(LoggerController.path);
         }
     }
 }
