@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -49,7 +50,7 @@ namespace Projekt_wlasciwy
         public async Task GetAsyncInfo(string path, bool reset = false)
         {
             List<string> dirs = new List<string>();
-            List<Task> tasks = new List<Task>();
+            ConcurrentBag<Task> tasks = new ConcurrentBag<Task>();
 
             try
             {
@@ -64,8 +65,6 @@ namespace Projekt_wlasciwy
 
                 dirs = Directory.EnumerateFiles(path, "*").ToList();
                 Files += dirs.Count();
-
-                // dirs.Select(file => Size += new FileInfo(file).Length);
 
                 foreach (string file in dirs)
                 {
