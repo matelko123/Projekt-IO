@@ -21,13 +21,3 @@ For each configured path to the destination folder, the program displays brief k
 
 Used technology
 > WPF App (.NET Framework)
-
-## Screen Shots
-StartView
-![StartView](src/Images/StartView.png)
-
-SelectView
-![SelectView](src/Images/SelectView.png)
-
-StatsView
-![StatsView](src/Images/StatsView.png)
