@@ -6,7 +6,7 @@
 ## Group squad:
 - [Mateusz - Backend Developer](https://github.com/matelko123)
 - [Piot - Frontend Developer](https://github.com/Waldees)
-- [Jakub - Project Manager](https://github.com/JakubSzulc)
+- [Jakub - Tester](https://github.com/JakubSzulc)
 - [Hubert - UI Designer](https://github.com/Hubi20)
 
 ## Description
