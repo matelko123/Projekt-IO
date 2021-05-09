@@ -12,10 +12,35 @@ namespace Projekt_wlasciwy
     /// </summary>
     public class DirectoryModel
     {
+        /// <summary>
+        /// Full path to directory
+        /// </summary>
         public string FullPath { get; set; }
-        public string Name { get { return Path.GetFileName(FullPath); } }
+
+        /// <summary>
+        /// Name of directory
+        /// </summary>
+        public string Name
+        { 
+            get 
+            { 
+                return (Path.GetFileName(FullPath)==null) ? Path.GetFileName(FullPath) : FullPath[0].ToString(); 
+            } 
+        }
+
+        /// <summary>
+        /// Extensions used
+        /// </summary>
         public List<string> Extensions { get; set; }
+
+        /// <summary>
+        /// Files count in directory and subdirectories
+        /// </summary>
         public long Size { get; set; } = 0;
+
+        /// <summary>
+        /// Files size in directory and subdirectories
+        /// </summary>
         public long Files { get; set; } = 0;
 
         #region Constructors
@@ -29,7 +54,7 @@ namespace Projekt_wlasciwy
             if (!Directory.Exists(_FullPath)) Directory.CreateDirectory(_FullPath);
 
             FullPath = _FullPath;
-            Extensions = _Extensions;
+            Extensions = new List<string>();
         }
         #endregion
 
@@ -39,7 +64,11 @@ namespace Projekt_wlasciwy
         /// <returns>Name + Path + Extensions</returns>
         public override string ToString()
         {
-            return  $"Name: {Name}, \t Path: {FullPath}, \t Extensions: {Extensions}";
+            string result = $"Name: {Name}, \t Path: {FullPath}, \t Extensions: ";
+            foreach(string ext in Extensions)
+                result += ext;
+
+            return result;
         }
 
         /// <summary>
