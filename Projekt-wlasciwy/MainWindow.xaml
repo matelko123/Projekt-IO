@@ -71,7 +71,7 @@
                 
         <StackPanel VerticalAlignment="Top" Height="540" x:Name="LeftPanel" Grid.Row="1" Grid.Column="0">
             <Image  VerticalAlignment="Top" Source="Images/logo.png"/>
-            <Button   x:Name="left_btn1" Style="{StaticResource MyButtonStyle}" Height="50" Content="File Sort" MouseEnter="Left_btn_MouseEnter" MouseLeave="Left_btn_MouseLeave">
+            <Button   x:Name="left_btn1" Style="{StaticResource MyButtonStyle}" Height="50" Content="Download Manager" MouseEnter="Left_btn_MouseEnter" MouseLeave="Left_btn_MouseLeave">
                 <Button.Background>
                     <ImageBrush Stretch="Fill" ImageSource="Images/button_left_aktyw.png"></ImageBrush>
                 </Button.Background>
