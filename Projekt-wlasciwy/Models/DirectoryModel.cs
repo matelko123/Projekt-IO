@@ -24,7 +24,7 @@ namespace Projekt_wlasciwy
         { 
             get 
             { 
-                return (Path.GetFileName(FullPath)==null) ? Path.GetFileName(FullPath) : FullPath[0].ToString(); 
+                return Path.GetFileName(FullPath); 
             } 
         }
 
@@ -45,7 +45,18 @@ namespace Projekt_wlasciwy
 
         #region Constructors
         public DirectoryModel() { }
+        public DirectoryModel(string _FullPath)
+        {
+            if(_FullPath == null)
+                return;
 
+            // Create directory if path doesn't exists
+            if(!Directory.Exists(_FullPath))
+                Directory.CreateDirectory(_FullPath);
+
+            FullPath = _FullPath;
+            Extensions = new List<string>();
+        }
         public DirectoryModel(string _FullPath, List<string> _Extensions)
         {
             if (_FullPath == null) return;
@@ -54,7 +65,7 @@ namespace Projekt_wlasciwy
             if (!Directory.Exists(_FullPath)) Directory.CreateDirectory(_FullPath);
 
             FullPath = _FullPath;
-            Extensions = new List<string>();
+            Extensions = _Extensions;
         }
         #endregion
 
@@ -78,6 +89,8 @@ namespace Projekt_wlasciwy
         /// <param name="reset">Should reset Files and Size</param>
         public async Task GetAsyncInfo(string path, bool reset = false)
         {
+            if (path == null) path = FullPath;
+
             List<string> dirs = new List<string>();
             ConcurrentBag<Task> tasks = new ConcurrentBag<Task>();
 
