@@ -58,7 +58,7 @@ namespace Projekt_wlasciwy
             watcher.EnableRaisingEvents = true;
         }
 
-        private static async void OnCreated(object sender, FileSystemEventArgs e)
+        private static void OnCreated(object sender, FileSystemEventArgs e)
         {
             string fullpath = e.FullPath;
             string ext = Path.GetExtension(fullpath);
@@ -70,7 +70,7 @@ namespace Projekt_wlasciwy
             Console.WriteLine($"Created ('{fullpath}') with extension ('{ext}')");
 
             Thread.Sleep(interval);
-            await MoveFile(fullpath);
+            MoveFile(fullpath);
         }
 
         /// <summary>
@@ -78,14 +78,14 @@ namespace Projekt_wlasciwy
         /// </summary>
         /// <param name="sender">Object</param>
         /// <param name="e">Event</param>
-        private static async void OnRenamed(object sender, RenamedEventArgs e)
+        private static void OnRenamed(object sender, RenamedEventArgs e)
         {
             LoggerController.Log($"Renamed:\n Old: {e.OldFullPath}\nNew: {e.FullPath}");
 
-            await MoveFile(e.FullPath);
+            MoveFile(e.FullPath);
         }
 
-        private static async Task MoveFile(string fullPath)
+        private static void MoveFile(string fullPath)
         {
             string ext = Path.GetExtension(fullPath);
             string fileName = Path.GetFileName(fullPath);
@@ -108,11 +108,14 @@ namespace Projekt_wlasciwy
                     // Plik o takiej nazwie już istnieje.
                     catch(IOException)
                     {
-                        string tmp = fullPath;
+                        if(!File.Exists(fullPath))
+                            return;
+
+                        /*string tmp = fullPath;
                         string newName = Path.ChangeExtension(tmp, null) + "_" + DateTime.Now.ToString("MM/dd/yyyy_HHmmss") + Path.GetExtension(tmp);
-                        await Task.Run(() => File.Move(fullPath, newName));
+                        File.Move(fullPath, newName);
                         MoveFile(newName);
-                        return;
+                        return;*/
                     }
                     catch(Exception e)
                     {

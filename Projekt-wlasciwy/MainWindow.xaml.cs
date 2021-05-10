@@ -44,9 +44,11 @@ namespace Projekt_wlasciwy
                 DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Obrazy"), new List<string>() { ".jpeg", ".jpg", ".png" }));
                 DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Wideo"), new List<string>() { ".mp4", ".mp3" }));
                 DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Instalki"), new List<string>() { ".exe", ".msi" }));
-                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Dokumenty"), new List<string>() { ".docx", ".txt", ".odt", ".xlsx" }));
+                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Dokumenty"), new List<string>() { ".docx", ".txt", ".odt", ".xlsx", ".doc" }));
                 DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "PDF"), new List<string>() { ".pdf" }));
             }
+
+            await DownloadController.Watcher();
 
             List<PathWindow> pws = new List<PathWindow>();
             List<Task> tasks = new List<Task>();
@@ -76,7 +78,6 @@ namespace Projekt_wlasciwy
             stopwatch.Stop();
             Console.WriteLine($"Loading paths from setings finished in {stopwatch.ElapsedMilliseconds}ms");
 
-            await DownloadController.Watcher();
         }
 
 
