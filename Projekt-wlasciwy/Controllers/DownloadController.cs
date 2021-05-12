@@ -9,7 +9,6 @@ namespace Projekt_wlasciwy
     public class DownloadController
     {
         private static readonly int interval = 500;         // Time pause before moving files
-        private static string Filter = "*";                 // Filter used to watching
 
         // Get user path do \Download directory
         private static string UserRoot = Environment.GetEnvironmentVariable("USERPROFILE");
@@ -25,15 +24,9 @@ namespace Projekt_wlasciwy
             foreach(var file in files)
             {
                 Console.WriteLine(file);
-                try
-                {
-                    await Task.Run(() => MoveFile(Path.Combine(DownloadFolder, file)));
-                }
-                catch(Exception ex)
-                {
-                    LoggerController.PrintException(ex);
-                }
+                await Task.Run(() => MoveFile(Path.Combine(DownloadFolder, file)));
             }
+
 
             // Get event on new files
             FileSystemWatcher watcher = new FileSystemWatcher(DownloadFolder)
@@ -53,7 +46,7 @@ namespace Projekt_wlasciwy
             watcher.Renamed += OnRenamed;
             watcher.Error += OnError;
 
-            watcher.Filter = Filter;
+            watcher.Filter = "*";
             watcher.IncludeSubdirectories = false;
             watcher.EnableRaisingEvents = true;
         }
@@ -85,7 +78,7 @@ namespace Projekt_wlasciwy
             MoveFile(e.FullPath);
         }
 
-        private static async void MoveFile(string fullPath)
+        private static void MoveFile(string fullPath)
         {
             string ext = Path.GetExtension(fullPath);
             string fileName = Path.GetFileName(fullPath);
@@ -100,13 +93,13 @@ namespace Projekt_wlasciwy
                         LoggerController.Log($"Moved ('{fileName}') file to ('{Path.Combine(item.FullPath, fileName)}')");
                         break;
                     }
-                    // Podana ścieżka, nazwa pliku lub obie przekraczają maksymalną długość zdefiniowaną przez system.
+                    // Name reached max lenght
                     catch(PathTooLongException ptex)
                     {
                         LoggerController.PrintException(ptex);
                     }
-                    // Plik o takiej nazwie już istnieje.
-                    catch(IOException ioe)
+                    // File already exists
+                    catch(IOException)
                     {
                         string newName = RenameFile(fullPath);
 
@@ -134,11 +127,12 @@ namespace Projekt_wlasciwy
 
             while(File.Exists(newFullPath))
             {
-                string tempFileName = string.Format("{0}({1})", fileNameOnly, count++);
+                string tempFileName = string.Format("{0} ({1})", fileNameOnly, count++);
                 newFullPath = Path.Combine(path, tempFileName + extension);
             }
 
             File.Move(fullPath, newFullPath);
+
             return newFullPath;
         }
 

@@ -20,7 +20,7 @@ namespace Projekt_wlasciwy
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+               ErrorController.ThrowUserError(ex.Message);
             }
             
         }

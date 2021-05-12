@@ -138,6 +138,7 @@
                 </Button.Background>
             </Button>
             <Label Name="StatusInfo" Width="200" Foreground="white" HorizontalAlignment="Right" >Status: </Label>
+            <Label Name="Count" Width="100" Foreground="white" >Ilość:</Label>
 
 
         </DockPanel>
