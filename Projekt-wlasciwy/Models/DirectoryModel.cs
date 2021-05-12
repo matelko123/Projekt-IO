@@ -21,11 +21,11 @@ namespace Projekt_wlasciwy
         /// Name of directory
         /// </summary>
         public string Name
-        { 
-            get 
-            { 
-                return Path.GetFileName(FullPath); 
-            } 
+        {
+            get
+            {
+                return Path.GetFileName(FullPath);
+            }
         }
 
         /// <summary>
@@ -45,27 +45,19 @@ namespace Projekt_wlasciwy
 
         #region Constructors
         public DirectoryModel() { }
-        public DirectoryModel(string _FullPath)
+        public DirectoryModel(string _FullPath, List<string> _Extensions = null)
         {
             if(_FullPath == null)
+            {
+                ErrorController.ThrowUserError("Path cannot be empty.");
                 return;
+            }
 
             // Create directory if path doesn't exists
-            if(!Directory.Exists(_FullPath))
-                Directory.CreateDirectory(_FullPath);
+            Directory.CreateDirectory(_FullPath);
 
             FullPath = _FullPath;
-            Extensions = new List<string>();
-        }
-        public DirectoryModel(string _FullPath, List<string> _Extensions)
-        {
-            if (_FullPath == null) return;
-
-            // Create directory if path doesn't exists
-            if (!Directory.Exists(_FullPath)) Directory.CreateDirectory(_FullPath);
-
-            FullPath = _FullPath;
-            Extensions = _Extensions;
+            Extensions = _Extensions ?? new List<string>();
         }
         #endregion
 
@@ -87,9 +79,10 @@ namespace Projekt_wlasciwy
         /// </summary>
         /// <param name="path">Path to Directory</param>
         /// <param name="reset">Should reset Files and Size</param>
-        public async Task GetAsyncInfo(string path, bool reset = false)
+        public async Task GetAsyncInfo(string path)
         {
-            if (path == null) path = FullPath;
+            if(path == null)
+                ErrorController.ThrowUserError("Path is null.");
 
             List<string> dirs = new List<string>();
             ConcurrentBag<Task> tasks = new ConcurrentBag<Task>();
@@ -98,9 +91,9 @@ namespace Projekt_wlasciwy
             {
                 // Recursive way for each Directory in the path
                 dirs = Directory.EnumerateDirectories(path).ToList();
-                foreach (string dir in dirs)
+                foreach(string dir in dirs)
                 {
-                     tasks.Add(GetAsyncInfo(dir));
+                    tasks.Add(GetAsyncInfo(dir));
                 }
 
                 await Task.WhenAll(tasks);
@@ -108,13 +101,13 @@ namespace Projekt_wlasciwy
                 dirs = Directory.EnumerateFiles(path, "*").ToList();
                 Files += dirs.Count();
 
-                foreach (string file in dirs)
+                foreach(string file in dirs)
                 {
                     Size += new FileInfo(file).Length;
                 }
 
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 LoggerController.PrintException(ex);
             }
@@ -127,22 +120,23 @@ namespace Projekt_wlasciwy
         /// <returns>String of Bytes for ex.: 2kB</returns>
         public static string CalcBytes(long size)
         {
-            if (size == 0) return "0";
+            if(size == 0)
+                return "0";
 
             double sizes = size;
             string str = "B";
 
-            if (sizes > 1024)
+            if(sizes > 1024)
             {
                 sizes /= 1024;
                 str = "kB";
             }
-            if (sizes > 1024)
+            if(sizes > 1024)
             {
                 sizes /= 1024;
                 str = "MB";
             }
-            if (sizes > 1024)
+            if(sizes > 1024)
             {
                 sizes /= 1024;
                 str = "GB";

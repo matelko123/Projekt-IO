@@ -16,5 +16,13 @@ namespace Projekt_wlasciwy
                 Console.WriteLine(Dir);
             }
         }
+
+        public static void Copy(List<DirectoryModel> _copy)
+        {
+            foreach(DirectoryModel dir in _copy)
+            {
+                Dirs.Add(new DirectoryModel(dir.FullPath, dir.Extensions));
+            }
+        }
     }
 }
