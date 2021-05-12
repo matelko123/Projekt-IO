@@ -23,7 +23,6 @@ namespace Projekt_wlasciwy
             var files = Directory.EnumerateFiles(DownloadFolder, "*").ToList();
             foreach(var file in files)
             {
-                Console.WriteLine(file);
                 await Task.Run(() => MoveFile(Path.Combine(DownloadFolder, file)));
             }
 
@@ -62,7 +61,6 @@ namespace Projekt_wlasciwy
             //LoggerController.Log($"Created ('{fullpath}') with extension ('{ext}')");
             Console.WriteLine($"Created ('{fullpath}') with extension ('{ext}')");
 
-            Thread.Sleep(interval);
             MoveFile(fullpath);
         }
 

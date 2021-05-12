@@ -64,8 +64,6 @@ namespace Projekt_wlasciwy
             Directory.Files = 0;
             Directory.Size = 0;
 
-            Component.DirSizeLabel.Content = $"Amount of files: Loading...";
-            Component.DirCountFilesLabel.Content = $"Directory size: Loading...";
             Component.pathdialog.Text = Directory.FullPath;
 
             // Waiting for info

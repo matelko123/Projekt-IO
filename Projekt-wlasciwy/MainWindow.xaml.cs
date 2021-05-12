@@ -48,7 +48,6 @@ namespace Projekt_wlasciwy
                 DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "PDF"), new List<string>() { ".pdf" }));
             }
 
-            await DownloadController.Watcher();
 
             List<PathWindow> pws = new List<PathWindow>();
             List<Task> tasks = new List<Task>();
@@ -63,16 +62,21 @@ namespace Projekt_wlasciwy
                     pws.Add(pw);
                 }
 
+                await DownloadController.Watcher();
+
                 foreach(var dir in DirectoryController.Dirs)
                 {
                     tasks.Add(PathWindow.SetInfoLabel(pws[index++], dir));
                 }
 
-                await Task.WhenAll(tasks);
             }
             catch(Exception ex)
             {
                 LoggerController.PrintException(ex);
+            }
+            finally
+            {
+                await Task.WhenAll(tasks);
             }
 
             stopwatch.Stop();
@@ -108,7 +112,6 @@ namespace Projekt_wlasciwy
 
         private void left_btn3_Click(object sender, RoutedEventArgs e) => Process.Start(LoggerController.path);
         #endregion
-
 
         // Async close Program
         private async void Exit(object sender, RoutedEventArgs e)
