@@ -15,7 +15,7 @@ namespace Projekt_wlasciwy
             {
                 using(StreamWriter sw = File.AppendText(path))
                 {
-                    sw.WriteLine($"| {DateTime.Now} |\n>> {text}\n\n");
+                    sw.WriteLine($"| {DateTime.Now} |\n>> {text}");
                 }
             }
             catch (Exception ex)

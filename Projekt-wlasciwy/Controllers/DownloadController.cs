@@ -111,9 +111,11 @@ namespace Projekt_wlasciwy
                         if(!File.Exists(fullPath))
                             return;
 
-                        RenameFile(fullPath);
-                        MoveFile(fullPath);
-                        return;
+                        /*string tmp = fullPath;
+                        string newName = Path.ChangeExtension(tmp, null) + "_" + DateTime.Now.ToString("MM/dd/yyyy_HHmmss") + Path.GetExtension(tmp);
+                        File.Move(fullPath, newName);
+                        MoveFile(newName);
+                        return;*/
                     }
                     catch(Exception e)
                     {
@@ -121,26 +123,6 @@ namespace Projekt_wlasciwy
                     }
                 }
             }
-        }
-
-        private static void RenameFile(string fullPath)
-        {
-            if(fullPath == "" || !File.Exists(fullPath))
-                return;
-
-            int count = 1;
-            string fileNameOnly = Path.GetFileNameWithoutExtension(fullPath);
-            string extension = Path.GetExtension(fullPath);
-            string path = Path.GetDirectoryName(fullPath);
-            string newFullPath = fullPath;
-
-            while(File.Exists(newFullPath))
-            {
-                string tempFileName = string.Format("{0}({1})", fileNameOnly, count++);
-                newFullPath = Path.Combine(path, tempFileName + extension);
-            }
-
-            File.Move(fullPath, newFullPath);
         }
 
         private static void OnDeleted(object sender, FileSystemEventArgs e) =>
