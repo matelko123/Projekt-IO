@@ -26,7 +26,7 @@
         <DockPanel>
 
             <Image Height="80" Width="80" Margin="20,0" Source="https://freeiconshop.com/wp-content/uploads/edd/jpg-solid.png"></Image>
-            <TextBlock Background="white" Width="100" Height="20" VerticalAlignment="Center">ROZSZERZENIA</TextBlock>
+            <TextBlock Name="DirName" Background="white" Width="100" Height="20" VerticalAlignment="Center">Nazwa</TextBlock>
             <TextBlock Name="pathdialog" Margin="10" Background="White" Width="200" Height="20"  VerticalAlignment="Center" HorizontalAlignment="Left">Path</TextBlock>
             <Button Width="100" Height="20" Margin="10" VerticalAlignment="Center"  Click="Button_Click" Background="#ff8333" >Wybierz</Button>
             <Button x:Name="bin_btn" Visibility="Hidden" Width="20" Height="20" Margin="130,0,0,0" Click="bin_btn_Click" >

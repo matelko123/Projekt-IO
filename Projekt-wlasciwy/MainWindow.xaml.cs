@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +13,8 @@ namespace Projekt_wlasciwy
 {
     public partial class MainWindow : Window
     {
+        private static string UserRoot = Environment.GetEnvironmentVariable("USERPROFILE");
+        private static string DownloadFolder = Path.Combine(UserRoot, "Downloads");
 
         public MainWindow()
         {
@@ -20,14 +23,32 @@ namespace Projekt_wlasciwy
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            StatusInfo.Content = "Status: Searching files...";
+            LoadPathWindowsFromSettings();
+
+            // Getting info about download folder
+            FilesFound.Content = "Files found: Loading...";
+            DirectoryModel downloads = new DirectoryModel(DownloadFolder);
+            await downloads.GetAsyncInfo(DownloadFolder);
+            FilesFound.Content = "Files found: " + downloads.Files;
+            StatusInfo.Content = "Status: ✔️ Working";
+        }
+
+        private async void LoadPathWindowsFromSettings()
+        {
             var stopwatch = Stopwatch.StartNew();
             await SettingsController.LoadDataDir();
 
             if(DirectoryController.Dirs == null || DirectoryController.Dirs.Count == 0)
             {
-                WindowsComponents.Children.Add(new PathWindow());
-                return;
+                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Obrazy"), new List<string>() { ".jpeg", ".jpg", ".png" }));
+                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Wideo"), new List<string>() { ".mp4", ".mp3" }));
+                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Instalki"), new List<string>() { ".exe", ".msi" }));
+                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Dokumenty"), new List<string>() { ".docx", ".txt", ".odt", ".xlsx", ".doc" }));
+                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "PDF"), new List<string>() { ".pdf" }));
             }
+
+            await DownloadController.Watcher();
 
             List<PathWindow> pws = new List<PathWindow>();
             List<Task> tasks = new List<Task>();
@@ -48,14 +69,15 @@ namespace Projekt_wlasciwy
                 }
 
                 await Task.WhenAll(tasks);
-            } 
-            catch(Exception ex) 
+            }
+            catch(Exception ex)
             {
                 LoggerController.PrintException(ex);
             }
 
             stopwatch.Stop();
-            Console.WriteLine($"Finishing in {stopwatch.ElapsedMilliseconds}ms");
+            Console.WriteLine($"Loading paths from setings finished in {stopwatch.ElapsedMilliseconds}ms");
+
         }
 
 

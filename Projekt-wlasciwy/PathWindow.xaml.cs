@@ -72,6 +72,7 @@ namespace Projekt_wlasciwy
             await Task.Run(() => Directory.GetAsyncInfo(Directory.FullPath));
 
             Component.DirSizeLabel.Content = $"Amount of files: {Directory.Files}";
+            Component.DirName.Text = Directory.Name;
             Component.DirCountFilesLabel.Content = $"Directory size: {DirectoryModel.CalcBytes(Directory.Size)}";
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Windows.Forms;
 
 namespace Projekt_wlasciwy
 {
@@ -10,10 +11,18 @@ namespace Projekt_wlasciwy
 
         public static void Log(string text)
         {
-            using (StreamWriter sw = File.AppendText(path))
+            try
             {
-                sw.WriteLine($"| {DateTime.Now} |\n>> {text}");
+                using(StreamWriter sw = File.AppendText(path))
+                {
+                    sw.WriteLine($"| {DateTime.Now} |\n>> {text}");
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
         }
 
         public static void PrintException(Exception ex)

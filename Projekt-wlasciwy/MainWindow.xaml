@@ -71,7 +71,7 @@
                 
         <StackPanel VerticalAlignment="Top" Height="540" x:Name="LeftPanel" Grid.Row="1" Grid.Column="0">
             <Image  VerticalAlignment="Top" Source="Images/logo.png"/>
-            <Button   x:Name="left_btn1" Style="{StaticResource MyButtonStyle}" Height="50" Content="File Sort" MouseEnter="Left_btn_MouseEnter" MouseLeave="Left_btn_MouseLeave">
+            <Button   x:Name="left_btn1" Style="{StaticResource MyButtonStyle}" Height="50" Content="Download Manager" MouseEnter="Left_btn_MouseEnter" MouseLeave="Left_btn_MouseLeave">
                 <Button.Background>
                     <ImageBrush Stretch="Fill" ImageSource="Images/button_left_aktyw.png"></ImageBrush>
                 </Button.Background>
@@ -126,21 +126,18 @@
         </ScrollViewer>
 
 
-
-
-
-
-
         <DockPanel Height="30" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1">
-
             <DockPanel.Background>
                 <ImageBrush Stretch="Fill"  ImageSource="Images/bar.png" ></ImageBrush>
             </DockPanel.Background>
+
+            <Label Name="FilesFound" Foreground="white" HorizontalAlignment="Left" Margin="20 0">Files found: </Label>
             <Button  Style="{StaticResource MyButtonStyle}" Grid.Column="1" x:Name="Plus" Width="300" Height="30"  FontSize="20" Click="Plus_Click" MouseEnter="Plus_MouseEnter" MouseLeave="Plus_MouseLeave" >
                 <Button.Background>
                     <ImageBrush  x:Name="Plus_bg" Stretch="Fill" ImageSource="Images/bar_guzik-2.png"></ImageBrush>
                 </Button.Background>
             </Button>
+            <Label Name="StatusInfo" Width="200" Foreground="white" HorizontalAlignment="Right" >Status: </Label>
 
 
         </DockPanel>
