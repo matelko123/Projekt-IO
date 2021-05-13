@@ -7,41 +7,14 @@ using System.Threading.Tasks;
 
 namespace Projekt_wlasciwy
 {
-    /// <summary>
-    /// Structure of Directory set by user
-    /// </summary>
     public class DirectoryModel
     {
-        /// <summary>
-        /// Full path to directory
-        /// </summary>
         public string FullPath { get; set; }
-
-        /// <summary>
-        /// Name of directory
-        /// </summary>
-        public string Name
-        {
-            get
-            {
-                return Path.GetFileName(FullPath);
-            }
-        }
-
-        /// <summary>
-        /// Extensions used
-        /// </summary>
+        public string Name { get { return Path.GetFileName(FullPath); } }
         public List<string> Extensions { get; set; }
-
-        /// <summary>
-        /// Files count in directory and subdirectories
-        /// </summary>
         public long Size { get; set; } = 0;
-
-        /// <summary>
-        /// Files size in directory and subdirectories
-        /// </summary>
         public long Files { get; set; } = 0;
+
 
         #region Constructors
         public DirectoryModel() { }
@@ -61,6 +34,7 @@ namespace Projekt_wlasciwy
         }
         #endregion
 
+
         /// <summary>
         /// Return DirectoryModel as a string
         /// </summary>
@@ -73,6 +47,7 @@ namespace Projekt_wlasciwy
 
             return result;
         }
+
 
         /// <summary>
         /// Get info about Directory by path
