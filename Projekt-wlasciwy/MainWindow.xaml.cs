@@ -23,15 +23,7 @@ namespace Projekt_wlasciwy
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            StatusInfo.Content = "Status: Searching files...";
             LoadPathWindowsFromSettings();
-
-            // Getting info about download folder
-            FilesFound.Content = "Files found: Loading...";
-            DirectoryModel downloads = new DirectoryModel(DownloadFolder);
-            await downloads.GetAsyncInfo(DownloadFolder);
-            FilesFound.Content = "Files found: " + downloads.Files;
-            StatusInfo.Content = "Status: ✔️ Working";
         }
 
         private async void LoadPathWindowsFromSettings()
@@ -81,7 +73,6 @@ namespace Projekt_wlasciwy
 
             stopwatch.Stop();
             Console.WriteLine($"Loading paths from setings finished in {stopwatch.ElapsedMilliseconds}ms");
-
         }
 
 

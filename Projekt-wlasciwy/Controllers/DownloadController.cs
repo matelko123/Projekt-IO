@@ -8,8 +8,6 @@ namespace Projekt_wlasciwy
 {
     public class DownloadController
     {
-        private static readonly int interval = 500;         // Time pause before moving files
-
         // Get user path do \Download directory
         private static string UserRoot = Environment.GetEnvironmentVariable("USERPROFILE");
         private static string DownloadFolder = Path.Combine(UserRoot, "Downloads");

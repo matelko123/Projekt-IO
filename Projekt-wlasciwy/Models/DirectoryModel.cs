@@ -113,6 +113,24 @@ namespace Projekt_wlasciwy
             }
         }
 
+        public static async Task<long> GetFilesCount(string path)
+        {
+            if(path == null)
+                ErrorController.ThrowUserError("Path is null.");
+
+            long files = 0;
+
+            foreach(var item in DirectoryController.Dirs)
+            {
+                foreach(var ext in item.Extensions)
+                {
+                    files += await Task.Run(() => Directory.EnumerateFiles(path, "*" + ext).Count());
+                }
+            }
+
+            return files;
+        }
+
         /// <summary>
         /// Calculate bytes for ex.: 2048B = 2kB
         /// </summary>
