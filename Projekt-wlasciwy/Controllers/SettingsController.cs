@@ -10,6 +10,9 @@ namespace Projekt_wlasciwy
 {
     public class SettingsController
     {
+        private static string UserRoot = Environment.GetEnvironmentVariable("USERPROFILE");
+        private static string DownloadFolder = Path.Combine(UserRoot, "Downloads");
+
         public static void ReadAllSettings()
         {
             try
@@ -117,6 +120,16 @@ namespace Projekt_wlasciwy
             var data = GetSettings("Path");
             var deserializedData = await Task.Run(() => DeserializeObject(data));
             DirectoryController.Copy(deserializedData);
+
+            if(DirectoryController.Dirs == null || DirectoryController.Dirs.Count == 0)
+            {
+                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Obrazy"), new List<string>() { ".jpeg", ".jpg", ".png" }));
+                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Wideo"), new List<string>() { ".mp4", ".mp3" }));
+                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Instalki"), new List<string>() { ".exe", ".msi" }));
+                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Dokumenty"), new List<string>() { ".docx", ".txt", ".odt", ".xlsx", ".doc" }));
+                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "PDF"), new List<string>() { ".pdf" }));
+            }
+
             DirectoryController.PrintAll();
         }
     }
