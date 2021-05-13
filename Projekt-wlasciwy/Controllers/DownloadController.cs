@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Projekt_wlasciwy
@@ -12,18 +11,19 @@ namespace Projekt_wlasciwy
         private static string UserRoot = Environment.GetEnvironmentVariable("USERPROFILE");
         private static string DownloadFolder = Path.Combine(UserRoot, "Downloads");
 
-
-        public static async Task Watcher()
+        public static async Task Check()
         {
-            Console.WriteLine("Watcher is running...");
-
             // Find existing files
             var files = Directory.EnumerateFiles(DownloadFolder, "*").ToList();
             foreach(var file in files)
             {
                 await Task.Run(() => MoveFile(Path.Combine(DownloadFolder, file)));
             }
+        }
 
+        public static void Watcher()
+        {
+            Console.WriteLine("Watcher is running...");
 
             // Get event on new files
             FileSystemWatcher watcher = new FileSystemWatcher(DownloadFolder)

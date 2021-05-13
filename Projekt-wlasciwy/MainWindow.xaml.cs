@@ -13,9 +13,6 @@ namespace Projekt_wlasciwy
 {
     public partial class MainWindow : Window
     {
-        private static string UserRoot = Environment.GetEnvironmentVariable("USERPROFILE");
-        private static string DownloadFolder = Path.Combine(UserRoot, "Downloads");
-
         public MainWindow()
         {
             InitializeComponent();
@@ -23,24 +20,16 @@ namespace Projekt_wlasciwy
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadPathWindowsFromSettings();
+            await SettingsController.LoadDataDir();
+            await LoadPathWindows();
+
+            DownloadController.Watcher();
         }
 
-        private async void LoadPathWindowsFromSettings()
+        private async Task LoadPathWindows()
         {
             var stopwatch = Stopwatch.StartNew();
-            await SettingsController.LoadDataDir();
-
-            if(DirectoryController.Dirs == null || DirectoryController.Dirs.Count == 0)
-            {
-                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Obrazy"), new List<string>() { ".jpeg", ".jpg", ".png" }));
-                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Wideo"), new List<string>() { ".mp4", ".mp3" }));
-                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Instalki"), new List<string>() { ".exe", ".msi" }));
-                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Dokumenty"), new List<string>() { ".docx", ".txt", ".odt", ".xlsx", ".doc" }));
-                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "PDF"), new List<string>() { ".pdf" }));
-            }
-
-
+            
             List<PathWindow> pws = new List<PathWindow>();
             List<Task> tasks = new List<Task>();
             int index = 0;
@@ -54,7 +43,7 @@ namespace Projekt_wlasciwy
                     pws.Add(pw);
                 }
 
-                await DownloadController.Watcher();
+                await DownloadController.Check();
 
                 foreach(var dir in DirectoryController.Dirs)
                 {
