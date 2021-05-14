@@ -19,6 +19,9 @@ namespace Projekt_wlasciwy
 
         public static void Copy(List<DirectoryModel> _copy)
         {
+            if(_copy == null)
+                return;
+
             foreach(DirectoryModel dir in _copy)
             {
                 Dirs.Add(new DirectoryModel(dir.FullPath, dir.Extensions));
