@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,15 +27,13 @@ namespace Projekt_wlasciwy
 
         private async Task LoadPathWindows()
         {
-            var stopwatch = Stopwatch.StartNew();
-            
-            List<PathWindow> pws = new List<PathWindow>();
-            List<Task> tasks = new List<Task>();
+            List<PathWindow> pws = new();
+            List<Task> tasks = new();
             int index = 0;
 
             try
             {
-                foreach(var dir in DirectoryController.Dirs)
+                for(int i = 0; i < DirectoryController.Dirs.Count; i++)
                 {
                     var pw = new PathWindow();
                     WindowsComponents.Children.Add(pw);
@@ -59,9 +56,6 @@ namespace Projekt_wlasciwy
             {
                 await Task.WhenAll(tasks);
             }
-
-            stopwatch.Stop();
-            Console.WriteLine($"Loading paths from setings finished in {stopwatch.ElapsedMilliseconds}ms");
         }
 
 
