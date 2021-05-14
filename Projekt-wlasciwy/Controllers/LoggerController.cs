@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Text;
-using System.Windows.Forms;
 
 namespace Projekt_wlasciwy
 {
@@ -20,7 +18,7 @@ namespace Projekt_wlasciwy
             }
             catch (Exception ex)
             {
-               ErrorController.ThrowUserError(ex.Message);
+               Console.WriteLine(ex.Message);
             }
             
         }
