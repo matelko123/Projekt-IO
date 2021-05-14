@@ -51,30 +51,6 @@ namespace Projekt_wlasciwy
             watcher.EnableRaisingEvents = true;
         }
 
-        private static void OnCreated(object sender, FileSystemEventArgs e)
-        {
-            string ext = Path.GetExtension(e.FullPath);
-
-            if(ext == ".tmp" || ext == ".crdownload")
-                return;
-
-            LoggerController.Log($"Created ('{e.FullPath}')");
-
-            Thread.Sleep(200);
-            Task.Run(() => MoveFile(e.FullPath));
-        }
-
-        /// <summary>
-        /// Event on renamed file
-        /// </summary>
-        /// <param name="sender">Object</param>
-        /// <param name="e">Event</param>
-        private static void OnRenamed(object sender, RenamedEventArgs e)
-        {
-            LoggerController.Log($"Renamed:\n Old: {e.OldFullPath}\nNew: {e.FullPath}");
-            Task.Run(() => MoveFile(e.FullPath));
-        }
-
         private static async Task MoveFile(string fullPath)
         {
             string extension = Path.GetExtension(fullPath);
@@ -130,10 +106,32 @@ namespace Projekt_wlasciwy
             return fullPath;
         }
 
+
+        #region File Event
+        private static void OnCreated(object sender, FileSystemEventArgs e)
+        {
+            string ext = Path.GetExtension(e.FullPath);
+
+            if(ext == ".tmp" || ext == ".crdownload")
+                return;
+
+            LoggerController.Log($"Created ('{e.FullPath}')");
+
+            Thread.Sleep(200);
+            Task.Run(() => MoveFile(e.FullPath));
+        }
+
+        private static void OnRenamed(object sender, RenamedEventArgs e)
+        {
+            LoggerController.Log($"Renamed:\n Old: {e.OldFullPath}\nNew: {e.FullPath}");
+            Task.Run(() => MoveFile(e.FullPath));
+        }
+
         private static void OnDeleted(object sender, FileSystemEventArgs e) =>
             LoggerController.Log($"Deleted: {e.FullPath}");
 
         private static void OnError(object sender, ErrorEventArgs e) =>
             LoggerController.PrintException(e.GetException());
+        #endregion
     }
 }
