@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Projekt_wlasciwy
@@ -11,9 +12,12 @@ namespace Projekt_wlasciwy
         private static string UserRoot = Environment.GetEnvironmentVariable("USERPROFILE");
         private static string DownloadFolder = Path.Combine(UserRoot, "Downloads");
 
+        /// <summary>
+        /// Find existing files
+        /// </summary>
+        /// <returns></returns>
         public static async Task Check()
         {
-            // Find existing files
             var files = Directory.EnumerateFiles(DownloadFolder, "*").ToList();
             foreach(var file in files)
             {
@@ -26,7 +30,7 @@ namespace Projekt_wlasciwy
             Console.WriteLine("Watcher is running...");
 
             // Get event on new files
-            FileSystemWatcher watcher = new FileSystemWatcher(DownloadFolder)
+            FileSystemWatcher watcher = new(DownloadFolder)
             {
                 NotifyFilter = NotifyFilters.Attributes
                              | NotifyFilters.CreationTime
@@ -38,11 +42,13 @@ namespace Projekt_wlasciwy
                              | NotifyFilters.Size
             };
 
+            // Event list
             watcher.Created += OnCreated;
             watcher.Deleted += OnDeleted;
             watcher.Renamed += OnRenamed;
             watcher.Error += OnError;
 
+            // Config
             watcher.Filter = "*";
             watcher.IncludeSubdirectories = false;
             watcher.EnableRaisingEvents = true;
@@ -50,16 +56,15 @@ namespace Projekt_wlasciwy
 
         private static void OnCreated(object sender, FileSystemEventArgs e)
         {
-            string fullpath = e.FullPath;
-            string ext = Path.GetExtension(fullpath);
+            string ext = Path.GetExtension(e.FullPath);
 
             if(ext == ".tmp" || ext == ".crdownload")
                 return;
 
-            //LoggerController.Log($"Created ('{fullpath}') with extension ('{ext}')");
-            Console.WriteLine($"Created ('{fullpath}') with extension ('{ext}')");
+            LoggerController.Log($"Created ('{e.FullPath}')");
 
-            MoveFile(fullpath);
+            Thread.Sleep(200);
+            Task.Run(() => MoveFile(e.FullPath));
         }
 
         /// <summary>
@@ -70,18 +75,17 @@ namespace Projekt_wlasciwy
         private static void OnRenamed(object sender, RenamedEventArgs e)
         {
             LoggerController.Log($"Renamed:\n Old: {e.OldFullPath}\nNew: {e.FullPath}");
-
-            MoveFile(e.FullPath);
+            Task.Run(() => MoveFile(e.FullPath));
         }
 
-        private static void MoveFile(string fullPath)
+        private static async Task MoveFile(string fullPath)
         {
-            string ext = Path.GetExtension(fullPath);
+            string extension = Path.GetExtension(fullPath);
             string fileName = Path.GetFileName(fullPath);
 
             foreach(var item in DirectoryController.Dirs)
             {
-                if(item.Extensions.Any(ext.Contains))
+                if(item.Extensions.Any(extension.Contains))
                 {
                     try
                     {
@@ -89,18 +93,18 @@ namespace Projekt_wlasciwy
                         LoggerController.Log($"Moved ('{fileName}') file to ('{Path.Combine(item.FullPath, fileName)}')");
                         break;
                     }
-                    // Name reached max lenght
-                    catch(PathTooLongException ptex)
-                    {
-                        LoggerController.PrintException(ptex);
-                    }
                     // File already exists
-                    catch(IOException)
+                    catch(IOException ioe)
                     {
-                        string newName = RenameFile(fullPath);
+                        if(File.Exists(Path.Combine(item.FullPath, fileName)))
+                        {
+                            string newName = RenameFile(fullPath, item.FullPath);
+                            //Console.WriteLine(newName);
+                            await Task.Run(() => File.Move(fullPath, newName));
+                            await MoveFile(newName);
+                        }
 
-                        MoveFile(newName);
-                        return;
+                        LoggerController.PrintException(ioe);
                     }
                     catch(Exception e)
                     {
@@ -110,26 +114,23 @@ namespace Projekt_wlasciwy
             }
         }
 
-        private static string RenameFile(string fullPath)
+        private static string RenameFile(string fullPath, string pathToMove)
         {
-            if(fullPath == "" || !File.Exists(fullPath))
+            if(fullPath == "" || !File.Exists(fullPath) || pathToMove == "")
                 return fullPath;
 
-            int count = 1;
-            string fileNameOnly = Path.GetFileNameWithoutExtension(fullPath);
-            string extension = Path.GetExtension(fullPath);
-            string path = Path.GetDirectoryName(fullPath);
-            string newFullPath = fullPath;
+            string fileName = Path.GetFileNameWithoutExtension(fullPath);
+            string fileExtension = Path.GetExtension(fullPath);
+            int number = 0;
 
-            while(File.Exists(newFullPath))
+            while(File.Exists(fullPath))
             {
-                string tempFileName = string.Format("{0} ({1})", fileNameOnly, count++);
-                newFullPath = Path.Combine(path, tempFileName + extension);
+                number++;
+                string newFileName = $"{fileName} ({number}){fileExtension}";
+                fullPath = Path.Combine(pathToMove, newFileName);
             }
 
-            File.Move(fullPath, newFullPath);
-
-            return newFullPath;
+            return fullPath;
         }
 
         private static void OnDeleted(object sender, FileSystemEventArgs e) =>
