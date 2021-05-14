@@ -8,9 +8,6 @@ namespace Projekt_wlasciwy
 {
     public class DownloadController
     {
-        // Get user path do \Download directory
-        private static string UserRoot = Environment.GetEnvironmentVariable("USERPROFILE");
-        private static string DownloadFolder = Path.Combine(UserRoot, "Downloads");
 
         /// <summary>
         /// Find existing files
@@ -18,10 +15,10 @@ namespace Projekt_wlasciwy
         /// <returns></returns>
         public static async Task Check()
         {
-            var files = Directory.EnumerateFiles(DownloadFolder, "*").ToList();
+            var files = Directory.EnumerateFiles(SettingsController.DownloadFolder, "*").ToList();
             foreach(var file in files)
             {
-                await Task.Run(() => MoveFile(Path.Combine(DownloadFolder, file)));
+                await Task.Run(() => MoveFile(Path.Combine(SettingsController.DownloadFolder, file)));
             }
         }
 
@@ -30,7 +27,7 @@ namespace Projekt_wlasciwy
             Console.WriteLine("Watcher is running...");
 
             // Get event on new files
-            FileSystemWatcher watcher = new(DownloadFolder)
+            FileSystemWatcher watcher = new(SettingsController.DownloadFolder)
             {
                 NotifyFilter = NotifyFilters.Attributes
                              | NotifyFilters.CreationTime
