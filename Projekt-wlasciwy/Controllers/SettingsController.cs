@@ -10,8 +10,18 @@ namespace Projekt_wlasciwy
 {
     public class SettingsController
     {
-        private static readonly string UserRoot = Environment.GetEnvironmentVariable("USERPROFILE");
-        private static readonly string DownloadFolder = Path.Combine(UserRoot, "Downloads");
+        public static readonly string UserRoot = Environment.GetEnvironmentVariable("USERPROFILE");
+        public static readonly string DownloadFolder = Path.Combine(UserRoot, "Downloads");
+
+        private static readonly List<DirectoryModel> defaultDirs = new()
+        {
+            new DirectoryModel(Path.Combine(DownloadFolder, "Obrazy"), new List<string>() { ".jpeg", ".jpg", ".png" }),
+            new DirectoryModel(Path.Combine(DownloadFolder, "Wideo"), new List<string>() { ".mp4", ".mp3" }),
+            new DirectoryModel(Path.Combine(DownloadFolder, "Instalki"), new List<string>() { ".exe", ".msi" }),
+            new DirectoryModel(Path.Combine(DownloadFolder, "Dokumenty"), new List<string>() { ".docx", ".txt", ".odt", ".xlsx", ".doc" }),
+            new DirectoryModel(Path.Combine(DownloadFolder, "PDF"), new List<string>() { ".pdf" })
+        };
+
 
         /// <summary>
         /// Read all value from settings
@@ -135,11 +145,7 @@ namespace Projekt_wlasciwy
 
             if(deserializedData == null || deserializedData.Count == 0)
             {
-                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Obrazy"), new List<string>() { ".jpeg", ".jpg", ".png" }));
-                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Wideo"), new List<string>() { ".mp4", ".mp3" }));
-                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Instalki"), new List<string>() { ".exe", ".msi" }));
-                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Dokumenty"), new List<string>() { ".docx", ".txt", ".odt", ".xlsx", ".doc" }));
-                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "PDF"), new List<string>() { ".pdf" }));
+                DirectoryController.Copy(defaultDirs);
             } 
             else
             {
