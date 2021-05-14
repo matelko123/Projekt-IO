@@ -10,9 +10,12 @@ namespace Projekt_wlasciwy
 {
     public class SettingsController
     {
-        private static string UserRoot = Environment.GetEnvironmentVariable("USERPROFILE");
-        private static string DownloadFolder = Path.Combine(UserRoot, "Downloads");
+        private static readonly string UserRoot = Environment.GetEnvironmentVariable("USERPROFILE");
+        private static readonly string DownloadFolder = Path.Combine(UserRoot, "Downloads");
 
+        /// <summary>
+        /// Read all value from settings
+        /// </summary>
         public static void ReadAllSettings()
         {
             try
@@ -31,12 +34,17 @@ namespace Projekt_wlasciwy
                     }
                 }
             }
-            catch (ConfigurationErrorsException)
+            catch(Exception e)
             {
-                Console.WriteLine("Error reading app settings");
+                LoggerController.PrintException(e);
             }
         }
 
+        /// <summary>
+        /// Get searching value from given kay
+        /// </summary>
+        /// <param name="key">Searching key</param>
+        /// <returns>Value of key</returns>
         public static string GetSettings(string key)
         {
             try
@@ -45,13 +53,18 @@ namespace Projekt_wlasciwy
                 string result = appSettings[key] ?? "Not Found";
                 return result;
             }
-            catch (ConfigurationErrorsException)
+            catch (Exception e)
             {
-                Console.WriteLine("Error reading app settings");
+                LoggerController.PrintException(e);
             }
             return "";
         }
 
+        /// <summary>
+        /// Update Value on given Key
+        /// </summary>
+        /// <param name="key">Key of setting</param>
+        /// <param name="value">New value</param>
         public static void Update(string key, string value)
         {
             try
@@ -77,9 +90,9 @@ namespace Projekt_wlasciwy
 
         public static string SerializeObject(List<DirectoryModel> toSerialize)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<DirectoryModel>), new XmlRootAttribute("path"));
+            XmlSerializer xmlSerializer = new(typeof(List<DirectoryModel>), new XmlRootAttribute("path"));
 
-            using (StringWriter textWriter = new StringWriter())
+            using (StringWriter textWriter = new())
             {
                 xmlSerializer.Serialize(textWriter, toSerialize);
                 return textWriter.ToString();
@@ -92,9 +105,9 @@ namespace Projekt_wlasciwy
             try
             {
                 //XmlSerializer xmlSerializer = new XmlSerializer(typeof(DirectoryModel));
-                using (StringReader textReader = new StringReader(toDeserialize))
+                using (StringReader textReader = new(toDeserialize))
                 {
-                    XmlSerializer deserializer = new XmlSerializer(typeof(List<DirectoryModel>), new XmlRootAttribute("path"));
+                    XmlSerializer deserializer = new(typeof(List<DirectoryModel>), new XmlRootAttribute("path"));
                     list = (List<DirectoryModel>)deserializer.Deserialize(textReader);
                     return list;
                 }
@@ -119,15 +132,18 @@ namespace Projekt_wlasciwy
         {
             var data = GetSettings("Path");
             var deserializedData = await Task.Run(() => DeserializeObject(data));
-            DirectoryController.Copy(deserializedData);
 
-            if(DirectoryController.Dirs == null || DirectoryController.Dirs.Count == 0)
+            if(deserializedData == null || deserializedData.Count == 0)
             {
                 DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Obrazy"), new List<string>() { ".jpeg", ".jpg", ".png" }));
                 DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Wideo"), new List<string>() { ".mp4", ".mp3" }));
                 DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Instalki"), new List<string>() { ".exe", ".msi" }));
                 DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Dokumenty"), new List<string>() { ".docx", ".txt", ".odt", ".xlsx", ".doc" }));
                 DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "PDF"), new List<string>() { ".pdf" }));
+            } 
+            else
+            {
+                DirectoryController.Copy(deserializedData);
             }
 
             DirectoryController.PrintAll();
