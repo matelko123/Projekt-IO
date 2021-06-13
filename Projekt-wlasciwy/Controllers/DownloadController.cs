@@ -85,7 +85,7 @@ namespace Projekt_wlasciwy
             MoveFile(e.FullPath);
         }
 
-        private static async void MoveFile(string fullPath)
+        private static void MoveFile(string fullPath)
         {
             string ext = Path.GetExtension(fullPath);
             string fileName = Path.GetFileName(fullPath);
@@ -106,12 +106,16 @@ namespace Projekt_wlasciwy
                         LoggerController.PrintException(ptex);
                     }
                     // Plik o takiej nazwie już istnieje.
-                    catch(IOException ioe)
+                    catch(IOException)
                     {
-                        string newName = RenameFile(fullPath);
+                        if(!File.Exists(fullPath))
+                            return;
 
+                        /*string tmp = fullPath;
+                        string newName = Path.ChangeExtension(tmp, null) + "_" + DateTime.Now.ToString("MM/dd/yyyy_HHmmss") + Path.GetExtension(tmp);
+                        File.Move(fullPath, newName);
                         MoveFile(newName);
-                        return;
+                        return;*/
                     }
                     catch(Exception e)
                     {
@@ -119,27 +123,6 @@ namespace Projekt_wlasciwy
                     }
                 }
             }
-        }
-
-        private static string RenameFile(string fullPath)
-        {
-            if(fullPath == "" || !File.Exists(fullPath))
-                return fullPath;
-
-            int count = 1;
-            string fileNameOnly = Path.GetFileNameWithoutExtension(fullPath);
-            string extension = Path.GetExtension(fullPath);
-            string path = Path.GetDirectoryName(fullPath);
-            string newFullPath = fullPath;
-
-            while(File.Exists(newFullPath))
-            {
-                string tempFileName = string.Format("{0}({1})", fileNameOnly, count++);
-                newFullPath = Path.Combine(path, tempFileName + extension);
-            }
-
-            File.Move(fullPath, newFullPath);
-            return newFullPath;
         }
 
         private static void OnDeleted(object sender, FileSystemEventArgs e) =>
