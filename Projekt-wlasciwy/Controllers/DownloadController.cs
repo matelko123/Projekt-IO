@@ -16,7 +16,7 @@ namespace Projekt_wlasciwy
         private static string DownloadFolder = Path.Combine(UserRoot, "Downloads");
 
 
-        public static async Task Watcher()
+        public static async Task CleanUp()
         {
             Console.WriteLine("Watcher is running...");
 
@@ -34,58 +34,9 @@ namespace Projekt_wlasciwy
                     LoggerController.PrintException(ex);
                 }
             }
-
-            // Get event on new files
-            FileSystemWatcher watcher = new FileSystemWatcher(DownloadFolder)
-            {
-                NotifyFilter = NotifyFilters.Attributes
-                             | NotifyFilters.CreationTime
-                             | NotifyFilters.DirectoryName
-                             | NotifyFilters.FileName
-                             | NotifyFilters.LastAccess
-                             | NotifyFilters.LastWrite
-                             | NotifyFilters.Security
-                             | NotifyFilters.Size
-            };
-
-            watcher.Created += OnCreated;
-            watcher.Deleted += OnDeleted;
-            watcher.Renamed += OnRenamed;
-            watcher.Error += OnError;
-
-            watcher.Filter = Filter;
-            watcher.IncludeSubdirectories = false;
-            watcher.EnableRaisingEvents = true;
         }
 
-        private static void OnCreated(object sender, FileSystemEventArgs e)
-        {
-            string fullpath = e.FullPath;
-            string ext = Path.GetExtension(fullpath);
-
-            if(ext == ".tmp" || ext == ".crdownload")
-                return;
-
-            //LoggerController.Log($"Created ('{fullpath}') with extension ('{ext}')");
-            Console.WriteLine($"Created ('{fullpath}') with extension ('{ext}')");
-
-            Thread.Sleep(interval);
-            MoveFile(fullpath);
-        }
-
-        /// <summary>
-        /// Event on renamed file
-        /// </summary>
-        /// <param name="sender">Object</param>
-        /// <param name="e">Event</param>
-        private static void OnRenamed(object sender, RenamedEventArgs e)
-        {
-            LoggerController.Log($"Renamed:\n Old: {e.OldFullPath}\nNew: {e.FullPath}");
-
-            MoveFile(e.FullPath);
-        }
-
-        private static void MoveFile(string fullPath)
+        public static void MoveFile(string fullPath)
         {
             string ext = Path.GetExtension(fullPath);
             string fileName = Path.GetFileName(fullPath);
@@ -108,14 +59,7 @@ namespace Projekt_wlasciwy
                     // Plik o takiej nazwie już istnieje.
                     catch(IOException)
                     {
-                        if(!File.Exists(fullPath))
-                            return;
-
-                        /*string tmp = fullPath;
-                        string newName = Path.ChangeExtension(tmp, null) + "_" + DateTime.Now.ToString("MM/dd/yyyy_HHmmss") + Path.GetExtension(tmp);
-                        File.Move(fullPath, newName);
-                        MoveFile(newName);
-                        return;*/
+                        
                     }
                     catch(Exception e)
                     {
@@ -125,10 +69,34 @@ namespace Projekt_wlasciwy
             }
         }
 
-        private static void OnDeleted(object sender, FileSystemEventArgs e) =>
+        public static void OnCreated(object sender, FileSystemEventArgs e)
+        {
+            string fullpath = e.FullPath;
+            string ext = Path.GetExtension(fullpath);
+
+            if(ext == ".tmp" || ext == ".crdownload")
+                return;
+
+            //LoggerController.Log($"Created ('{fullpath}') with extension ('{ext}')");
+            Console.WriteLine($"Created ('{fullpath}') with extension ('{ext}')");
+
+            Thread.Sleep(interval);
+            MoveFile(fullpath);
+        }
+
+        public static void OnRenamed(object sender, RenamedEventArgs e)
+        {
+            LoggerController.Log($"Renamed:\n Old: {e.OldFullPath}\nNew: {e.FullPath}");
+
+            MoveFile(e.FullPath);
+        }
+
+        
+
+        public static void OnDeleted(object sender, FileSystemEventArgs e) =>
             LoggerController.Log($"Deleted: {e.FullPath}");
 
-        private static void OnError(object sender, ErrorEventArgs e) =>
+        public static void OnError(object sender, ErrorEventArgs e) =>
             LoggerController.PrintException(e.GetException());
     }
 }

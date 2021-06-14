@@ -103,7 +103,7 @@ namespace Projekt_wlasciwy
             return null;
         }
 
-        public async static Task SaveDataDir()
+        public static async Task SaveDataDir()
         {
             DirectoryController.Dirs = DirectoryController.Dirs.Where(dir => dir != null).ToList();
 
@@ -112,11 +112,11 @@ namespace Projekt_wlasciwy
             Update("Path", serializedData);
         }
 
-        public async static Task LoadDataDir()
+        public static async Task LoadDataDir()
         {
             var data = GetSettings("Path");
             var deserializedData = await Task.Run(() => DeserializeObject(data));
-            DirectoryController.Copy(deserializedData);
+            await DirectoryController.Copy(deserializedData);
             DirectoryController.PrintAll();
         }
     }

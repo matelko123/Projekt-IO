@@ -13,42 +13,57 @@ namespace Projekt_wlasciwy
 {
     public partial class MainWindow : Window
     {
+        
         private static string UserRoot = Environment.GetEnvironmentVariable("USERPROFILE");
         private static string DownloadFolder = Path.Combine(UserRoot, "Downloads");
 
         public MainWindow()
         {
             InitializeComponent();
+            LoadPathWindowsFromSettings();
+
+            // Get event on new files
+            FileSystemWatcher watcher = new FileSystemWatcher(DownloadFolder)
+            {
+                NotifyFilter = NotifyFilters.Attributes
+                             | NotifyFilters.CreationTime
+                             | NotifyFilters.DirectoryName
+                             | NotifyFilters.FileName
+                             | NotifyFilters.LastAccess
+                             | NotifyFilters.LastWrite
+                             | NotifyFilters.Security
+                             | NotifyFilters.Size
+            };
+
+            watcher.Created += DownloadController.OnCreated;
+            // watcher.Deleted += DownloadController.OnDeleted;
+            // watcher.Renamed += DownloadController.OnRenamed;
+            watcher.Error += DownloadController.OnError;
+
+            watcher.Filter = "*";
+            watcher.IncludeSubdirectories = false;
+            watcher.EnableRaisingEvents = true;
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            StatusInfo.Content = "Status: Searching files...";
-            LoadPathWindowsFromSettings();
+            FilesFound.Content = "Files found: Loading...";
+
+            await DownloadController.CleanUp();
 
             // Getting info about download folder
-            FilesFound.Content = "Files found: Loading...";
             DirectoryModel downloads = new DirectoryModel(DownloadFolder);
             await downloads.GetAsyncInfo(DownloadFolder);
+
             FilesFound.Content = "Files found: " + downloads.Files;
-            StatusInfo.Content = "Status: ✔️ Working";
         }
 
         private async void LoadPathWindowsFromSettings()
         {
             var stopwatch = Stopwatch.StartNew();
-            await SettingsController.LoadDataDir();
+            await DirectoryController.Load();
 
-            if(DirectoryController.Dirs == null || DirectoryController.Dirs.Count == 0)
-            {
-                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Obrazy"), new List<string>() { ".jpeg", ".jpg", ".png" }));
-                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Wideo"), new List<string>() { ".mp4", ".mp3" }));
-                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Instalki"), new List<string>() { ".exe", ".msi" }));
-                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Dokumenty"), new List<string>() { ".docx", ".txt", ".odt", ".xlsx", ".doc" }));
-                DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "PDF"), new List<string>() { ".pdf" }));
-            }
-
-            await DownloadController.Watcher();
+            DownloadController.Watcher();
 
             List<PathWindow> pws = new List<PathWindow>();
             List<Task> tasks = new List<Task>();

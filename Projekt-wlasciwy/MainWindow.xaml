@@ -137,7 +137,6 @@
                     <ImageBrush  x:Name="Plus_bg" Stretch="Fill" ImageSource="Images/bar_guzik-2.png"></ImageBrush>
                 </Button.Background>
             </Button>
-            <Label Name="StatusInfo" Width="200" Foreground="white" HorizontalAlignment="Right" >Status: </Label>
 
 
         </DockPanel>
