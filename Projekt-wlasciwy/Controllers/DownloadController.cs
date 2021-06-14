@@ -51,22 +51,14 @@ namespace Projekt_wlasciwy
         private static async Task TryMoveFile(string fullPath, string destinationPath)
         {
             string fileName = Path.GetFileName(fullPath);
+            destinationPath = GetUniqueName(fullPath, destinationPath);
+            
+            if (!Directory.Exists(Path.GetDirectoryName(destinationPath))) Directory.CreateDirectory(Path.GetDirectoryName(destinationPath));
+
             try
             {
                 File.Move(fullPath, destinationPath);
                 LoggerController.Log($"Moved ('{fileName}') file to ('{destinationPath}')");
-            }
-            // Podana ścieżka, nazwa pliku lub obie przekraczają maksymalną długość zdefiniowaną przez system.
-            catch(PathTooLongException ptex)
-            {
-                LoggerController.PrintException(ptex);
-            }
-            // Plik o takiej nazwie już istnieje.
-            catch(IOException ioe)
-            {
-                LoggerController.PrintException(ioe);
-                if (!Directory.Exists(destinationPath)) Directory.CreateDirectory(destinationPath);
-                else RenameFile(fullPath, destinationPath);
             }
             catch(Exception e)
             {
@@ -74,15 +66,17 @@ namespace Projekt_wlasciwy
             }
         }
 
-        private static void RenameFile(string fullPath, string destinationPath)
+        private static string GetUniqueName(string fullPath, string destinationPath)
         {
             if(fullPath == "" || !File.Exists(fullPath))
-                return;
+                return fullPath;
+
+            if(destinationPath == Path.GetDirectoryName(fullPath)) return fullPath;
 
             int count = 1;
             string fileNameOnly = Path.GetFileNameWithoutExtension(fullPath);
             string extension = Path.GetExtension(fullPath);
-            string newFullPath = fullPath;
+            string newFullPath = Path.Combine(destinationPath, fileNameOnly + extension) ;
 
             while(File.Exists(newFullPath))
             {
@@ -90,7 +84,7 @@ namespace Projekt_wlasciwy
                 newFullPath = Path.Combine(destinationPath, tempFileName + extension);
             }
 
-            TryMoveFile(fullPath, newFullPath);
+            return newFullPath;
         }
 
 
