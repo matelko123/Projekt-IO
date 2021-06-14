@@ -21,7 +21,6 @@ namespace Projekt_wlasciwy
         {
             InitializeComponent();
             LoadPathWindowsFromSettings();
-
             // Get event on new files
             FileSystemWatcher watcher = new FileSystemWatcher(DownloadFolder)
             {
@@ -49,8 +48,6 @@ namespace Projekt_wlasciwy
         {
             FilesFound.Content = "Files found: Loading...";
 
-            await DownloadController.CleanUp();
-
             // Getting info about download folder
             DirectoryModel downloads = new DirectoryModel(DownloadFolder);
             await downloads.GetAsyncInfo(DownloadFolder);
@@ -62,8 +59,7 @@ namespace Projekt_wlasciwy
         {
             var stopwatch = Stopwatch.StartNew();
             await DirectoryController.Load();
-
-            DownloadController.Watcher();
+            await DownloadController.CleanUp();
 
             List<PathWindow> pws = new List<PathWindow>();
             List<Task> tasks = new List<Task>();

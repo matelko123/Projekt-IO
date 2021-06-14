@@ -9,7 +9,6 @@ namespace Projekt_wlasciwy
     public class DownloadController
     {
         private static readonly int interval = 500;         // Time pause before moving files
-        private static string Filter = "*";                 // Filter used to watching
 
         // Get user path do \Download directory
         private static string UserRoot = Environment.GetEnvironmentVariable("USERPROFILE");
@@ -27,7 +26,7 @@ namespace Projekt_wlasciwy
                 Console.WriteLine(file);
                 try
                 {
-                    await Task.Run(() => MoveFile(Path.Combine(DownloadFolder, file)));
+                    MoveFile(file);
                 }
                 catch(Exception ex)
                 {
@@ -39,35 +38,55 @@ namespace Projekt_wlasciwy
         public static void MoveFile(string fullPath)
         {
             string ext = Path.GetExtension(fullPath);
-            string fileName = Path.GetFileName(fullPath);
 
-            foreach(var item in DirectoryController.Dirs)
+            foreach(var dir in DirectoryController.Dirs)
             {
-                if(item.Extensions.Any(ext.Contains))
+                if(dir.Extensions.Any(ext.Contains))
                 {
-                    try
-                    {
-                        File.Move(fullPath, Path.Combine(item.FullPath, fileName));
-                        LoggerController.Log($"Moved ('{fileName}') file to ('{Path.Combine(item.FullPath, fileName)}')");
-                        break;
-                    }
-                    // Podana ścieżka, nazwa pliku lub obie przekraczają maksymalną długość zdefiniowaną przez system.
-                    catch(PathTooLongException ptex)
-                    {
-                        LoggerController.PrintException(ptex);
-                    }
-                    // Plik o takiej nazwie już istnieje.
-                    catch(IOException)
-                    {
-                        
-                    }
-                    catch(Exception e)
-                    {
-                        LoggerController.PrintException(e);
-                    }
+                    TryMoveFile(fullPath, dir.FullPath);
                 }
             }
         }
+
+        private static async Task TryMoveFile(string fullPath, string destinationPath)
+        {
+            string fileName = Path.GetFileName(fullPath);
+            try
+            {
+                File.Move(fullPath, Path.Combine(destinationPath, fileName));
+                LoggerController.Log($"Moved ('{fileName}') file to ('{Path.Combine(destinationPath, fileName)}')");
+            }
+            // Plik o takiej nazwie już istnieje.
+            catch(IOException ioe)
+            {
+                LoggerController.PrintException(ioe);
+                RenameFile(fullPath, destinationPath);
+            }
+            catch(Exception e)
+            {
+                LoggerController.PrintException(e);
+            }
+        }
+
+        private static void RenameFile(string fullPath, string destinationPath)
+        {
+            if(fullPath == "" || !File.Exists(fullPath))
+                return;
+
+            int count = 1;
+            string fileNameOnly = Path.GetFileNameWithoutExtension(fullPath);
+            string extension = Path.GetExtension(fullPath);
+            string newFullPath = fullPath;
+
+            while(File.Exists(newFullPath))
+            {
+                string tempFileName = string.Format("{0} ({1})", fileNameOnly, count++);
+                newFullPath = Path.Combine(destinationPath, tempFileName + extension);
+            }
+
+            TryMoveFile(fullPath, newFullPath);
+        }
+
 
         public static void OnCreated(object sender, FileSystemEventArgs e)
         {
@@ -90,8 +109,6 @@ namespace Projekt_wlasciwy
 
             MoveFile(e.FullPath);
         }
-
-        
 
         public static void OnDeleted(object sender, FileSystemEventArgs e) =>
             LoggerController.Log($"Deleted: {e.FullPath}");
