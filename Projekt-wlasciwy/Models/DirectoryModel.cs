@@ -54,7 +54,7 @@ namespace Projekt_wlasciwy
             }
 
             // Create directory if path doesn't exists
-            Directory.CreateDirectory(_FullPath);
+            if (!Directory.Exists(_FullPath)) Directory.CreateDirectory(_FullPath);
 
             FullPath = _FullPath;
             Extensions = _Extensions ?? new List<string>();
@@ -79,27 +79,23 @@ namespace Projekt_wlasciwy
         /// </summary>
         /// <param name="path">Path to Directory</param>
         /// <param name="reset">Should reset Files and Size</param>
-        public async Task GetAsyncInfo(string path)
+        public async Task GetAsyncInfo()
         {
-            if(path == null)
-                ErrorController.ThrowUserError("Path is null.");
-
-            List<string> dirs = new List<string>();
-            ConcurrentBag<Task> tasks = new ConcurrentBag<Task>();
-
             try
             {
+                ConcurrentBag<Task> tasks = new ConcurrentBag<Task>();
+
                 // Recursive way for each Directory in the path
-                dirs = Directory.EnumerateDirectories(path).ToList();
+                var dirs = Directory.EnumerateDirectories(FullPath).ToList();
                 foreach(string dir in dirs)
                 {
-                    tasks.Add(GetAsyncInfo(dir));
+                    tasks.Add(GetAsyncInfo());
                 }
 
                 await Task.WhenAll(tasks);
 
-                dirs = Directory.EnumerateFiles(path, "*").ToList();
-                Files += dirs.Count();
+                dirs = Directory.EnumerateFiles(this.FullPath, "*").ToList();
+                Files = dirs.Count();
 
                 foreach(string file in dirs)
                 {
@@ -111,6 +107,10 @@ namespace Projekt_wlasciwy
             {
                 LoggerController.PrintException(ex);
             }
+        }
+        public static async Task<int> GetFilesCount(string path)
+        {
+            return Directory.EnumerateFiles(path, "*").ToList().Count();
         }
 
         /// <summary>

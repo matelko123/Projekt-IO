@@ -69,11 +69,21 @@ namespace Projekt_wlasciwy
             Component.pathdialog.Text = Directory.FullPath;
 
             // Waiting for info
-            await Task.Run(() => Directory.GetAsyncInfo(Directory.FullPath));
+            await Task.Run(() => Directory.GetAsyncInfo());
 
             Component.DirSizeLabel.Content = $"Amount of files: {Directory.Files}";
             Component.DirName.Text = Directory.Name;
             Component.DirCountFilesLabel.Content = $"Directory size: {DirectoryModel.CalcBytes(Directory.Size)}";
+        }
+
+        public static async Task Update(PathWindow Component)
+        {
+            // Waiting for info
+            DirectoryModel dir = new DirectoryModel(Component.pathdialog.Text);
+            await dir.GetAsyncInfo();
+
+            Component.DirSizeLabel.Content = $"Amount of files: {dir.Files}";
+            Component.DirCountFilesLabel.Content = $"Directory size: {DirectoryModel.CalcBytes(dir.Size)}";
         }
 
 

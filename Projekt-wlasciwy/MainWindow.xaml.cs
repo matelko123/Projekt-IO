@@ -49,10 +49,9 @@ namespace Projekt_wlasciwy
             FilesFound.Content = "Files found: Loading...";
 
             // Getting info about download folder
-            DirectoryModel downloads = new DirectoryModel(DownloadFolder);
-            await downloads.GetAsyncInfo(DownloadFolder);
+            int files = await DirectoryModel.GetFilesCount(DownloadFolder);
 
-            FilesFound.Content = "Files found: " + downloads.Files;
+            FilesFound.Content = "Files found: " + files;
         }
 
         private async void LoadPathWindowsFromSettings()

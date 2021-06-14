@@ -26,7 +26,7 @@ namespace Projekt_wlasciwy
                 Console.WriteLine(file);
                 try
                 {
-                    MoveFile(file);
+                    await MoveFile(file);
                 }
                 catch(Exception ex)
                 {
@@ -35,7 +35,7 @@ namespace Projekt_wlasciwy
             }
         }
 
-        public static void MoveFile(string fullPath)
+        public static async Task MoveFile(string fullPath)
         {
             string ext = Path.GetExtension(fullPath);
 
@@ -43,7 +43,7 @@ namespace Projekt_wlasciwy
             {
                 if(dir.Extensions.Any(ext.Contains))
                 {
-                    TryMoveFile(fullPath, dir.FullPath);
+                    await TryMoveFile(fullPath, dir.FullPath);
                 }
             }
         }
@@ -53,14 +53,20 @@ namespace Projekt_wlasciwy
             string fileName = Path.GetFileName(fullPath);
             try
             {
-                File.Move(fullPath, Path.Combine(destinationPath, fileName));
-                LoggerController.Log($"Moved ('{fileName}') file to ('{Path.Combine(destinationPath, fileName)}')");
+                File.Move(fullPath, destinationPath);
+                LoggerController.Log($"Moved ('{fileName}') file to ('{destinationPath}')");
+            }
+            // Podana ścieżka, nazwa pliku lub obie przekraczają maksymalną długość zdefiniowaną przez system.
+            catch(PathTooLongException ptex)
+            {
+                LoggerController.PrintException(ptex);
             }
             // Plik o takiej nazwie już istnieje.
             catch(IOException ioe)
             {
                 LoggerController.PrintException(ioe);
-                RenameFile(fullPath, destinationPath);
+                if (!Directory.Exists(destinationPath)) Directory.CreateDirectory(destinationPath);
+                else RenameFile(fullPath, destinationPath);
             }
             catch(Exception e)
             {
