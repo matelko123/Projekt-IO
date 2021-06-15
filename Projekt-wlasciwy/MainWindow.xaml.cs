@@ -57,7 +57,7 @@ namespace Projekt_wlasciwy
         private async void LoadPathWindowsFromSettings()
         {
             var stopwatch = Stopwatch.StartNew();
-            await DirectoryController.Load();
+            await SettingsController.LoadDataDir();
             await DownloadController.CleanUp();
 
             List<PathWindow> pws = new List<PathWindow>();
@@ -88,6 +88,13 @@ namespace Projekt_wlasciwy
             stopwatch.Stop();
             Console.WriteLine($"Loading paths from setings finished in {stopwatch.ElapsedMilliseconds}ms");
 
+        }
+
+        public static void UpdatePath(string fullpath, int value)
+        {
+            if(fullpath is null) return;
+
+            MessageBox.Show(value.ToString());
         }
 
 

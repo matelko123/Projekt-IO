@@ -59,6 +59,10 @@ namespace Projekt_wlasciwy
             {
                 File.Move(fullPath, destinationPath);
                 LoggerController.Log($"Moved ('{fileName}') file to ('{destinationPath}')");
+
+                // Update PathWindow component
+                MainWindow.UpdatePath(destinationPath, 1);
+
             }
             catch(Exception e)
             {

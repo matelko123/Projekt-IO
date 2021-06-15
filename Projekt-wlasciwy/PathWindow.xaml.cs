@@ -68,7 +68,6 @@ namespace Projekt_wlasciwy
             Component.DirCountFilesLabel.Content = $"Directory size: Loading...";
             Component.pathdialog.Text = Directory.FullPath;
 
-            // Waiting for info
             await Task.Run(() => Directory.GetAsyncInfo());
 
             Component.DirSizeLabel.Content = $"Amount of files: {Directory.Files}";
@@ -78,7 +77,6 @@ namespace Projekt_wlasciwy
 
         public static async Task Update(PathWindow Component)
         {
-            // Waiting for info
             DirectoryModel dir = new DirectoryModel(Component.pathdialog.Text);
             await dir.GetAsyncInfo();
 
