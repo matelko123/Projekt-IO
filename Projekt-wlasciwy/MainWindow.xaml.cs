@@ -13,16 +13,12 @@ namespace Projekt_wlasciwy
 {
     public partial class MainWindow : Window
     {
-        
-        private static string UserRoot = Environment.GetEnvironmentVariable("USERPROFILE");
-        private static string DownloadFolder = Path.Combine(UserRoot, "Downloads");
-
         public MainWindow()
         {
             InitializeComponent();
             LoadPathWindowsFromSettings();
             // Get event on new files
-            FileSystemWatcher watcher = new FileSystemWatcher(DownloadFolder)
+            FileSystemWatcher watcher = new FileSystemWatcher(SettingsController.DownloadFolder)
             {
                 NotifyFilter = NotifyFilters.Attributes
                              | NotifyFilters.CreationTime
@@ -49,7 +45,7 @@ namespace Projekt_wlasciwy
             FilesFound.Content = "Files found: Loading...";
 
             // Getting info about download folder
-            int files = DirectoryModel.GetFilesCount(DownloadFolder);
+            int files = DirectoryModel.GetFilesCount(SettingsController.DownloadFolder);
 
             FilesFound.Content = "Files found: " + files;
         }
@@ -61,8 +57,6 @@ namespace Projekt_wlasciwy
             await DownloadController.CleanUp();
 
             List<Task> tasks = new List<Task>();
-            List<PathWindow> pws = new List<PathWindow>();
-            int index = 0;
 
             try
             {
@@ -71,10 +65,7 @@ namespace Projekt_wlasciwy
                     var pw = new PathWindow();
                     WindowsComponents.Children.Add(pw);
                     tasks.Add(PathWindow.SetInfoLabel(pw, dir));
-                    pws.Add(pw);
                 }
-
-                
 
                 await Task.WhenAll(tasks);
             }
@@ -85,7 +76,6 @@ namespace Projekt_wlasciwy
 
             stopwatch.Stop();
             Console.WriteLine($"Loading paths from setings finished in {stopwatch.ElapsedMilliseconds}ms");
-
         }
 
         #region Mouse Events
@@ -127,12 +117,21 @@ namespace Projekt_wlasciwy
         private void ChangeImage(object sender, string path)
         {
             if(path == null || path.Length == 0)
+            {
                 return;
+            }
 
             Button btn = (Button)sender;
-            var brush = new ImageBrush();
-            brush.ImageSource = new BitmapImage(new Uri(path, UriKind.Relative));
+            var brush = new ImageBrush
+            {
+                ImageSource = new BitmapImage(new Uri(path, UriKind.Relative))
+            };
             btn.Background = brush;
+        }
+
+        private async void left_btn4_Click(object sender, RoutedEventArgs e)
+        {
+            await DownloadController.CleanUp();
         }
     }
 }

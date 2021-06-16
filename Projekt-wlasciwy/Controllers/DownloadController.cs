@@ -8,19 +8,17 @@ namespace Projekt_wlasciwy
 {
     public class DownloadController
     {
-        private static readonly int interval = 500;         // Time pause before moving files
-
-        // Get user path do \Download directory
-        private static string UserRoot = Environment.GetEnvironmentVariable("USERPROFILE");
-        private static string DownloadFolder = Path.Combine(UserRoot, "Downloads");
-
+        // Time pause before moving 
+        private static readonly int interval = 500;
 
         public static async Task CleanUp()
         {
             Console.WriteLine("Watcher is running...");
 
             // Find existing files
-            var files = Directory.EnumerateFiles(DownloadFolder, "*").ToList();
+            var files = Directory.EnumerateFiles(SettingsController.DownloadFolder, "*").ToList();
+            Console.WriteLine($"Found: {files.Count()} files.");
+
             foreach(var file in files)
             {
                 Console.WriteLine(file);
@@ -33,6 +31,7 @@ namespace Projekt_wlasciwy
                     LoggerController.PrintException(ex);
                 }
             }
+            Console.WriteLine("Watcher is done.");
         }
 
         public static async Task MoveFile(string fullPath)
@@ -43,32 +42,23 @@ namespace Projekt_wlasciwy
             {
                 if(dir.Extensions.Any(ext.Contains))
                 {
-                    await TryMoveFile(fullPath, dir.FullPath);
+                    await Task.Run(() => TryMoveFile(fullPath, dir.FullPath));
                 }
             }
         }
 
-        private static async Task TryMoveFile(string fullPath, string destinationPath)
+        private static void TryMoveFile(string fullPath, string destinationPath)
         {
             string fileName = Path.GetFileName(fullPath);
             destinationPath = GetUniqueName(fullPath, destinationPath);
-
             string destinationDirectory = Path.GetDirectoryName(destinationPath);
             
-            // if Destination directory doesn't exist.
-            if (!Directory.Exists(destinationDirectory))
-            {
-                try
-                {
-                     await Task.Run(() => Directory.CreateDirectory(destinationDirectory));
-                } catch (Exception e)
-                {
-                    LoggerController.PrintException(e);
-                }
-            }
-
             try
             {
+                // if Destination directory doesn't exist.
+                if(!Directory.Exists(destinationDirectory))
+                    Directory.CreateDirectory(destinationDirectory);
+
                 File.Move(fullPath, destinationPath);
                 LoggerController.Log($"Moved ('{fileName}') file to ('{destinationDirectory}')");
 
@@ -81,10 +71,8 @@ namespace Projekt_wlasciwy
 
         private static string GetUniqueName(string fullPath, string destinationPath)
         {
-            if(fullPath == "" || !File.Exists(fullPath))
+            if(fullPath == "" || !File.Exists(fullPath) || destinationPath == Path.GetDirectoryName(fullPath))
                 return fullPath;
-
-            if(destinationPath == Path.GetDirectoryName(fullPath)) return fullPath;
 
             int count = 1;
             string fileNameOnly = Path.GetFileNameWithoutExtension(fullPath);

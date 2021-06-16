@@ -4,14 +4,17 @@ namespace Projekt_wlasciwy
 {
     class ErrorController
     {
-        public static void ThrowUserError(string Message)
+        public static void ThrowUserError(string Message = "Something went wrong.")
         {
-            MessageBox.Show(Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(Message + "Check Log", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         public static void ThrowUserInfo(string Message)
         {
-            MessageBox.Show(Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if(Message is null)
+                return;
+
+            MessageBox.Show(Message, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

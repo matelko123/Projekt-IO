@@ -10,6 +10,9 @@ namespace Projekt_wlasciwy
 {
     public class SettingsController
     {
+        public static string UserRoot = Environment.GetEnvironmentVariable("USERPROFILE");
+        public static string DownloadFolder = Path.Combine(UserRoot, "Downloads");
+
         public static void ReadAllSettings()
         {
             try
@@ -19,18 +22,17 @@ namespace Projekt_wlasciwy
                 if (appSettings.Count == 0)
                 {
                     Console.WriteLine("AppSettings is empty.");
+                    return;
                 }
-                else
+                
+                foreach (var key in appSettings.AllKeys)
                 {
-                    foreach (var key in appSettings.AllKeys)
-                    {
-                        Console.WriteLine("Key: {0} Value: {1}", key, appSettings[key]);
-                    }
+                    Console.WriteLine("Key: {0} Value: {1}", key, appSettings[key]);
                 }
             }
             catch (ConfigurationErrorsException)
             {
-                Console.WriteLine("Error reading app settings");
+                LoggerController.Log("Error reading app settings");
             }
         }
 
@@ -38,15 +40,13 @@ namespace Projekt_wlasciwy
         {
             try
             {
-                var appSettings = ConfigurationManager.AppSettings;
-                string result = appSettings[key] ?? "Not Found";
-                return result;
+                return ConfigurationManager.AppSettings[key];
             }
             catch (ConfigurationErrorsException)
             {
-                Console.WriteLine("Error reading app settings");
+                LoggerController.Log("Error reading app settings");
             }
-            return "";
+            return null;
         }
 
         public static void Update(string key, string value)
@@ -68,7 +68,7 @@ namespace Projekt_wlasciwy
             }
             catch (ConfigurationErrorsException)
             {
-                Console.WriteLine("Error writing app settings");
+                LoggerController.Log("Error writing app settings");
             }
         }
 
