@@ -40,7 +40,7 @@ namespace Projekt_wlasciwy
             watcher.Error += DownloadController.OnError;
 
             watcher.Filter = "*";
-            watcher.IncludeSubdirectories = false;
+            watcher.IncludeSubdirectories = true;
             watcher.EnableRaisingEvents = true;
         }
 
@@ -60,7 +60,6 @@ namespace Projekt_wlasciwy
             await SettingsController.LoadDataDir();
             await DownloadController.CleanUp();
 
-            
             List<Task> tasks = new List<Task>();
             List<PathWindow> pws = new List<PathWindow>();
             int index = 0;
@@ -71,13 +70,11 @@ namespace Projekt_wlasciwy
                 {
                     var pw = new PathWindow();
                     WindowsComponents.Children.Add(pw);
+                    tasks.Add(PathWindow.SetInfoLabel(pw, dir));
                     pws.Add(pw);
                 }
 
-                foreach(var dir in DirectoryController.Dirs)
-                {
-                    tasks.Add(PathWindow.SetInfoLabel(pws[index++], dir));
-                }
+                
 
                 await Task.WhenAll(tasks);
             }

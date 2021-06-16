@@ -113,6 +113,7 @@ namespace Projekt_wlasciwy
 
             Thread.Sleep(interval);
             MoveFile(fullpath);
+            CleanUp();
         }
 
         public static void OnRenamed(object sender, RenamedEventArgs e)
