@@ -22,7 +22,7 @@ namespace Projekt_wlasciwy
             }
         }
 
-        public static async Task Load()
+        public static void Load()
         {
             DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Obrazy"), new List<string>() { ".jpeg", ".jpg", ".png" }));
             DirectoryController.Dirs.Add(new DirectoryModel(Path.Combine(DownloadFolder, "Wideo"), new List<string>() { ".mp4", ".mp3" }));
@@ -36,7 +36,7 @@ namespace Projekt_wlasciwy
         {
             if(_copy.Count == 0 && DirectoryController.Dirs.Count == 0)
             {
-                await Load();
+                await Task.Run(() => Load());
             }
             else
             {

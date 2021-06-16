@@ -44,12 +44,12 @@ namespace Projekt_wlasciwy
             watcher.EnableRaisingEvents = true;
         }
 
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             FilesFound.Content = "Files found: Loading...";
 
             // Getting info about download folder
-            int files = await DirectoryModel.GetFilesCount(DownloadFolder);
+            int files = DirectoryModel.GetFilesCount(DownloadFolder);
 
             FilesFound.Content = "Files found: " + files;
         }
@@ -60,8 +60,9 @@ namespace Projekt_wlasciwy
             await SettingsController.LoadDataDir();
             await DownloadController.CleanUp();
 
-            List<PathWindow> pws = new List<PathWindow>();
+            
             List<Task> tasks = new List<Task>();
+            List<PathWindow> pws = new List<PathWindow>();
             int index = 0;
 
             try
@@ -90,14 +91,6 @@ namespace Projekt_wlasciwy
 
         }
 
-        public static void UpdatePath(string fullpath, int value)
-        {
-            if(fullpath is null) return;
-
-            MessageBox.Show(value.ToString());
-        }
-
-
         #region Mouse Events
         private void navbar_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -119,7 +112,7 @@ namespace Projekt_wlasciwy
         #endregion
 
         #region Click
-        private void report_Click(object sender, RoutedEventArgs e) => Process.Start("https://github.com/matelko123/Projekt-IO/issues");
+        private void report_Click(object sender, RoutedEventArgs e) => Process.Start("https://github.com/matelko123/Projekt-IO/issues/new");
 
         private void Plus_Click(object sender, RoutedEventArgs e) => WindowsComponents.Children.Add(new PathWindow());
 

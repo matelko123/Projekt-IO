@@ -108,7 +108,7 @@ namespace Projekt_wlasciwy
                 LoggerController.PrintException(ex);
             }
         }
-        public static async Task<int> GetFilesCount(string path)
+        public static int GetFilesCount(string path)
         {
             return Directory.EnumerateFiles(path, "*").ToList().Count();
         }
