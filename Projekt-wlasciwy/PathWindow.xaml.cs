@@ -84,7 +84,6 @@ namespace Projekt_wlasciwy
             Component.DirCountFilesLabel.Content = $"Directory size: {DirectoryModel.CalcBytes(dir.Size)}";
         }
 
-
         private void bin_btn_Click(object sender, RoutedEventArgs e)
         {
             Path_Window.Visibility = Visibility.Hidden;

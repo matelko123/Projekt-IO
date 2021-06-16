@@ -31,7 +31,7 @@ namespace Projekt_wlasciwy
 
         public static async Task Copy(List<DirectoryModel> _copy)
         {
-            if(_copy.Count == 0 && Dirs.Count == 0)
+            if(_copy.Count == 0 && Dirs.Count == 0 || _copy is null)
             {
                 await Task.Run(() => Load());
             }

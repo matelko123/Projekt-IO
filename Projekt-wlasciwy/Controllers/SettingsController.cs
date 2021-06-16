@@ -85,6 +85,9 @@ namespace Projekt_wlasciwy
 
         public static List<DirectoryModel> DeserializeObject(string toDeserialize)
         {
+            if(toDeserialize is null)
+                return null;
+
             List<DirectoryModel> list;
             try
             {
@@ -115,8 +118,13 @@ namespace Projekt_wlasciwy
         public static async Task LoadDataDir()
         {
             var data = GetSettings("Path");
-            var deserializedData = await Task.Run(() => DeserializeObject(data));
-            await DirectoryController.Copy(deserializedData);
+            if(data is null)
+                DirectoryController.Load();
+            else
+            {
+                var deserializedData = await Task.Run(() => DeserializeObject(data));
+                await DirectoryController.Copy(deserializedData);
+            }
         }
     }
 }
