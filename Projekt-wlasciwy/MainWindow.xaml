@@ -83,6 +83,11 @@
                 </Button.Background>
             </Button>
             -->
+          <Button x:Name="left_btn4" Height="50" Style="{StaticResource MyButtonStyle}"  Content="Manual CleanUp" MouseEnter="Left_btn_MouseEnter" MouseLeave="Left_btn_MouseLeave" Click="left_btn4_Click" >
+            <Button.Background>
+              <ImageBrush Stretch="Fill" ImageSource="Images/button_left.png"></ImageBrush>
+            </Button.Background>
+          </Button>
             <Button x:Name="left_btn3" Height="50" Style="{StaticResource MyButtonStyle}"  Content="Open log" MouseEnter="Left_btn_MouseEnter" MouseLeave="Left_btn_MouseLeave" Click="left_btn3_Click" >
                 <Button.Background>
                     <ImageBrush Stretch="Fill" ImageSource="Images/button_left.png"></ImageBrush>
