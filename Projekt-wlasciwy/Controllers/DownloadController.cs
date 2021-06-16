@@ -52,16 +52,25 @@ namespace Projekt_wlasciwy
         {
             string fileName = Path.GetFileName(fullPath);
             destinationPath = GetUniqueName(fullPath, destinationPath);
+
+            string destinationDirectory = Path.GetDirectoryName(destinationPath);
             
-            if (!Directory.Exists(Path.GetDirectoryName(destinationPath))) Directory.CreateDirectory(Path.GetDirectoryName(destinationPath));
+            // if Destination directory doesn't exist.
+            if (!Directory.Exists(destinationDirectory))
+            {
+                try
+                {
+                     await Task.Run(() => Directory.CreateDirectory(destinationDirectory));
+                } catch (Exception e)
+                {
+                    LoggerController.PrintException(e);
+                }
+            }
 
             try
             {
                 File.Move(fullPath, destinationPath);
-                LoggerController.Log($"Moved ('{fileName}') file to ('{destinationPath}')");
-
-                // Update PathWindow component
-                MainWindow.UpdatePath(destinationPath, 1);
+                LoggerController.Log($"Moved ('{fileName}') file to ('{destinationDirectory}')");
 
             }
             catch(Exception e)
@@ -100,8 +109,7 @@ namespace Projekt_wlasciwy
             if(ext == ".tmp" || ext == ".crdownload")
                 return;
 
-            //LoggerController.Log($"Created ('{fullpath}') with extension ('{ext}')");
-            Console.WriteLine($"Created ('{fullpath}') with extension ('{ext}')");
+            LoggerController.Log($"Created ('{fullpath}')");
 
             Thread.Sleep(interval);
             MoveFile(fullpath);
