@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
@@ -20,6 +21,13 @@ namespace Projekt_wlasciwy
             InitializeComponent();
             MyID = ID++;
             // Console.WriteLine($"ID komponentu #{MyID}");
+        }
+        public PathWindow(string filepath)
+        {
+            filepath = Path.GetFileName(filepath);
+            InitializeComponent();
+            MyID = ID++;
+            Name = $"PathWindow_{filepath}";
         }
         #endregion
 
@@ -77,6 +85,9 @@ namespace Projekt_wlasciwy
 
         public static async Task Update(PathWindow Component)
         {
+            if(Component is null)
+                return;
+
             DirectoryModel dir = new DirectoryModel(Component.pathdialog.Text);
             await dir.GetAsyncInfo();
 

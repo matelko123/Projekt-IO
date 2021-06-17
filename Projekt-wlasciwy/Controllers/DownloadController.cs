@@ -62,6 +62,8 @@ namespace Projekt_wlasciwy
                 File.Move(fullPath, destinationPath);
                 LoggerController.Log($"Moved ('{fileName}') file to ('{destinationDirectory}')");
 
+                // Update PathWindow
+                MainWindow.PrintStatistic(destinationDirectory);
             }
             catch(Exception e)
             {
@@ -111,8 +113,12 @@ namespace Projekt_wlasciwy
             MoveFile(e.FullPath);
         }
 
-        public static void OnDeleted(object sender, FileSystemEventArgs e) =>
+        public static void OnDeleted(object sender, FileSystemEventArgs e)
+        {
+            string destinationDirectory = Path.GetDirectoryName(e.FullPath);
+            MainWindow.PrintStatistic(destinationDirectory);
             LoggerController.Log($"Deleted: {e.FullPath}");
+        }
 
         public static void OnError(object sender, ErrorEventArgs e) =>
             LoggerController.PrintException(e.GetException());

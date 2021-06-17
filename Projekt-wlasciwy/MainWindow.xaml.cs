@@ -13,8 +13,12 @@ namespace Projekt_wlasciwy
 {
     public partial class MainWindow : Window
     {
+        public static MainWindow Instance { get; private set; }
+        public static Dictionary<string, PathWindow> pws = new Dictionary<string, PathWindow>();
+
         public MainWindow()
         {
+            Instance = this;
             InitializeComponent();
             LoadPathWindowsFromSettings();
             // Get event on new files
@@ -31,7 +35,7 @@ namespace Projekt_wlasciwy
             };
 
             watcher.Created += DownloadController.OnCreated;
-            // watcher.Deleted += DownloadController.OnDeleted;
+            watcher.Deleted += DownloadController.OnDeleted;
             // watcher.Renamed += DownloadController.OnRenamed;
             watcher.Error += DownloadController.OnError;
 
@@ -62,7 +66,8 @@ namespace Projekt_wlasciwy
             {
                 foreach(var dir in DirectoryController.Dirs)
                 {
-                    var pw = new PathWindow();
+                    pws.Add(dir.FullPath, new PathWindow(dir.FullPath));
+                    var pw = pws[dir.FullPath];
                     WindowsComponents.Children.Add(pw);
                     tasks.Add(PathWindow.SetInfoLabel(pw, dir));
                 }
@@ -76,6 +81,25 @@ namespace Projekt_wlasciwy
 
             stopwatch.Stop();
             Console.WriteLine($"Loading paths from setings finished in {stopwatch.ElapsedMilliseconds}ms");
+
+            Instance = this;
+        }
+
+        public static void PrintStatistic(string filepath)
+        {
+            Console.WriteLine(filepath);
+            Instance.Dispatcher.Invoke(new Action(() =>
+            {
+                try
+                {
+                    var element = (pws[filepath] is null) ? null : pws[filepath];
+                    PathWindow.Update(element);
+                }
+                catch(Exception ex)
+                {
+                    LoggerController.PrintException(ex);
+                }
+            }));
         }
 
         #region Mouse Events
