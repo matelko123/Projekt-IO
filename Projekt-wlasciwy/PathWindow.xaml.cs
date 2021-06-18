@@ -72,27 +72,28 @@ namespace Projekt_wlasciwy
             Directory.Files = 0;
             Directory.Size = 0;
 
-            Component.DirSizeLabel.Content = $"Amount of files: Loading...";
-            Component.DirCountFilesLabel.Content = $"Directory size: Loading...";
+            Component.DirSizeLabel.Content = "Loading...";
+            Component.DirCountFilesLabel.Content = "Loading...";
             Component.pathdialog.Text = Directory.FullPath;
 
             await Task.Run(() => Directory.GetAsyncInfo());
 
-            Component.DirSizeLabel.Content = $"Amount of files: {Directory.Files}";
+            Component.DirSizeLabel.Content = Directory.Files;
             Component.DirName.Text = Directory.Name;
-            Component.DirCountFilesLabel.Content = $"Directory size: {DirectoryModel.CalcBytes(Directory.Size)}";
+            Component.DirCountFilesLabel.Content = DirectoryModel.CalcBytes(Directory.Size);
         }
 
-        public static async Task Update(PathWindow Component)
+        public static void Update(PathWindow Component, string fileFullPath, bool increament = true)
         {
-            if(Component is null)
+            if(Component is null || fileFullPath is null)
                 return;
 
-            DirectoryModel dir = new DirectoryModel(Component.pathdialog.Text);
-            await dir.GetAsyncInfo();
+            int count = (increament) ? 1 : -1;
+            long filesize = new FileInfo(fileFullPath).Length;
+            long size = (increament) ? filesize : -filesize;
 
-            Component.DirSizeLabel.Content = $"Amount of files: {dir.Files}";
-            Component.DirCountFilesLabel.Content = $"Directory size: {DirectoryModel.CalcBytes(dir.Size)}";
+            Component.DirSizeLabel.Content = (int)Component.DirSizeLabel.Content + count;
+            Component.DirCountFilesLabel.Content = DirectoryModel.CalcBytes((int)Component.DirCountFilesLabel.Content + size);
         }
 
         private void bin_btn_Click(object sender, RoutedEventArgs e)
